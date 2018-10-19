@@ -9,10 +9,7 @@
 #include <unistd.h>
 
 uint32_t *peripheral_map(peripheral *per) {
-	//int mem_fd;
-	//void *reg_map = NULL;
-
-	if ((per->mem_fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {	/* RDWR: read and write, SYNC: synchron (nur einer) */
+if ((per->mem_fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {	/* RDWR: read and write, SYNC: synchron (nur einer) */
 		fprintf(stderr, "Failed to open '/dev/mem'... Try sudo?\n");
 		return NULL;
 	}
