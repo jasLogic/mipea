@@ -43,10 +43,10 @@ void pwm_configure(pwm_channel_config *config);
 #define CTL     *pwm_base_pointer
 #define STA     *(pwm_base_pointer + 1)
 #define DMAC    *(pwm_base_pointer + 2)
-#define RNG1    *(pwm_base_pointer + 4) // <--- not chronologicl ---
+#define RNG1    *(pwm_base_pointer + 4) // <--- not chronological ---
 #define DAT1    *(pwm_base_pointer + 5)
 #define FIF1    *(pwm_base_pointer + 6)
-#define RNG2    *(pwm_base_pointer + 8) // <---  ---
+#define RNG2    *(pwm_base_pointer + 8) // <--- same ---
 #define DAT2    *(pwm_base_pointer + 9)
 
 #endif//PWM_H
