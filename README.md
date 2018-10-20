@@ -6,12 +6,15 @@ This library grants easy and fast access to peripherals. Only the GPIO-periphera
 
 It was only tested on the Raspberry Pi Zero, but should work on all other Raspberry Pis which use the bcm2835.
 
+Peripherals Implemented at the moment:
+* GPIO
+* PWM
+    * Using the clock manager
+
 TODO:
-1. Fix PWM
-    * PWM is for some reason only working when a program which uses the bcm2835-library was run beforehand. After that it works without any problems. - Fixed
-2. SPI
-3. I2C
-4. Audio
+1. SPI
+2. I2C
+3. Audio
 
 ### Usage
 
