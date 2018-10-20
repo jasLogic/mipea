@@ -37,7 +37,8 @@ void clock_disable(volatile uint32_t *reg) {
 
 void clock_configure(volatile uint32_t *reg, clock_source src, unsigned int divisor, unsigned int mash) {
     clock_disable(reg);
-
+    
+    divisor &= 0xfff;
     *(reg + 1) = divisor << 12;
     *reg |= mash << 9;
     *reg |= src;

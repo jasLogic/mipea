@@ -70,7 +70,11 @@ void pwm_configure(pwm_channel_config *config) {
     clock_configure(&CM_PWMCTL, CLOCK_OSC, 16, 0);
     clock_enable(&CM_PWMCTL);
 
-	CTL |= 0x80;
+    volatile uint32_t c = CTL;
+    //CTL |= (1 << 7);
+	c |= 0x80;
+    c |= 1;
+    CTL = c;
 
 	RNG1 = 1024;
 	DAT1 = 1023;
