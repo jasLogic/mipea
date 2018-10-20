@@ -8,7 +8,7 @@ It was only tested on the Raspberry Pi Zero, but should work on all other Raspbe
 
 TODO:
 1. Fix PWM
-    * PWM is for some reason only working when a program which uses the bcm2835-library was run beforehand. After that it works without any problems.
+    * PWM is for some reason only working when a program which uses the bcm2835-library was run beforehand. After that it works without any problems. - Fixed
 2. SPI
 3. I2C
 4. Audio
