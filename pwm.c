@@ -37,45 +37,54 @@ void pwm_disable(pwm_channel channel) {
 }
 
 void pwm_configure(pwm_channel_config *config) {
-    /*
-    if (config->channel == PWM_CHANNEL_0) {
-        CTL &= ~0b11111110; // Erstmal alles 0 machen
-
-        uint32_t change = 0;
-        if (config->mode == SERIALISER_MODE) {
-            change |= (1 << 1);
-        }
-        if (config->repeat_last) {
-            change |= (1 << 2);
-        }
-        if (config->sbit) {
-            change |= (1 << 3);
-        }
-        if (config->polarity) {
-            change |= (1 << 4);
-        }
-        if (config->use_fifo) {
-            change |= (1 << 5);
-        }
-        if (config->msen) {
-            change |= (1<< 7);
-        }
-
-        CTL |= change;
-    } else {
-        CTL &= (0b1111111 << 9); // Alle von channel 2 auf 0
-    }
-    */
-
-    clock_configure(&CM_PWMCTL, CLOCK_OSC, 16, 0);
+    clock_configure(&CM_PWMCTL, CLOCK_PLLD, 10, 0);
     clock_enable(&CM_PWMCTL);
 
-    volatile uint32_t c = CTL;
-    //CTL |= (1 << 7);
-	c |= 0x80;
-    c |= 1;
-    CTL = c;
+    if (config->channel == PWM_CHANNEL_0) {
+        CTL &= ~0xFF; // Change all the pwm0 bits to 0
 
-	RNG1 = 1024;
-	DAT1 = 1023;
+        if (config->mode == SERIALISER_MODE) {
+            CTL |= 0x2;
+        }
+        if (config->repeat_last) {
+            CTL |= 0x4;
+        }
+        if (config->sbit) {
+            CTL |= 0x8;
+        }
+        if (config->polarity == POL_INVERTED) {
+            CTL |= 0x10;
+        }
+        if (config->use_fifo) {
+            CTL |= 0x20;
+        }
+        if (config->msen == MSEN_MS_RATIO) {
+            CTL |= 0x80;
+        }
+
+    } else {
+        CTL &= ~(0xFF << 8); // Change all the pwm1 bits to 0
+
+        if (config->mode == SERIALISER_MODE) {
+            CTL |= (0x2 << 8);
+        }
+        if (config->repeat_last) {
+            CTL |= (0x4 << 8);
+        }
+        if (config->sbit) {
+            CTL |= (0x8 << 8);
+        }
+        if (config->polarity == POL_INVERTED) {
+            CTL |= (0x10 << 8);
+        }
+        if (config->use_fifo) {
+            CTL |= (0x20 << 8);
+        }
+        if (config->msen == MSEN_MS_RATIO) {
+            CTL |= (0x80 << 8);
+        }
+    }
+
+	RNG1 = 1000000;
+	DAT1 = 100000;
 }

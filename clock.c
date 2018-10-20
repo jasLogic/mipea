@@ -31,15 +31,13 @@ void clock_disable(volatile uint32_t *reg) {
 		*reg = CM_PASSWD | (*reg & ~0x10); // Disable clock
 		//usleep(110); // Not needed?
 		while(*reg & 0x80); // Wait for busy flag to turn off
-		//usleep(100);
 	}
 }
 
 void clock_configure(volatile uint32_t *reg, clock_source src, unsigned int divisor, unsigned int mash) {
     clock_disable(reg);
-    
-    divisor &= 0xfff;
-    *(reg + 1) = divisor << 12;
-    *reg |= mash << 9;
-    *reg |= src;
+
+    *(reg + 1) = CM_PASSWD | divisor << 12;
+    *reg |= CM_PASSWD | mash << 9;
+    *reg |= CM_PASSWD | src;
 }
