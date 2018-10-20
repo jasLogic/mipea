@@ -28,7 +28,6 @@ void gpio_func(uint32_t pin, pin_functions function) {
 
 	switch(function) {
 		case INPUT:
-			//GPFSEL[pin / 10] |= (4 << ((pin % 10) * 3));
 			break;
 		case OUTPUT:
 			GPFSEL[pin / 10] |= (1 << ((pin % 10) * 3));
