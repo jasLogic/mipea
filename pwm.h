@@ -30,6 +30,8 @@ typedef struct pwm_channel_config {
     pwm_pol polarity;
     bool use_fifo;
     pwm_msen msen;
+    unsigned int divisor;
+    unsigned int range;
 } pwm_channel_config;
 
 uint32_t *pwm_map(void);

@@ -37,7 +37,7 @@ void pwm_disable(pwm_channel channel) {
 }
 
 void pwm_configure(pwm_channel_config *config) {
-    clock_configure(&CM_PWMCTL, CLOCK_PLLD, 10, 0);
+    clock_configure(&CM_PWMCTL, CLOCK_PLLD, config->divisor, 0);
     clock_enable(&CM_PWMCTL);
 
     if (config->channel == PWM_CHANNEL_0) {
@@ -61,6 +61,7 @@ void pwm_configure(pwm_channel_config *config) {
         if (config->msen == MSEN_MS_RATIO) {
             CTL |= 0x80;
         }
+        RNG1 = config->range;
 
     } else {
         CTL &= ~(0xFF << 8); // Change all the pwm1 bits to 0
@@ -83,8 +84,9 @@ void pwm_configure(pwm_channel_config *config) {
         if (config->msen == MSEN_MS_RATIO) {
             CTL |= (0x80 << 8);
         }
+        RNG2 = config->range;
     }
 
-	RNG1 = 1000000;
+	//RNG1 = 1000000;
 	DAT1 = 100000;
 }
