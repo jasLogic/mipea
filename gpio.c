@@ -20,6 +20,7 @@ uint32_t *gpio_map(void) {
 }
 
 void gpio_unmap(void) {
+	gpio_ca_pud(); // Clear all pullup / -downs
 	peripheral_unmap(&gpio_peripheral);
 }
 
@@ -55,15 +56,15 @@ void gpio_func(uint32_t pin, pin_functions function) {
 	}
 }
 
-void gpio_set(uint32_t pin) {
+inline void gpio_set(uint32_t pin) {
 	GPSET[pin / 32] = (1 << (pin % 32));
 }
 
-void gpio_clr(uint32_t pin) {
+inline void gpio_clr(uint32_t pin) {
 	GPCLR[pin / 32] = (1 << (pin % 32));
 }
 
-bool gpio_tst(uint32_t pin) {
+inline bool gpio_tst(uint32_t pin) {
 	return GPLEV[pin / 32] &= (1 << (pin % 32));
 }
 

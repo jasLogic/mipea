@@ -24,6 +24,9 @@ To use a peripheral, for example GPIO, you need to include the corresponding hea
 After that it is crucial to map the peripheral like so `gpio_map()`. When your program is finished you should unmap the peripheral again `gpio_unmap()`
 Now you can use the registers or the provided functions.
 
+#### Compile and link
+`gcc -Wall -o [outputfile] [your program].c gpio.c [...] bcm2835_peripherals.c`
+
 ## Sources and useful documentation
 
 * bcm2835_peripherals.h and bcm2835_peripherals.c are highly inspired by [Pieter Jan](http://pieter-jan.com/)'s ["Low Level Programming of the Raspberry Pi in C"](http://pieter-jan.com/node/15).

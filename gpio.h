@@ -19,10 +19,10 @@ uint32_t *gpio_map(void);
 void gpio_unmap(void);
 
 void gpio_func(uint32_t pin, pin_functions function);
-void gpio_set(uint32_t pin);
-void gpio_clr(uint32_t pin);
-bool gpio_tst(uint32_t pin);
-int gpio_lvl(uint32_t pin);
+extern void gpio_set(uint32_t pin);
+extern void gpio_clr(uint32_t pin);
+extern bool gpio_tst(uint32_t pin);
+
 void gpio_pud(uint32_t pin, pud val);
 
 void gpio_inp(uint32_t pin);

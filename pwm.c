@@ -17,6 +17,10 @@ uint32_t *pwm_map(void) {                       // -- clock mapped too --
 }
 
 void pwm_unmap(void) {
+    pwm_disable(PWM_CHANNEL_0);
+    pwm_disable(PWM_CHANNEL_1);
+    clock_disable(&CM_PWMCTL);
+
     peripheral_unmap(&pwm_peripheral);
     clock_unmap(); // <-----
 }
@@ -86,7 +90,4 @@ void pwm_configure(pwm_channel_config *config) {
         }
         RNG2 = config->range;
     }
-
-	//RNG1 = 1000000;
-	DAT1 = 100000;
 }
