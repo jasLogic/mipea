@@ -24,4 +24,7 @@ void peripheral_unmap(peripheral *per);
 #define CLOCK_BASE			(PERIPHERAL_BASE + 0x101000)
 #define CLOCK_BLOCK_SIZE	0xA4
 
+#define SPI_BASE		(PERIPHERAL_BASE + 0x204000)
+#define SPI_BLOCK_SIZE	0x14
+
 #endif//BCM2835_REGISTERS_H
