@@ -5,8 +5,32 @@
 
 volatile uint32_t *spi_base_pointer;
 
+typedef enum chip_select {
+    CE0, CE1, CE2
+} chip_select;
+
+typedef struct spi_channel_config {
+    uint32_t cs:2;
+    uint32_t cpha:1;
+    uint32_t cpol:1;
+    uint32_t cspol:1;
+    uint32_t cspol0:1;
+    uint32_t cspol1:1;
+    uint32_t cspol2:1;
+
+    uint16_t divisor;
+} spi_channel_config;
+
 uint32_t *spi_map(void);
 void spi_unmap(void);
+
+void spi_configure(spi_channel_config *config);
+
+extern void spi_transfer_start(void);
+extern void spi_transfer_stop(void);
+extern uint8_t spi_transfer_byte(uint8_t data);
+
+extern uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1);
 
 /* ----- SPI Registers ----- */
 #define CS      *spi_base_pointer
