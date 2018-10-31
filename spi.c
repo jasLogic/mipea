@@ -63,11 +63,11 @@ inline uint8_t spi_transfer_byte(uint8_t data) {
 }
 
 
-inline uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1) { // dirty
-    uint8_t ret = 0;
+inline uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1) { // send 2 bytes and return the data from the last transmission
+    uint8_t ret;
 
     CS |= 0x80; // set TA
-    CS |= (3 << 4); // Clear FIFO
+    CS |= 0x30; // Clear FIFO
 
     while(!(CS & 0x40000)) {} // wait for space in TX FIFO
     FIFO = data0;
@@ -75,8 +75,7 @@ inline uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1) { // dirty
     FIFO = data1;
 
     while(!(CS & 0x10000)) {} // wait for DONE
-
-    while (CS & 0x20000) {
+    while(CS & 0x20000) { // Read data from FIFO till the last byte arrives
         ret = FIFO;
     }
 
