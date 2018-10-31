@@ -50,16 +50,16 @@ void pwm_configure(pwm_channel_config *config) {
         if (config->mode == SERIALISER_MODE) {
             CTL |= 0x2;
         }
-        if (config->repeat_last) {
+        if (config->rptl) {
             CTL |= 0x4;
         }
         if (config->sbit) {
             CTL |= 0x8;
         }
-        if (config->polarity == POL_INVERTED) {
+        if (config->pola == POL_INVERTED) {
             CTL |= 0x10;
         }
-        if (config->use_fifo) {
+        if (config->usef) {
             CTL |= 0x20;
         }
         if (config->msen == MSEN_MS_RATIO) {
@@ -73,16 +73,16 @@ void pwm_configure(pwm_channel_config *config) {
         if (config->mode == SERIALISER_MODE) {
             CTL |= (0x2 << 8);
         }
-        if (config->repeat_last) {
+        if (config->rptl) {
             CTL |= (0x4 << 8);
         }
         if (config->sbit) {
             CTL |= (0x8 << 8);
         }
-        if (config->polarity == POL_INVERTED) {
+        if (config->pola == POL_INVERTED) {
             CTL |= (0x10 << 8);
         }
-        if (config->use_fifo) {
+        if (config->usef) {
             CTL |= (0x20 << 8);
         }
         if (config->msen == MSEN_MS_RATIO) {

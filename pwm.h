@@ -2,7 +2,6 @@
 #define PWM_H
 
 #include <stdint.h>
-#include <stdbool.h>
 
 volatile uint32_t *pwm_base_pointer;
 
@@ -22,6 +21,7 @@ typedef enum pwm_msen {
     MSEN_PWM_ALGORITHM, MSEN_MS_RATIO
 } pwm_msen;
 
+/*
 typedef struct pwm_channel_config {
     pwm_channel channel;
     pwm_modes mode;
@@ -30,6 +30,20 @@ typedef struct pwm_channel_config {
     pwm_pol polarity;
     bool use_fifo;
     pwm_msen msen;
+    unsigned int divisor;
+    unsigned int range;
+} pwm_channel_config;
+*/
+typedef struct pwm_channel_config {
+    uint32_t mode:1;
+    uint32_t rptl:1;
+    uint32_t sbit:1;
+    uint32_t pola:1;
+    uint32_t usef:1;
+    uint32_t msen:1;
+
+    pwm_channel channel;
+
     unsigned int divisor;
     unsigned int range;
 } pwm_channel_config;

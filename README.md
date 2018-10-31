@@ -2,7 +2,7 @@
 
 ## easy peripheral access for Raspberry Pi
 
-This library grants easy and fast access to peripherals. The GPIO and PWM peripheral are implemented at the moment with being work-in-progress.
+This library grants easy and fast access to peripherals. The GPIO, PWM and SPI are implemented at the moment.
 
 It was only tested on the Raspberry Pi Zero, but should work on all other Raspberry Pis which use the bcm2835.
 
