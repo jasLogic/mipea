@@ -58,22 +58,21 @@ inline uint8_t spi_transfer_byte(uint8_t data) {
     while(!(CS & 0x40000)) {} // wait for space in TX FIFO
     FIFO = data;
 
-    while(!(CS & 0x10000)) {} // wait for DONE
-    return FIFO;
+    while(!(CS & 0x20000)) {} // wait for data in RX FIFO
+    return (uint8_t) FIFO;
 }
 
 
 inline uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1) { // dirty
     uint8_t ret = 0;
 
-    CS |= (3 << 4); // Clear FIFO
-
     CS |= 0x80; // set TA
+    CS |= (3 << 4); // Clear FIFO
 
     while(!(CS & 0x40000)) {} // wait for space in TX FIFO
     FIFO = data0;
     while(!(CS & 0x40000)) {} // wait for space in TX FIFO
-    FIFO = 85; // garbage, don't care
+    FIFO = data1;
 
     while(!(CS & 0x10000)) {} // wait for DONE
 
