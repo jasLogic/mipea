@@ -1,6 +1,6 @@
 #include <unistd.h>
 
-#include "gpio.h"
+#include "src/gpio.h"
 
 int main(void) {
     if (gpio_map() == NULL) { // Mapping is required or else there is a segmentation fault

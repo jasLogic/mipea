@@ -6,8 +6,8 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#include "gpio.h"
-#include "pwm.h"
+#include "src/gpio.h"
+#include "src/pwm.h"
 
 int main(void) {
     if (gpio_map() == NULL || pwm_map() == NULL) { // Map peripherals
@@ -18,15 +18,17 @@ int main(void) {
     gpio_func(servo, ALT5); // pin 18 uses alternate function 5 for pwm
 
     pwm_channel_config ch = {
-        PWM_CHANNEL_0,  // Which channel to use 0/1
         PWM_MODE,       // use pwm mode or a serial mode, where serial data is sent
         false,          // if serial mode: repeat the last data if there is no new
         false,          // what polarity the output should have, if there is no transmission
         POL_DEFAULT,    // do not invert the output
         false,          // if serial mode: use fifo?
         MSEN_MS_RATIO,  // pwm algorithm: distribute the pwm as even as possible, not useful for servo control
+
+        PWM_CHANNEL_0,  // Which channel to use 0/1
+
         1953,           // clock divisor
-        5120             // the range of the counter
+        5120            // the range of the counter
     };
     /* Explanation of clock divisor and range value:
         - the input clock of the pwm is 500MHz

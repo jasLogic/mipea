@@ -12,10 +12,8 @@ It was only tested on the Raspberry Pi Zero, but should work on all other Raspbe
     * Using the clock manager
 
 **TODO:**
-1. SPI
-    * work-in-progress
-2. I2C
-3. Audio
+1. I2C
+2. Audio
 
 ### Usage
 

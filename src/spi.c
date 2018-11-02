@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "bcm2835_peripherals.h"
+#include "core/bcm2835_peripherals.h"
 
 peripheral spi_peripheral = {SPI_BASE, SPI_BLOCK_SIZE, 0, NULL};
 

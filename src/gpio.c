@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "bcm2835_peripherals.h"
+#include "core/bcm2835_peripherals.h"
 
 peripheral gpio_peripheral = {GPIO_BASE, GPIO_BLOCK_SIZE, 0, NULL};
 
@@ -16,6 +16,9 @@ uint32_t *gpio_map(void) {
 		return NULL;
 	}
 	gpio_base_pointer = (volatile uint32_t *)gpio_peripheral.map;
+
+	gpio_ca_pud(); // Clear all pullup / -downs
+
 	return (uint32_t *)gpio_base_pointer;
 }
 

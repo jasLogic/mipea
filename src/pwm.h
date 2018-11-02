@@ -21,19 +21,6 @@ typedef enum pwm_msen {
     MSEN_PWM_ALGORITHM, MSEN_MS_RATIO
 } pwm_msen;
 
-/*
-typedef struct pwm_channel_config {
-    pwm_channel channel;
-    pwm_modes mode;
-    bool repeat_last;
-    bool sbit;
-    pwm_pol polarity;
-    bool use_fifo;
-    pwm_msen msen;
-    unsigned int divisor;
-    unsigned int range;
-} pwm_channel_config;
-*/
 typedef struct pwm_channel_config {
     uint32_t mode:1;
     uint32_t rptl:1;
