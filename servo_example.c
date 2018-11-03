@@ -17,7 +17,7 @@
  */
 
 // To compile use:
-//  gcc -o servo_example servo_example.c gpio.c pwm.c clock.c bcm2835_peripherals.c
+//  gcc -o servo_example servo_example.c src/gpio.c src/pwm.c src/clock.c src/core/bcm2835_peripherals.c
 //                                       --- pwm.c makes use of clock.c ---
 
 #include <stdio.h>

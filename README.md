@@ -10,6 +10,7 @@ It was only tested on the Raspberry Pi Zero, but should work on all other Raspbe
 * GPIO
 * PWM
     * Using the clock manager
+* SPI
 
 **TODO:**
 1. I2C
