@@ -13,7 +13,7 @@ typedef struct spi_channel_config {
     uint32_t cs:2;
     uint32_t cpha:1;
     uint32_t cpol:1;
-    uint32_t cspol:1;
+    uint32_t cspol:1;   // Not changing anything?
     uint32_t cspol0:1;
     uint32_t cspol1:1;
     uint32_t cspol2:1;

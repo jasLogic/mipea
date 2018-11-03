@@ -52,4 +52,9 @@ void pwm_configure(pwm_channel_config *config);
 #define RNG2    *(pwm_base_pointer + 8) // <--- same ---
 #define DAT2    *(pwm_base_pointer + 9)
 
+#define RNG_CHANNEL0    RNG1
+#define DAT_CHANNEL0    DAT1
+#define RNG_CHANNEL1    RNG2
+#define DAT_CHANNEL1    DAT2
+
 #endif//PWM_H
