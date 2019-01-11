@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "bcm2835_peripherals.h"
+#include "peripherals.h"
 
 #include <stdio.h>
 #include <stdint.h>

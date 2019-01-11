@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "core/bcm2835_peripherals.h"
+#include "peripherals.h"
 #include "clock.h"
 
 peripheral pwm_peripheral = {PWM_BASE, PWM_BLOCK_SIZE, 0, NULL};

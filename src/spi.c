@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "core/bcm2835_peripherals.h"
+#include "peripherals.h"
 
 peripheral spi_peripheral = {SPI_BASE, SPI_BLOCK_SIZE, 0, NULL};
 
