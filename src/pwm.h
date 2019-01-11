@@ -61,6 +61,9 @@ void pwm_disable(pwm_channel channel);
 void pwm_configure(pwm_channel_config *config);
 
 /* ----- PWM Registers ----- */
+#define PWM_BASE		0x2020C000
+#define PWM_BLOCK_SIZE	0x24
+
 #define CTL     *pwm_base_pointer
 #define STA     *(pwm_base_pointer + 1)
 #define DMAC    *(pwm_base_pointer + 2)

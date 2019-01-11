@@ -37,6 +37,9 @@ void clock_disable(volatile uint32_t *reg);
 void clock_configure(volatile uint32_t *reg, clock_source src, unsigned int divisor, unsigned int mash);
 
 /* ----- CLOCK Registers ----- */
+#define CLOCK_BASE			0x20101000
+#define CLOCK_BLOCK_SIZE	0xA4
+
 #define CM_GP0CTL   *(clock_base_pointer + 28)
 #define CM_GP0DIV   *(clock_base_pointer + 29)
 #define CM_GP1CTL   *(clock_base_pointer + 30)

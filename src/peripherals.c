@@ -1,5 +1,5 @@
 /*
- * bcm2835_peripherals.c
+ * peripherals.c
  * Copyright (C) 2018  jasLogic
  *
  * This program is free software: you can redistribute it and/or modify

@@ -51,6 +51,9 @@ extern uint8_t spi_transfer_byte(uint8_t data);
 extern uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1);
 
 /* ----- SPI Registers ----- */
+#define SPI_BASE		0x20204000
+#define SPI_BLOCK_SIZE	0x14
+
 #define CS      *spi_base_pointer
 #define FIFO    *(spi_base_pointer + 1)
 #define CLK     *(spi_base_pointer + 2)

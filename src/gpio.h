@@ -48,6 +48,9 @@ void gpio_out(uint32_t pin);
 void gpio_ca_pud(void);
 
 /* ----- GPIO Registers ----- */
+#define GPIO_BASE		0x20200000
+#define GPIO_BLOCK_SIZE	0xB0
+
 #define GPFSEL	gpio_base_pointer
 #define GPFSEL0	*GPFSEL
 #define GPFSEL1	*(GPFSEL + 1)
