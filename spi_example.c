@@ -17,6 +17,8 @@
  */
 
 // This program uses SPI to communicate with the MCP3002 ADC
+// To compile use:
+// gcc -o spi_example -Wall spi_example.c src/gpio.c src/spi.c src/peripherals.c
 
  #include <stdio.h>
  #include <stdint.h>

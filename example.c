@@ -16,6 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+ // To compile use:
+ // gcc -o example -Wall example.c src/gpio.c src/peripherals.c
+
 #include <unistd.h>
 
 #include "src/gpio.h"
