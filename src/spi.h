@@ -34,7 +34,7 @@ struct spi_address_map {
     uint32_t LTOH;
     uint32_t DC;
 };
-#define SPI     ((struct spi_address_map *) spi_base_pointer)
+#define SPI     ((struct spi_address_map *)spi_base_pointer)
 
 typedef struct spi_channel_config {
     union {

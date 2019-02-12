@@ -54,7 +54,7 @@ int main(void) {
 	gpio_func(ce0, ALT0);
 
 	spi_channel_config conf = {
-        {{  /* the strange double braces are not needed, but else the compiler
+        {{  /* these strange double braces are not needed, but else the compiler
              * gives a warning because of the way 'spi_channel_config' is implemented */
     		SPI_CS_CE0,             // which chip enable line to use
             SPI_CPHA_CLK_BEGINNING, // data on clock leading (0) or trailing (1) edge

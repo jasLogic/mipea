@@ -35,8 +35,8 @@ uint32_t *pwm_map(void) {                       // -- clock mapped too --
 }
 
 void pwm_unmap(void) {
-    pwm_disable(PWM_CHANNEL_0);
-    pwm_disable(PWM_CHANNEL_1);
+    pwm_disable(PWM_CHANNEL0);
+    pwm_disable(PWM_CHANNEL1);
     clock_disable(&CM_PWMCTL);
 
     peripheral_unmap(&pwm_peripheral);
@@ -44,17 +44,17 @@ void pwm_unmap(void) {
 }
 
 void pwm_enable(pwm_channel channel) {
-    if (channel == PWM_CHANNEL_0) {
-        CTL |= 1;
+    if (channel == PWM_CHANNEL0) {
+        PWM->CTL |= 1;
     } else {
-        CTL |= (1 << 8);
+        PWM->CTL |= 0x100;
     }
 }
 void pwm_disable(pwm_channel channel) {
-    if (channel == PWM_CHANNEL_0) {
-        CTL &= ~1;
+    if (channel == PWM_CHANNEL0) {
+        PWM->CTL &= ~1;
     } else {
-        CTL &= ~(1 << 8);
+        PWM->CTL &= ~0x100;
     }
 }
 
@@ -62,50 +62,16 @@ void pwm_configure(pwm_channel_config *config) {
     clock_configure(&CM_PWMCTL, CLOCK_PLLD, config->divisor, 0);
     clock_enable(&CM_PWMCTL);
 
-    if (config->channel == PWM_CHANNEL_0) {
-        CTL &= ~0xFF; // Change all the pwm0 bits to 0
+    if (config->channel == PWM_CHANNEL0) {
+        PWM->CTL &= ~0xff; // clear all pwm0 bits
+        PWM->CTL |= config->ctl_register;
 
-        if (config->mode == SERIALISER_MODE) {
-            CTL |= 0x2;
-        }
-        if (config->rptl) {
-            CTL |= 0x4;
-        }
-        if (config->sbit) {
-            CTL |= 0x8;
-        }
-        if (config->pola == POL_INVERTED) {
-            CTL |= 0x10;
-        }
-        if (config->usef) {
-            CTL |= 0x20;
-        }
-        if (config->msen == MSEN_MS_RATIO) {
-            CTL |= 0x80;
-        }
-        RNG1 = config->range;
+        PWM->RNG1 = config->range;
 
     } else {
-        CTL &= ~(0xFF << 8); // Change all the pwm1 bits to 0
+        PWM->CTL &= ~0xff00; // clear all pwm1 bits
+        PWM->CTL |= config->ctl_register;
 
-        if (config->mode == SERIALISER_MODE) {
-            CTL |= (0x2 << 8);
-        }
-        if (config->rptl) {
-            CTL |= (0x4 << 8);
-        }
-        if (config->sbit) {
-            CTL |= (0x8 << 8);
-        }
-        if (config->pola == POL_INVERTED) {
-            CTL |= (0x10 << 8);
-        }
-        if (config->usef) {
-            CTL |= (0x20 << 8);
-        }
-        if (config->msen == MSEN_MS_RATIO) {
-            CTL |= (0x80 << 8);
-        }
-        RNG2 = config->range;
+        PWM->RNG2 = config->range;
     }
 }
