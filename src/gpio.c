@@ -25,8 +25,8 @@
 
 peripheral gpio_peripheral = {GPIO_BASE, GPIO_BLOCK_SIZE, 0, NULL};
 
-void delay_cycles(unsigned int n) {
-	for (unsigned int i = 0; i < n; ++i) {}
+static void delay_cycles(unsigned int n) {
+	for (unsigned int i = 0; i < n; ++i);
 }
 
 uint32_t *gpio_map(void) {
@@ -35,24 +35,24 @@ uint32_t *gpio_map(void) {
 	}
 	gpio_base_pointer = (volatile uint32_t *)gpio_peripheral.map;
 
-	gpio_ca_pud(); // Clear all pullup / -downs
+	gpio_clear_pud(); // Clear all pullup / -downs
 
 	return (uint32_t *)gpio_base_pointer;
 }
 
 void gpio_unmap(void) {
-	gpio_ca_pud(); // Clear all pullup / -downs
+	gpio_clear_pud(); // Clear all pullup / -downs
 	peripheral_unmap(&gpio_peripheral);
 }
 
 void gpio_func(uint32_t pin, pin_functions function) {
-	GPFSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); /* Die drei Bits erst alle 0 machen!!! */
+	GPFSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); /* clear the 3 bits */
 
 	switch(function) {
 		case INPUT:
 			break;
 		case OUTPUT:
-			GPFSEL[pin / 10] |= (1 << ((pin % 10) * 3));
+			GPFSEL[pin / 10] |= (0b001 << ((pin % 10) * 3));
 			break;
 		case ALT0:
 			GPFSEL[pin / 10] |= (0b100 << ((pin % 10) * 3));
@@ -109,7 +109,7 @@ void gpio_out(uint32_t pin) {
 	GPFSEL[pin / 10] |= (1 << ((pin % 10) * 3));
 }
 
-void gpio_ca_pud(void) {
+void gpio_clear_pud(void) {
 	GPPUD = 0;
 	delay_cycles(150);
 	for (uint32_t i = 0; i < 32; ++i) {

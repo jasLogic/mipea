@@ -21,20 +21,36 @@
 
 #include <stdint.h>
 
+#define SPI_BASE		0x20204000
+#define SPI_BLOCK_SIZE	0x14
+
 volatile uint32_t *spi_base_pointer;
 
-typedef enum chip_select {
-    CE0, CE1, CE2
-} chip_select;
+struct spi_address_map {
+    uint32_t CS;
+    uint32_t FIFO;
+    uint32_t CLK;
+    uint32_t DLEN;
+    uint32_t LTOH;
+    uint32_t DC;
+};
+#define SPI     ((struct spi_address_map *) spi_base_pointer)
 
 typedef struct spi_channel_config {
-    uint32_t cs:2;
-    uint32_t cpha:1;
-    uint32_t cpol:1;
-    uint32_t cspol:1;   // Not changing anything?
-    uint32_t cspol0:1;
-    uint32_t cspol1:1;
-    uint32_t cspol2:1;
+    union {
+        struct {
+            uint32_t cs: 2;     // cs = chip select
+            uint32_t cpha: 1;
+            uint32_t cpol: 1;
+            uint32_t: 2;        // unimplemented / unused -> must be zero
+            uint32_t cspol: 1;  // Not changing anything?
+            uint32_t: 14;       // unimplemented / unused -> must be zero
+            uint32_t cspol0: 1;
+            uint32_t cspol1: 1;
+            uint32_t cspol2: 1;
+        };
+        uint32_t cs_register;   // cs = conntrol and status
+    };
 
     uint16_t divisor;
 } spi_channel_config;
@@ -50,15 +66,15 @@ extern uint8_t spi_transfer_byte(uint8_t data);
 
 extern uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1);
 
-/* ----- SPI Registers ----- */
-#define SPI_BASE		0x20204000
-#define SPI_BLOCK_SIZE	0x14
-
-#define CS      *spi_base_pointer
-#define FIFO    *(spi_base_pointer + 1)
-#define CLK     *(spi_base_pointer + 2)
-#define DLEN    *(spi_base_pointer + 3)
-#define LTOH    *(spi_base_pointer + 4)
-#define DC      *(spi_base_pointer + 5)
+/* ----- CS Register bit values ----- */
+#define SPI_CS_CE0  0x0
+#define SPI_CS_CE1  0x1
+#define SPI_CS_CE2  0x2
+#define SPI_CPHA_CLK_BEGINNING  0x0
+#define SPI_CPHA_CLK_MIDDLE     0x1
+#define SPI_CPOL_RESET_LOW  0x0
+#define SPI_CPOL_RESET_HIGH 0x1
+#define SPI_CSPOL_ACTIVE_LOW    0x0 // can also be used for CSPOL0, 1 or 2
+#define SPI_CSPOL_ACTIVE_HIGH   0x1
 
 #endif//SPI_H

@@ -25,7 +25,7 @@ After that it is crucial to map the peripheral like so `gpio_map()`. When your p
 Now you can use the registers or the provided functions.
 
 #### Compile and link
-`gcc -Wall -o [outputfile] [your program].c gpio.c [...] bcm2835_peripherals.c`
+`gcc -Wall -o [outputfile] [your program].c gpio.c [...] peripherals.c`
 
 ## Sources and useful documentation
 

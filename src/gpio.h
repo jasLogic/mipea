@@ -22,8 +22,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-//#include "core/bcm2835_peripherals.h"
-
 volatile uint32_t *gpio_base_pointer;
 
 typedef enum pin_functions {
@@ -45,7 +43,7 @@ void gpio_pud(uint32_t pin, pud val);
 
 void gpio_inp(uint32_t pin);
 void gpio_out(uint32_t pin);
-void gpio_ca_pud(void);
+void gpio_clear_pud(void);
 
 /* ----- GPIO Registers ----- */
 #define GPIO_BASE		0x20200000

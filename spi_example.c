@@ -28,14 +28,14 @@
  #include "src/spi.h"
 
  union spi_mcp3002_transfer {
-    struct bits {
-        uint8_t dntc:4; // Don't care
-        uint8_t odd:1;  // ODD/!SGN bit
-        uint8_t sgl:1;  // SGL/!DIFF bit
-        uint8_t lst:2;  // Leading zero and starting bit
-    } bits;
+    struct {
+        uint8_t: 4; // Don't care
+        uint8_t odd: 1;  // ODD/!SGN bit
+        uint8_t sgl: 1;  // SGL/!DIFF bit
+        uint8_t lst: 2;  // Leading zero and starting bit
+    };
     uint8_t val;
-} spi_mcp3002_transfer;
+};
 
 int main(void) {
     if (gpio_map() == NULL || spi_map() == NULL) { // map peripherals
@@ -54,29 +54,33 @@ int main(void) {
 	gpio_func(ce0, ALT0);
 
 	spi_channel_config conf = {
-		CE0,    // which chip enable line to use
-        0,      // data on clock leading (0) or trailing (1) edge
-        0,      // clock polarity: rest state low (0) or high (1)
-        0,      // chip select polarity: active low (0) or high (1) -> I tested
-                // this on CE0 and CE1 and it did NOT have any affect on
-                // the polarity of the chip select. But I would set this
-                // bit anyway just to be save.
-        0,      // CE0 polarity: active low (0) or high (1)
-        0,      // CE1 similar to CE0
-        0,      // CE2 similar to CE0
-        1000    // clock divisor: the RaspberryPi Zero runs at 1GHz and the
-                // MCP3002 has a maximum clock frequency of 1Mhz
-                // => when looking at the signal with a logic analyser it
-                // appears that the clock is only running at 250Mhz although
-                // cpuinfo_cur_freq returns 1000000 ?
+        {{  /* the strange double braces are not needed, but else the compiler
+             * gives a warning because of the way 'spi_channel_config' is implemented */
+    		SPI_CS_CE0,             // which chip enable line to use
+            SPI_CPHA_CLK_BEGINNING, // data on clock leading (0) or trailing (1) edge
+            SPI_CPOL_RESET_LOW,     // clock polarity: rest state low (0) or high (1)
+            SPI_CSPOL_ACTIVE_LOW,   /* chip select polarity: active low (0) or high (1)
+                                     * -> I tested this on CE0 and CE1 and
+                                     * it did NOT have any effect on
+                                     * the polarity of the chip select.
+                                     * But I would set this bit anyway just to be save. */
+            SPI_CSPOL_ACTIVE_LOW,    // CE0 polarity: active low (0) or high (1)
+            SPI_CSPOL_ACTIVE_LOW,    // CE1 similar to CE0
+            SPI_CSPOL_ACTIVE_LOW,    // CE2 similar to CE0
+        }},
+        1000    /* clock divisor: the RaspberryPi Zero runs at 1GHz and the
+                 * MCP3002 has a maximum clock frequency of 1Mhz
+                 * => when looking at the signal with a logic analyser it
+                 * appears that the clock is only running at 250Mhz although
+                 * cpuinfo_cur_freq returns 1000000 ? */
 	};
 
 	spi_configure(&conf);
 
     union spi_mcp3002_transfer t;
-    t.bits.lst = 0b01; // Leading zero and starting bit
-    t.bits.sgl = 1;
-    t.bits.odd = 0;
+    t.lst = 0b01; // Leading zero and starting bit
+    t.sgl = 1;
+    t.odd = 0;
 
     uint16_t adc = 0x300;   // Because only the last 2 bit of the first
                             // transmission are important we set adc to
