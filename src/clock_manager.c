@@ -1,5 +1,5 @@
 /*
- * clock.c
+ * clock_manager.c
  * Copyright (C) 2018  jasLogic
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,25 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "clock.h"
+#include "clock_manager.h"
 
 #include <stdint.h>
 #include <stddef.h>
 
 #include "peripherals.h"
 
-peripheral clock_peripheral = {CLOCK_BASE, CLOCK_BLOCK_SIZE, 0, NULL};
+peripheral clock_manager_peripheral = {CLOCK_MANAGER_BASE, CLOCK_MANAGER_BLOCK_SIZE, 0, NULL};
 
 uint32_t *clock_map(void) {
-    if (peripheral_map(&clock_peripheral) == NULL) {
+    if (peripheral_map(&clock_manager_peripheral) == NULL) {
 		return NULL;
 	}
-	clock_base_pointer = (volatile uint32_t *)clock_peripheral.map;
-	return (uint32_t *)clock_base_pointer;
+	clock_manager_base_pointer = (volatile uint32_t *)clock_manager_peripheral.map;
+	return (uint32_t *)clock_manager_base_pointer;
 }
 
 void clock_unmap(void) {
-    peripheral_unmap(&clock_peripheral);
+    peripheral_unmap(&clock_manager_peripheral);
 }
 
 
@@ -44,10 +44,8 @@ void clock_enable(volatile uint32_t *reg) {
 
 void clock_disable(volatile uint32_t *reg) {
     if (*reg & 0x80) {
-		//*reg = CM_PASSWD | 0x01; // Kill clock?
-		//*reg |= CM_PASSWD | (1 << 5); // Kill clock
+		//*reg |= CM_PASSWD | (1 << 5); // Kill clock?
 		*reg = CM_PASSWD | (*reg & ~0x10); // Disable clock
-		//usleep(110); // Not needed?
 		while(*reg & 0x80); // Wait for busy flag to turn off
 	}
 }

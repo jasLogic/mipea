@@ -28,14 +28,14 @@
 
 uint32_t *peripheral_map(peripheral *per) {
 	if ((per->mem_fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
-		fprintf(stderr, "Failed to open '/dev/mem'... Try sudo?\n");
+		perror("Failed to open '/dev/mem'");
 		return NULL;
 	}
 
 	per->map = mmap(NULL, per->block_size, PROT_READ|PROT_WRITE, MAP_SHARED, per->mem_fd, per->v_addr);
 
 	if (per->map == MAP_FAILED) {
-		fprintf(stderr, "Failed mmaping gpios...\n");
+		perror("Failed mmaping peripheral");
 		close(per->mem_fd);
 		return NULL;
 	}
@@ -44,6 +44,8 @@ uint32_t *peripheral_map(peripheral *per) {
 }
 
 void peripheral_unmap(peripheral *per) {
-	munmap(per->map, per->block_size);
+	if (munmap(per->map, per->block_size) == -1) {
+		perror("Failed munmapping peripheral");
+	}
 	close(per->mem_fd);
 }

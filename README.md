@@ -1,6 +1,6 @@
-# epaRPi
+# mipea
 
-## easy peripheral access for Raspberry Pi
+## minimalistic peripheral access for the Raspberry Pi
 
 This library grants easy and fast access to peripherals. The GPIO, PWM and SPI are implemented at the moment.
 

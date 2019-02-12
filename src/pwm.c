@@ -22,7 +22,7 @@
 #include <stddef.h>
 
 #include "peripherals.h"
-#include "clock.h"
+#include "clock_manager.h"
 
 peripheral pwm_peripheral = {PWM_BASE, PWM_BLOCK_SIZE, 0, NULL};
 
@@ -37,7 +37,7 @@ uint32_t *pwm_map(void) {                       // -- clock mapped too --
 void pwm_unmap(void) {
     pwm_disable(PWM_CHANNEL0);
     pwm_disable(PWM_CHANNEL1);
-    clock_disable(&CM_PWMCTL);
+    clock_disable(&CM->PWMCTL);
 
     peripheral_unmap(&pwm_peripheral);
     clock_unmap(); // <-----
@@ -59,8 +59,8 @@ void pwm_disable(pwm_channel channel) {
 }
 
 void pwm_configure(pwm_channel_config *config) {
-    clock_configure(&CM_PWMCTL, CLOCK_PLLD, config->divisor, 0);
-    clock_enable(&CM_PWMCTL);
+    clock_configure(&CM->PWMCTL, CLOCK_PLLD, config->divisor, 0);
+    clock_enable(&CM->PWMCTL);
 
     if (config->channel == PWM_CHANNEL0) {
         PWM->CTL &= ~0xff; // clear all pwm0 bits
