@@ -16,26 +16,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CLOCK_MANAGER_H
-#define CLOCK_MANAGER_H
+#ifndef _CLOCK_MANAGER_H
+#define _CLOCK_MANAGER_H
 
 #include <stdint.h>
 
-#define CLOCK_MANAGER_BASE			0x20101000
-#define CLOCK_MANAGER_BLOCK_SIZE	0xA4
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+#define CLOCK_MANAGER_BASE          0x20101000
+#define CLOCK_MANAGER_BLOCK_SIZE    0xA4
 
 #define CM_PASSWD    0x5A000000
 
-volatile uint32_t *clock_manager_base_pointer;
+volatile uint32_t *clock_manager_base_ptr;
 
 struct clock_manager_register_map {
-    uint32_t: 32;   // Unfortonutaly the first register starts
-    uint32_t: 32;   // at offset 0x70 which are 28 registers.
-    uint32_t: 32;   // Because of the alignment of mmap (4096) I had to
-    uint32_t: 32;   // put all 28 registers here for padding.
-    uint32_t: 32;   // I couldn't think of another way to do this so
-    uint32_t: 32;   // please let me know if there is a better solution,
-    uint32_t: 32;   // as this is really ugly.
+    uint32_t: 32;   /* Unfortonutaly the first register starts          */
+    uint32_t: 32;   /* at offset 0x70 which are 28 registers.           */
+    uint32_t: 32;   /* Because of the alignment of mmap (4096) I had to */
+    uint32_t: 32;   /* put all 28 registers here for padding.           */
+    uint32_t: 32;   /* I couldn't think of another way to do this so    */
+    uint32_t: 32;   /* please let me know if there is a better solution,*/
+    uint32_t: 32;   /* as this is really ugly.                          */
     uint32_t: 32;
     uint32_t: 32;
     uint32_t: 32;
@@ -72,17 +76,29 @@ struct clock_manager_register_map {
     uint32_t PWMCTL;
     uint32_t PWMDIV;
 };
-#define CM      ((struct clock_manager_register_map *)clock_manager_base_pointer)
+#define CM      ((struct clock_manager_register_map *)clock_manager_base_ptr)
 
-typedef enum clock_source {
-    CLOCK_GND, CLOCK_OSC, CLOCK_TST0, CLOCK_TST1, CLOCK_PLLA, CLOCK_PLLC, CLOCK_PLLD, CLOCK_HDMI
-} clock_source;
+typedef enum {
+    CLOCK_GND,
+    CLOCK_OSC,
+    CLOCK_TST0,
+    CLOCK_TST1,
+    CLOCK_PLLA,
+    CLOCK_PLLC,
+    CLOCK_PLLD,
+    CLOCK_HDMI
+} clock_source_t;
 
-uint32_t *clock_map(void);
-void clock_unmap(void);
+uint32_t *  clock_map(void);
+void        clock_unmap(void);
 
 void clock_enable(volatile uint32_t *reg);
 void clock_disable(volatile uint32_t *reg);
-void clock_configure(volatile uint32_t *reg, clock_source src, unsigned int divisor, unsigned int mash);
+void clock_configure(volatile uint32_t *reg, clock_source_t src,
+                    unsigned int divisor, unsigned int mash);
 
-#endif//CLOCK_MANAGER_H
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* _CLOCK_MANAGER_H */

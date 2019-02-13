@@ -23,34 +23,46 @@
 
 #include "peripherals.h"
 
-peripheral clock_manager_peripheral = {CLOCK_MANAGER_BASE, CLOCK_MANAGER_BLOCK_SIZE, 0, NULL};
+peripheral_t clock_manager_peripheral = {CLOCK_MANAGER_BASE,
+                                        CLOCK_MANAGER_BLOCK_SIZE, 0, NULL};
 
-uint32_t *clock_map(void) {
+uint32_t *
+clock_map(void)
+{
     if (peripheral_map(&clock_manager_peripheral) == NULL) {
 		return NULL;
 	}
-	clock_manager_base_pointer = (volatile uint32_t *)clock_manager_peripheral.map;
-	return (uint32_t *)clock_manager_base_pointer;
+	clock_manager_base_ptr = (volatile uint32_t *)clock_manager_peripheral.map;
+	return (uint32_t *)clock_manager_base_ptr;
 }
 
-void clock_unmap(void) {
+void
+clock_unmap(void)
+{
     peripheral_unmap(&clock_manager_peripheral);
 }
 
 
-void clock_enable(volatile uint32_t *reg) {
+void
+clock_enable(volatile uint32_t *reg)
+{
     *reg |= CM_PASSWD | 0x10;
 }
 
-void clock_disable(volatile uint32_t *reg) {
+void
+clock_disable(volatile uint32_t *reg)
+{
     if (*reg & 0x80) {
-		//*reg |= CM_PASSWD | (1 << 5); // Kill clock?
-		*reg = CM_PASSWD | (*reg & ~0x10); // Disable clock
-		while(*reg & 0x80); // Wait for busy flag to turn off
+		/* *reg |= CM_PASSWD | (1 << 5); // Kill clock? */
+		*reg = CM_PASSWD | (*reg & ~0x10); /* Disable clock */
+		while(*reg & 0x80); /* Wait for busy flag to turn off */
 	}
 }
 
-void clock_configure(volatile uint32_t *reg, clock_source src, unsigned int divisor, unsigned int mash) {
+void
+clock_configure(volatile uint32_t *reg, clock_source_t src,
+                unsigned int divisor, unsigned int mash)
+{
     clock_disable(reg);
 
     *(reg + 1) = CM_PASSWD | divisor << 12;

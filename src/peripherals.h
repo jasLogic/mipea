@@ -16,19 +16,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PERIPHERALS_H
-#define PERIPHERALS_H
+#ifndef _PERIPHERALS_H
+#define _PERIPHERALS_H
 
 #include <stdint.h>
 
-typedef struct peripheral {
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+typedef struct {
 	unsigned long v_addr;
 	unsigned int block_size;
 	int mem_fd;
 	void *map;
-} peripheral;
+} peripheral_t;
 
-uint32_t *peripheral_map(peripheral *per);
-void peripheral_unmap(peripheral *per);
+uint32_t *	peripheral_map(peripheral_t *per);
+void 		peripheral_unmap(peripheral_t *per);
 
-#endif//PERIPHERALS_H
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* _PERIPHERALS_H */

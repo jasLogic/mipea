@@ -23,44 +23,60 @@
 
 #include "peripherals.h"
 
-peripheral spi_peripheral = {SPI_BASE, SPI_BLOCK_SIZE, 0, NULL};
+peripheral_t spi_peripheral = {SPI_BASE, SPI_BLOCK_SIZE, 0, NULL};
 
-uint32_t *spi_map(void) {
+uint32_t *
+spi_map(void)
+{
     if (peripheral_map(&spi_peripheral) == NULL) {
 		return NULL;
 	}
-	spi_base_pointer = (volatile uint32_t *)spi_peripheral.map;
-	return (uint32_t *)spi_base_pointer;
+	spi_base_ptr = (volatile uint32_t *)spi_peripheral.map;
+	return (uint32_t *)spi_base_ptr;
 }
 
-void spi_unmap(void) {
+void
+spi_unmap(void)
+{
     peripheral_unmap(&spi_peripheral);
 }
 
-void spi_configure(spi_channel_config *config) {
+void
+spi_configure(spi_channel_config_t *config)
+{
     SPI->CS = config->cs_register;
     SPI->CLK = config->divisor;
 }
 
-inline void spi_transfer_start(void) {
-    SPI->CS |= 0x80; // set TA
+inline void
+spi_transfer_start(void)
+{
+    SPI->CS |= 0x80; /* set TA */
 }
-inline void spi_transfer_stop(void) {
-    while(!(SPI->CS & 0x10000)) {} // wait for DONE
-    SPI->CS &= ~0x80; // clear TA
-}
-inline uint8_t spi_transfer_byte(uint8_t data) {
-    SPI->CS |= 0x30; // Clear FIFO
 
-    while(!(SPI->CS & 0x40000)) {} // wait for space in TX FIFO
+inline void
+spi_transfer_stop(void)
+{
+    while(!(SPI->CS & 0x10000)) {} /* wait for DONE */
+    SPI->CS &= ~0x80; /* clear TA */
+}
+
+inline uint8_t
+spi_transfer_byte(uint8_t data)
+{
+    SPI->CS |= 0x30; /* Clear FIFO */
+
+    while(!(SPI->CS & 0x40000)) {} /* wait for space in TX FIFO */
     SPI->FIFO = data;
 
-    while(!(SPI->CS & 0x20000)) {} // wait for data in RX FIFO
+    while(!(SPI->CS & 0x20000)) {} /* wait for data in RX FIFO */
     return (uint8_t) SPI->FIFO;
 }
 
-
-inline uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1) { // send 2 bytes and return the data from the last transmission
+/* send 2 bytes and return the data from the last transmission */
+inline uint8_t
+spi_send2_recv1(uint8_t data0, uint8_t data1)
+{
     spi_transfer_byte(data0);
     return spi_transfer_byte(data1);
 }

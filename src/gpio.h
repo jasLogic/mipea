@@ -16,91 +16,72 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GPIO_H
-#define GPIO_H
+#ifndef _GPIO_H
+#define _GPIO_H
 
 #include <stdint.h>
-#include <stdbool.h>
 
-volatile uint32_t *gpio_base_pointer;
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
-typedef enum pin_functions {
+#define GPIO_BASE		0x20200000
+#define GPIO_BLOCK_SIZE	0xB0
+
+volatile uint32_t *gpio_base_ptr;
+
+struct gpio_register_map {
+	uint32_t FSEL[6];
+	uint32_t: 32;
+	uint32_t SET[2];
+	uint32_t: 32;
+	uint32_t CLR[2];
+	uint32_t: 32;
+	uint32_t LEV[2];
+	uint32_t: 32;
+	uint32_t EDS[2];
+	uint32_t: 32;
+	uint32_t REN[2];
+	uint32_t: 32;
+	uint32_t FEN[2];
+	uint32_t: 32;
+	uint32_t HEN[2];
+	uint32_t: 32;
+	uint32_t LEN[2];
+	uint32_t: 32;
+	uint32_t AREN[2];
+	uint32_t: 32;
+	uint32_t AFEN[2];
+	uint32_t: 32;
+	uint32_t PUD;
+	uint32_t PUDCLK[2];
+};
+#define GP		((struct gpio_register_map *)gpio_base_ptr)
+
+typedef enum {
 	INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5
-} pin_functions;
-typedef enum pud {
+} pin_functions_t;
+typedef enum {
 	PUD_DISABLE, PUD_DOWN, PUD_UP
-} pud;
+} pud_t;
 
-uint32_t *gpio_map(void);
-void gpio_unmap(void);
+uint32_t *	gpio_map(void);
+void 		gpio_unmap(void);
 
-void gpio_func(uint32_t pin, pin_functions function);
-extern void gpio_set(uint32_t pin);
-extern void gpio_clr(uint32_t pin);
-extern bool gpio_tst(uint32_t pin);
+void gpio_func(uint32_t pin, pin_functions_t function);
 
-void gpio_pud(uint32_t pin, pud val);
+extern void 	gpio_set(uint32_t pin);
+extern void 	gpio_clr(uint32_t pin);
+extern uint32_t gpio_tst(uint32_t pin);
+
+void gpio_pud(uint32_t pin, pud_t val);
 
 void gpio_inp(uint32_t pin);
 void gpio_out(uint32_t pin);
 void gpio_clear_pud(void);
 
-/* ----- GPIO Registers ----- */
-#define GPIO_BASE		0x20200000
-#define GPIO_BLOCK_SIZE	0xB0
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
-#define GPFSEL	gpio_base_pointer
-#define GPFSEL0	*GPFSEL
-#define GPFSEL1	*(GPFSEL + 1)
-#define GPFSEL2	*(GPFSEL + 2)
-#define GPFSEL3	*(GPFSEL + 3)
-#define GPFSEL4	*(GPFSEL + 4)
-#define GPFSEL5	*(GPFSEL + 5)
-
-#define GPSET	(gpio_base_pointer + 7)
-#define GPSET0	*GPSET
-#define GPSET1	*(GPSET + 1)
-
-#define GPCLR	(gpio_base_pointer + 10)
-#define GPCLR0	*GPCLR
-#define GPCLR1	*(GPCLR + 1)
-
-#define GPLEV	(gpio_base_pointer + 13)
-#define GPLEV0	*GPLEV
-#define GPLEV1	*(GPLEV + 1)
-
-#define GPEDS	(gpio_base_pointer + 16)
-#define GPEDS0	*GPEDS
-#define GPEDS1	*(GPEDS + 1)
-
-#define GPREN	(gpio_base_pointer + 19)
-#define GPREN0	*GPREN
-#define GPREN1	*(GPREN + 1)
-
-#define GPFEN	(gpio_base_pointer + 22)
-#define GPFEN0	*GPFEN
-#define GPFEN1	*(GPFEN + 1)
-
-#define GPHEN	(gpio_base_pointer + 25)
-#define GPHEN0	*GPHEN
-#define GPHEN1	*(GPHEN + 1)
-
-#define GPLEN	(gpio_base_pointer + 28)
-#define GPLEN0	*GPLEN
-#define GPLEN1	*(GPLEN + 1)
-
-#define GPAREN	(gpio_base_pointer + 31)
-#define GPAREN0	*GPAREN
-#define GPAREN1	*(GPAREN + 1)
-
-#define GPAFEN	(gpio_base_pointer + 34)
-#define GPAFEN0	*GPAFEN
-#define GPAFEN1	*(GPAFEN + 1)
-
-#define GPPUD		*(gpio_base_pointer + 37)
-
-#define GPPUDCLK	(gpio_base_pointer + 38)
-#define GPPUDCLK0	*GPPUDCLK
-#define GPPUDCLK1	*(GPPUDCLK + 1)
-
-#endif//GPIO_H
+#endif /* _GPIO_H */

@@ -26,13 +26,16 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-uint32_t *peripheral_map(peripheral *per) {
+uint32_t *
+peripheral_map(peripheral_t *per)
+{
 	if ((per->mem_fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
 		perror("Failed to open '/dev/mem'");
 		return NULL;
 	}
 
-	per->map = mmap(NULL, per->block_size, PROT_READ|PROT_WRITE, MAP_SHARED, per->mem_fd, per->v_addr);
+	per->map = mmap(NULL, per->block_size, PROT_READ|PROT_WRITE, MAP_SHARED,
+					per->mem_fd, per->v_addr);
 
 	if (per->map == MAP_FAILED) {
 		perror("Failed mmaping peripheral");
@@ -43,7 +46,9 @@ uint32_t *peripheral_map(peripheral *per) {
 	return per->map;
 }
 
-void peripheral_unmap(peripheral *per) {
+void
+peripheral_unmap(peripheral_t *per)
+{
 	if (munmap(per->map, per->block_size) == -1) {
 		perror("Failed munmapping peripheral");
 	}

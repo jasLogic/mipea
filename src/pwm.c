@@ -24,33 +24,42 @@
 #include "peripherals.h"
 #include "clock_manager.h"
 
-peripheral pwm_peripheral = {PWM_BASE, PWM_BLOCK_SIZE, 0, NULL};
+peripheral_t pwm_peripheral = {PWM_BASE, PWM_BLOCK_SIZE, 0, NULL};
 
-uint32_t *pwm_map(void) {                       // -- clock mapped too --
+uint32_t *
+pwm_map(void)
+{                                         /**** clock mapped too ****/
     if (peripheral_map(&pwm_peripheral) == NULL|| clock_map() == NULL) {
 		return NULL;
 	}
-	pwm_base_pointer = (volatile uint32_t *)pwm_peripheral.map;
-	return (uint32_t *)pwm_base_pointer;
+	pwm_base_ptr = (volatile uint32_t *)pwm_peripheral.map;
+	return (uint32_t *)pwm_base_ptr;
 }
 
-void pwm_unmap(void) {
+void
+pwm_unmap(void)
+{
     pwm_disable(PWM_CHANNEL0);
     pwm_disable(PWM_CHANNEL1);
     clock_disable(&CM->PWMCTL);
 
     peripheral_unmap(&pwm_peripheral);
-    clock_unmap(); // <-----
+    clock_unmap(); /* unmap clock too */
 }
 
-void pwm_enable(pwm_channel channel) {
+void
+pwm_enable(pwm_channel_t channel)
+{
     if (channel == PWM_CHANNEL0) {
         PWM->CTL |= 1;
     } else {
         PWM->CTL |= 0x100;
     }
 }
-void pwm_disable(pwm_channel channel) {
+
+void
+pwm_disable(pwm_channel_t channel)
+{
     if (channel == PWM_CHANNEL0) {
         PWM->CTL &= ~1;
     } else {
@@ -58,18 +67,20 @@ void pwm_disable(pwm_channel channel) {
     }
 }
 
-void pwm_configure(pwm_channel_config *config) {
+void
+pwm_configure(pwm_channel_config_t *config)
+{
     clock_configure(&CM->PWMCTL, CLOCK_PLLD, config->divisor, 0);
     clock_enable(&CM->PWMCTL);
 
     if (config->channel == PWM_CHANNEL0) {
-        PWM->CTL &= ~0xff; // clear all pwm0 bits
+        PWM->CTL &= ~0xff; /* clear all pwm0 bits */
         PWM->CTL |= config->ctl_register;
 
         PWM->RNG1 = config->range;
 
     } else {
-        PWM->CTL &= ~0xff00; // clear all pwm1 bits
+        PWM->CTL &= ~0xff00; /* clear all pwm1 bits */
         PWM->CTL |= config->ctl_register;
 
         PWM->RNG2 = config->range;

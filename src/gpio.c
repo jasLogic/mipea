@@ -23,102 +23,123 @@
 
 #include "peripherals.h"
 
-peripheral gpio_peripheral = {GPIO_BASE, GPIO_BLOCK_SIZE, 0, NULL};
+peripheral_t gpio_peripheral = {GPIO_BASE, GPIO_BLOCK_SIZE, 0, NULL};
 
-static void delay_cycles(unsigned int n) {
+static void
+delay_cycles(unsigned int n)
+{
 	for (unsigned int i = 0; i < n; ++i);
 }
 
-uint32_t *gpio_map(void) {
+uint32_t *
+gpio_map(void)
+{
 	if (peripheral_map(&gpio_peripheral) == NULL) {
 		return NULL;
 	}
-	gpio_base_pointer = (volatile uint32_t *)gpio_peripheral.map;
+	gpio_base_ptr = (volatile uint32_t *)gpio_peripheral.map;
 
-	gpio_clear_pud(); // Clear all pullup / -downs
+	gpio_clear_pud(); /* Clear all pullup / -downs */
 
-	return (uint32_t *)gpio_base_pointer;
+	return (uint32_t *)gpio_base_ptr;
 }
 
-void gpio_unmap(void) {
-	gpio_clear_pud(); // Clear all pullup / -downs
+void
+gpio_unmap(void)
+{
+	gpio_clear_pud(); /* Clear all pullup / -downs */
 	peripheral_unmap(&gpio_peripheral);
 }
 
-void gpio_func(uint32_t pin, pin_functions function) {
-	GPFSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); /* clear the 3 bits */
+void
+gpio_func(uint32_t pin, pin_functions_t function)
+{
+	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); /* clear the 3 bits */
 
 	switch(function) {
 		case INPUT:
 			break;
 		case OUTPUT:
-			GPFSEL[pin / 10] |= (0b001 << ((pin % 10) * 3));
+			GP->FSEL[pin / 10] |= (0b001 << ((pin % 10) * 3));
 			break;
 		case ALT0:
-			GPFSEL[pin / 10] |= (0b100 << ((pin % 10) * 3));
+			GP->FSEL[pin / 10] |= (0b100 << ((pin % 10) * 3));
 			break;
 		case ALT1:
-			GPFSEL[pin / 10] |= (0b101 << ((pin % 10) * 3));
+			GP->FSEL[pin / 10] |= (0b101 << ((pin % 10) * 3));
 			break;
 		case ALT2:
-			GPFSEL[pin / 10] |= (0b110 << ((pin % 10) * 3));
+			GP->FSEL[pin / 10] |= (0b110 << ((pin % 10) * 3));
 			break;
 		case ALT3:
-			GPFSEL[pin / 10] |= (0b111 << ((pin % 10) * 3));
+			GP->FSEL[pin / 10] |= (0b111 << ((pin % 10) * 3));
 			break;
 		case ALT4:
-			GPFSEL[pin / 10] |= (0b011 << ((pin % 10) * 3));
+			GP->FSEL[pin / 10] |= (0b011 << ((pin % 10) * 3));
 			break;
 		case ALT5:
-			GPFSEL[pin / 10] |= (0b010 << ((pin % 10) * 3));
+			GP->FSEL[pin / 10] |= (0b010 << ((pin % 10) * 3));
 			break;
 		default:
 			break;
 	}
 }
 
-inline void gpio_set(uint32_t pin) {
-	GPSET[pin / 32] = (1 << (pin % 32));
+inline void
+gpio_set(uint32_t pin)
+{
+	GP->SET[pin / 32] = (1 << (pin % 32));
 }
 
-inline void gpio_clr(uint32_t pin) {
-	GPCLR[pin / 32] = (1 << (pin % 32));
+inline void
+gpio_clr(uint32_t pin)
+{
+	GP->CLR[pin / 32] = (1 << (pin % 32));
 }
 
-inline bool gpio_tst(uint32_t pin) {
-	return GPLEV[pin / 32] &= (1 << (pin % 32));
+inline uint32_t
+gpio_tst(uint32_t pin)
+{
+	return GP->LEV[pin / 32] &= (1 << (pin % 32));
 }
 
-void gpio_pud(uint32_t pin, pud val) {
-	GPPUD = val;
+void
+gpio_pud(uint32_t pin, pud_t val)
+{
+	GP->PUD = val;
 	delay_cycles(150);
-	GPPUDCLK[pin / 32] = (1 << (pin % 32));
+	GP->PUDCLK[pin / 32] = (1 << (pin % 32));
 	delay_cycles(150);
-	GPPUD = 0;
-	GPPUDCLK[pin / 32] = 0;
+	GP->PUD = 0;
+	GP->PUDCLK[pin / 32] = 0;
 }
 
 
-
-void gpio_inp(uint32_t pin) {
-	GPFSEL[pin / 10] &= ~(7 << ((pin % 10) * 3));
+void
+gpio_inp(uint32_t pin)
+{
+	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3));
 }
 
-void gpio_out(uint32_t pin) {
-	GPFSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); /* Die drei Bits erst alle 0 machen!!! */
-	GPFSEL[pin / 10] |= (1 << ((pin % 10) * 3));
+void
+gpio_out(uint32_t pin)
+{
+	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); /* clear the 3 bits first */
+	GP->FSEL[pin / 10] |= (1 << ((pin % 10) * 3));
 }
 
-void gpio_clear_pud(void) {
-	GPPUD = 0;
+void
+gpio_clear_pud(void)
+{
+	GP->PUD = 0;
 	delay_cycles(150);
 	for (uint32_t i = 0; i < 32; ++i) {
-		GPPUDCLK0 = (1 << i);
+		GP->PUDCLK[0] = (1 << i);
 	}
 	for (uint32_t i = 0; i < 11; ++i) {
-		GPPUDCLK1 = (1 << i);
+		GP->PUDCLK[1] = (1 << i);
 	}
 	delay_cycles(150);
-	GPPUDCLK0 = 0;
-	GPPUDCLK1 = 0;
+	GP->PUDCLK[0] = 0;
+	GP->PUDCLK[1] = 0;
 }

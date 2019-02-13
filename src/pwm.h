@@ -16,64 +16,68 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PWM_H
-#define PWM_H
+#ifndef _PWM_H
+#define _PWM_H
 
 #include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 #define PWM_BASE		0x2020C000
 #define PWM_BLOCK_SIZE	0x24
 
-volatile uint32_t *pwm_base_pointer;
+volatile uint32_t *pwm_base_ptr;
 
 struct pwm_register_map {
     uint32_t CTL;
     uint32_t STA;
     uint32_t DMAC;
-    uint32_t: 32;   // address not implemented
+    uint32_t: 32;   /* address not implemented */
     uint32_t RNG1;
     uint32_t DAT1;
     uint32_t FIF1;
-    uint32_t: 32;   // address not implemented
+    uint32_t: 32;   /* address not implemented */
     uint32_t RNG2;
     uint32_t DAT2;
 };
-#define PWM    ((struct pwm_register_map *)pwm_base_pointer)
+#define PWM     ((struct pwm_register_map *)pwm_base_ptr)
 
 #define RNG_CHANNEL0    PWM->RNG1
 #define DAT_CHANNEL0    PWM->DAT1
 #define RNG_CHANNEL1    PWM->RNG2
 #define DAT_CHANNEL1    PWM->DAT2
 
-typedef enum pwm_channel {
+typedef enum {
     PWM_CHANNEL0, PWM_CHANNEL1
-} pwm_channel;
+} pwm_channel_t;
 
-typedef struct pwm_channel_config {
-    pwm_channel channel;
+typedef struct {
+    pwm_channel_t channel;
     union {
         struct {
-            uint32_t: 1;        // use pwm_enable / pwm_disable
+            uint32_t: 1;        /* use pwm_enable / pwm_disable */
             uint32_t mode: 1;
             uint32_t rptl: 1;
             uint32_t sbit: 1;
             uint32_t pola: 1;
             uint32_t usef: 1;
-            uint32_t: 1;        // unimplemented / unused
+            uint32_t: 1;        /* unimplemented / unused */
             uint32_t msen: 1;
         };
         uint32_t ctl_register;
     };
     unsigned int divisor;
     uint32_t range;
-} pwm_channel_config;
+} pwm_channel_config_t;
 
-uint32_t *pwm_map(void);
-void pwm_unmap(void);
+uint32_t *  pwm_map(void);
+void        pwm_unmap(void);
 
-void pwm_enable(pwm_channel channel);
-void pwm_disable(pwm_channel channel);
-void pwm_configure(pwm_channel_config *config);
+void pwm_enable(pwm_channel_t channel);
+void pwm_disable(pwm_channel_t channel);
+void pwm_configure(pwm_channel_config_t *config);
 
 /* ----- CTL Register bit values ----- */
 #define PWM_CTL_MODE_PWM        0x0
@@ -89,4 +93,8 @@ void pwm_configure(pwm_channel_config *config);
 #define PWM_MSEN_PWMALGORITHM   0x0
 #define PWM_MSEN_MSRATIO        0x1
 
-#endif//PWM_H
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* _PWM_H */

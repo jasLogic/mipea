@@ -6,6 +6,8 @@ This library grants easy and fast access to peripherals. The GPIO, PWM and SPI a
 
 It was only tested on the Raspberry Pi Zero, but should work on all other Raspberry Pis which use the bcm2835.
 
+Contributions are welcome, please fork and open a pull request.
+
 **Peripherals Implemented at the moment:**
 * GPIO
 * PWM
