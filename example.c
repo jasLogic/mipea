@@ -16,9 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+ /*
+  * To compile use:
+  * gcc -o example example.c -lmipea
+  */
+
 #include <unistd.h>
 
-#include "src/gpio.h"
+#include "gpio.h"
 
 int
 main(void)

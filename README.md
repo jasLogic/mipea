@@ -19,6 +19,13 @@ Contributions are welcome, please fork and open a pull request.
 2. I2C (in progress)
 3. Audio
 
+### Installation
+
+```
+$ make
+$ sudo make install
+```
+
 ### Usage
 
 To use a peripheral, for example GPIO, you need to include the corresponding header into your program.
@@ -28,7 +35,7 @@ After that it is crucial to map the peripheral like so `gpio_map()`. When your p
 Now you can use the registers or the provided functions.
 
 #### Compile and link
-`gcc -Wall -o [outputfile] [your program].c gpio.c [...] peripherals.c`
+`gcc -Wall -o [outputfile] [your program].c -lmipea`
 
 ## Sources and useful documentation
 

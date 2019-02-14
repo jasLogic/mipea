@@ -18,16 +18,17 @@
 
 /*
  * To compile use:
- * gcc -o servo_example servo_example.c src/gpio.c src/pwm.c src/clock.c
- * src/peripherals.c                          *** pwm.c makes use of clock.c ***
+ * gcc -o servo_example servo_example.c -lmipea
  */
 
 #include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
 
-#include "src/gpio.h"
-#include "src/pwm.h"
+//#include "src/gpio.h"
+#include "gpio.h"
+//#include "src/pwm.h"
+#include "pwm.h"
 
 int
 main(void)
