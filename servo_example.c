@@ -25,9 +25,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-//#include "src/gpio.h"
 #include "gpio.h"
-//#include "src/pwm.h"
 #include "pwm.h"
 
 int
