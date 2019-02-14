@@ -114,4 +114,6 @@ main(void)
         usleep(100000);
     }
 
+    gpio_unmap();
+    spi_unmap();
 }

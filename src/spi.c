@@ -65,10 +65,7 @@ inline uint8_t
 spi_transfer_byte(uint8_t data)
 {
     SPI->CS |= 0x30; /* Clear FIFO */
-
-    while(!(SPI->CS & 0x40000)) {} /* wait for space in TX FIFO */
     SPI->FIFO = data;
-
     while(!(SPI->CS & 0x20000)) {} /* wait for data in RX FIFO */
     return (uint8_t) SPI->FIFO;
 }
@@ -77,6 +74,9 @@ spi_transfer_byte(uint8_t data)
 inline uint8_t
 spi_send2_recv1(uint8_t data0, uint8_t data1)
 {
+    spi_transfer_start();
     spi_transfer_byte(data0);
-    return spi_transfer_byte(data1);
+    uint8_t ret = spi_transfer_byte(data1);
+    spi_transfer_stop();
+    return ret;
 }
