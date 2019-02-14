@@ -33,34 +33,6 @@ extern "C" {
 volatile uint32_t *clock_manager_base_ptr;
 
 struct clock_manager_register_map {
-    uint32_t: 32;   /* Unfortonutaly the first register starts          */
-    uint32_t: 32;   /* at offset 0x70 which are 28 registers.           */
-    uint32_t: 32;   /* Because of the alignment of mmap (4096) I had to */
-    uint32_t: 32;   /* put all 28 registers here for padding.           */
-    uint32_t: 32;   /* I couldn't think of another way to do this so    */
-    uint32_t: 32;   /* please let me know if there is a better solution,*/
-    uint32_t: 32;   /* as this is really ugly.                          */
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
-    uint32_t: 32;
     uint32_t GP0CTL;
     uint32_t GP0DIV;
     uint32_t GP1CTL;
@@ -76,7 +48,7 @@ struct clock_manager_register_map {
     uint32_t PWMCTL;
     uint32_t PWMDIV;
 };
-#define CM      ((struct clock_manager_register_map *)clock_manager_base_ptr)
+#define CM      ((struct clock_manager_register_map *)clock_manager_base_ptr + 7)
 
 typedef enum {
     CLOCK_GND,
