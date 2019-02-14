@@ -20,7 +20,9 @@
 
 #include "src/gpio.h"
 
-int main(void) {
+int
+main(void)
+{
     if (gpio_map() == NULL) { /* map peripherals */
         return 1; /* return if mapping fails */
     }

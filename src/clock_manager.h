@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef _CLOCK_MANAGER_H
-#define _CLOCK_MANAGER_H
+#ifndef _CLOCK_MANAGER_H_
+#define _CLOCK_MANAGER_H_
 
 #include <stdint.h>
 
@@ -101,4 +101,4 @@ void clock_configure(volatile uint32_t *reg, clock_source_t src,
 }
 #endif /* __cplusplus */
 
-#endif /* _CLOCK_MANAGER_H */
+#endif /* _CLOCK_MANAGER_H_ */

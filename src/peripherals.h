@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef _PERIPHERALS_H
-#define _PERIPHERALS_H
+#ifndef _PERIPHERALS_H_
+#define _PERIPHERALS_H_
 
 #include <stdint.h>
 
@@ -39,4 +39,4 @@ void 		peripheral_unmap(peripheral_t *per);
 }
 #endif /* __cplusplus */
 
-#endif /* _PERIPHERALS_H */
+#endif /* _PERIPHERALS_H_ */

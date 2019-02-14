@@ -23,8 +23,8 @@
 
 #include "peripherals.h"
 
-peripheral_t clock_manager_peripheral = {CLOCK_MANAGER_BASE,
-                                        CLOCK_MANAGER_BLOCK_SIZE, 0, NULL};
+static peripheral_t clock_manager_peripheral = {CLOCK_MANAGER_BASE,
+                                            CLOCK_MANAGER_BLOCK_SIZE, 0, NULL};
 
 uint32_t *
 clock_map(void)

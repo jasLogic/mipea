@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef _GPIO_H
-#define _GPIO_H
+#ifndef _GPIO_H_
+#define _GPIO_H_
 
 #include <stdint.h>
 
@@ -84,4 +84,4 @@ void gpio_clear_pud(void);
 }
 #endif /* __cplusplus */
 
-#endif /* _GPIO_H */
+#endif /* _GPIO_H_ */

@@ -29,7 +29,9 @@
 #include "src/gpio.h"
 #include "src/pwm.h"
 
-int main(void) {
+int
+main(void)
+{
     if (gpio_map() == NULL || pwm_map() == NULL) { /* Map peripherals */
         return 1; /* return if mapping fails */
     }

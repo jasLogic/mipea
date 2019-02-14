@@ -15,8 +15,9 @@ Contributions are welcome, please fork and open a pull request.
 * SPI
 
 **TODO:**
-1. I2C
-2. Audio
+1. Portability for other Pis
+2. I2C (in progress)
+3. Audio
 
 ### Usage
 

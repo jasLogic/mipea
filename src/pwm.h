@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef _PWM_H
-#define _PWM_H
+#ifndef _PWM_H_
+#define _PWM_H_
 
 #include <stdint.h>
 
@@ -97,4 +97,4 @@ void pwm_configure(pwm_channel_config_t *config);
 }
 #endif /* __cplusplus */
 
-#endif /* _PWM_H */
+#endif /* _PWM_H_ */

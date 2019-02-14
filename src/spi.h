@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef _SPI_H
-#define _SPI_H
+#ifndef _SPI_H_
+#define _SPI_H_
 
 #include <stdint.h>
 
@@ -85,4 +85,4 @@ extern uint8_t  spi_send2_recv1(uint8_t data0, uint8_t data1);
 }
 #endif /* __cplusplus */
 
-#endif /* _SPI_H */
+#endif /* _SPI_H_ */
