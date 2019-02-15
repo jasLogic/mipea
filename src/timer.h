@@ -26,6 +26,8 @@ struct timer_register_map {
 uint32_t *  timer_map(void);
 void        timer_unmap(void);
 
+extern void timer_read(uint64_t *counter);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

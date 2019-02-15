@@ -22,3 +22,11 @@ timer_unmap(void)
 {
     peripheral_unmap(&timer_peripheral);
 }
+
+inline void
+timer_read(uint64_t *counter)
+{
+    *counter = TIMER->CHI;
+    *counter = *counter << 32;
+    *counter |= TIMER->CLO;
+}
