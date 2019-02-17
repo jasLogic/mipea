@@ -28,7 +28,8 @@ static peripheral_t gpio_peripheral = {GPIO_BASE, GPIO_BLOCK_SIZE, 0, NULL};
 static void
 delay_cycles(unsigned int n)
 {
-	for (unsigned int i = 0; i < n; ++i);
+	unsigned int i;
+	for (i = 0; i < n; ++i);
 }
 
 uint32_t *
@@ -133,10 +134,11 @@ gpio_clear_pud(void)
 {
 	GP->PUD = 0;
 	delay_cycles(150);
-	for (uint32_t i = 0; i < 32; ++i) {
+	uint32_t i;
+	for (i = 0; i < 32; ++i) {
 		GP->PUDCLK[0] = (1 << i);
 	}
-	for (uint32_t i = 0; i < 11; ++i) {
+	for (i = 0; i < 11; ++i) {
 		GP->PUDCLK[1] = (1 << i);
 	}
 	delay_cycles(150);
