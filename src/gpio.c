@@ -23,7 +23,8 @@
 
 #include "peripherals.h"
 
-static peripheral_t gpio_peripheral = {GPIO_BASE, GPIO_BLOCK_SIZE, 0, NULL};
+static peripheral_t gpio_peripheral = {PERIPHERAL_BASE + GPIO_OFFSET,
+										GPIO_BLOCK_SIZE, 0, NULL};
 
 static void
 delay_cycles(unsigned int n)

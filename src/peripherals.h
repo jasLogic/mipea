@@ -25,6 +25,14 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#if defined(BCM2835)
+#define	PERIPHERAL_BASE	0x20000000
+#elif defined(BCM2836) || defined(BCM2837)
+#define PERIPHERAL_BASE 0x3F000000
+#else
+#error "No chip specified, please define either BCM2835, BCM2836 or BCM2837"
+#endif
+
 typedef struct {
 	unsigned long v_addr;
 	unsigned int block_size;

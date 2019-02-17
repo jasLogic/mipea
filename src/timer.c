@@ -5,7 +5,8 @@
 
 #include "peripherals.h"
 
-static peripheral_t timer_peripheral = {TIMER_BASE, TIMER_BLOCK_SIZE, 0, NULL};
+static peripheral_t timer_peripheral = {PERIPHERAL_BASE + TIMER_OFFSET,
+                                        TIMER_BLOCK_SIZE, 0, NULL};
 
 uint32_t *
 timer_map(void)

@@ -23,7 +23,7 @@
 
 #include "peripherals.h"
 
-static peripheral_t clock_manager_peripheral = {CLOCK_MANAGER_BASE,
+static peripheral_t clock_manager_peripheral = {PERIPHERAL_BASE + CLOCK_MANAGER_OFFSET,
                                             CLOCK_MANAGER_BLOCK_SIZE, 0, NULL};
 
 uint32_t *

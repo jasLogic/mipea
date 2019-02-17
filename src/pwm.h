@@ -25,7 +25,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define PWM_BASE		0x2020C000
+#define PWM_OFFSET		0x20C000
 #define PWM_BLOCK_SIZE	0x24
 
 volatile uint32_t *pwm_base_ptr;

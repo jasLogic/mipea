@@ -7,7 +7,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define TIMER_BASE          0x20003000
+#define TIMER_OFFSET        0x003000
 #define TIMER_BLOCK_SIZE    0x1C
 
 volatile uint32_t *timer_base_ptr;

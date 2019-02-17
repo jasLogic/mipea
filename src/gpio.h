@@ -25,7 +25,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define GPIO_BASE		0x20200000
+#define GPIO_OFFSET		0x200000
 #define GPIO_BLOCK_SIZE	0xB0
 
 volatile uint32_t *gpio_base_ptr;

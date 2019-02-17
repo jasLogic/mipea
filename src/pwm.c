@@ -24,7 +24,8 @@
 #include "peripherals.h"
 #include "clock_manager.h"
 
-static peripheral_t pwm_peripheral = {PWM_BASE, PWM_BLOCK_SIZE, 0, NULL};
+static peripheral_t pwm_peripheral = {PERIPHERAL_BASE + PWM_OFFSET,
+                                        PWM_BLOCK_SIZE, 0, NULL};
 
 uint32_t *
 pwm_map(void)

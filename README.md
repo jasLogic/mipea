@@ -4,20 +4,35 @@
 
 This library grants easy and fast access to peripherals. The GPIO, PWM and SPI are implemented at the moment.
 
-It was only tested on the Raspberry Pi Zero, but should work on all other Raspberry Pis which use the bcm2835.
-
 Contributions are welcome, please fork and open a pull request.
+
+If you have successfully used mipea on a Raspberry Pi which is not tested yet, please inform me and I can add it to the list.
 
 **Peripherals Implemented at the moment:**
 * GPIO
 * PWM
     * Using the clock manager
 * SPI
+* Timer
 
 **TODO:**
-1. Portability for other Pis
 2. I2C (in progress)
 3. Audio
+
+| Raspberry Pi  | Supported | Tested |
+|---------------|:---------:|:------:|
+| 1 Model A     | ✔︎         | ✘      |
+| 1 Model A+    | ✔︎         | ✘      |
+| 3 Model A+    | ✔︎         | ✘      |
+| 1 Model B     | ✔︎         | ✘      |
+| 1 Model B+    | ✔︎         | ✘      |
+| 2 Model B     | ✔︎         | ✘      |
+| 2 Model Bv1.2 | ✔︎         | ✘      |
+| 3 Model B     | ✔︎         | ✔︎      |
+| 3 Model B+    | ✔︎         | ✘      |
+| Zero v1.2     | ✔︎         | ✖︎      |
+| Zero          | ✔︎         | ✔︎      |
+| Zero W        | ✔︎         | ✘      |
 
 ### Installation
 

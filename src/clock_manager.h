@@ -25,7 +25,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define CLOCK_MANAGER_BASE          0x20101000
+#define CLOCK_MANAGER_OFFSET        0x101000
 #define CLOCK_MANAGER_BLOCK_SIZE    0xA4
 
 #define CM_PASSWD    0x5A000000

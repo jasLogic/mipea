@@ -23,7 +23,8 @@
 
 #include "peripherals.h"
 
-static peripheral_t spi_peripheral = {SPI_BASE, SPI_BLOCK_SIZE, 0, NULL};
+static peripheral_t spi_peripheral = {PERIPHERAL_BASE + SPI_OFFSET,
+                                        SPI_BLOCK_SIZE, 0, NULL};
 
 uint32_t *
 spi_map(void)

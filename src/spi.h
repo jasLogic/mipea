@@ -25,7 +25,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define SPI_BASE		0x20204000
+#define SPI_OFFSET		0x204000
 #define SPI_BLOCK_SIZE	0x14
 
 volatile uint32_t *spi_base_ptr;

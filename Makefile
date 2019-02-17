@@ -3,6 +3,7 @@ INSTALLDIR=/usr/local/lib
 
 PROJECT=mipea
 
+# define your chip here (BCM2835, BCM2836 or BCM2837):
 DEFINES=
 
 CC=gcc
