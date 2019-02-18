@@ -16,8 +16,9 @@ If you have successfully used mipea on a Raspberry Pi which is not tested yet, p
 * Timer
 
 **TODO:**
-2. I2C (in progress)
-3. Audio
+1. I2C (in progress)
+2. DMA (in progress)
+3. PCM
 
 | Raspberry Pi  | Supported | Tested |
 |---------------|:---------:|:------:|
@@ -30,7 +31,7 @@ If you have successfully used mipea on a Raspberry Pi which is not tested yet, p
 | 2 Model Bv1.2 | ✔︎         | ✘      |
 | 3 Model B     | ✔︎         | ✔︎      |
 | 3 Model B+    | ✔︎         | ✘      |
-| Zero v1.2     | ✔︎         | ✖︎      |
+| Zero v1.2     | ✔︎         | ✘      |
 | Zero          | ✔︎         | ✔︎      |
 | Zero W        | ✔︎         | ✘      |
 
