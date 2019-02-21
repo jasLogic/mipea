@@ -38,6 +38,12 @@ If you have successfully used mipea on a Raspberry Pi which is not tested yet, p
 ### Installation
 
 ```
+$ git clone https://github.com/jasLogic/mipea.git
+$ cd mipea
+```
+You now have to edit the `Makefile`. Add to the `DEFINES=` line `-D BCM283x`
+where `x` is 5, 6 or 7 depending on your Raspberry Pi.
+```
 $ make
 $ sudo make install
 ```

@@ -4,7 +4,7 @@ INSTALLDIR=/usr/local/lib
 PROJECT=mipea
 
 # define your chip here (BCM2835, BCM2836 or BCM2837):
-DEFINES=
+DEFINES=-D BCM2835
 
 CC=gcc
 CFLAGS=-Wall -Wextra -g $(DEFINES)
