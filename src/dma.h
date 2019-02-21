@@ -21,12 +21,16 @@
 
 #include <stdint.h>
 
+#include "peripherals.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif//__cplusplus
 
 #define DMA_OFFSET		0x007000 // TODO: add channel 15
 #define DMA_BLOCK_SIZE	0x3FC0 //0xff4
+
+peripheral_t dma_peripheral;
 
 volatile uint32_t *dma_base_ptr;
 

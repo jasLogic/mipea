@@ -23,12 +23,12 @@
 
 #include "peripherals.h"
 
-static peripheral_t dma_peripheral = {PERIPHERAL_BASE + DMA_OFFSET,
-                                        DMA_BLOCK_SIZE, 0, NULL};
-
 uint32_t *
 dma_map(void)
 {
+    dma_peripheral = (peripheral_t) {PERIPHERAL_BASE + DMA_OFFSET,
+                                        DMA_BLOCK_SIZE, 0, NULL};
+
     if (peripheral_map(&dma_peripheral) == NULL) {
 		return NULL;
 	}
