@@ -48,7 +48,7 @@ struct clock_manager_register_map {
     uint32_t PWMCTL;
     uint32_t PWMDIV;
 };
-#define CM      ((struct clock_manager_register_map *)clock_manager_base_ptr + 7)
+#define CM  ((struct clock_manager_register_map *)(clock_manager_base_ptr + 28))
 
 typedef enum {
     CLOCK_GND,
