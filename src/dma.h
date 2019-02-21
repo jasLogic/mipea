@@ -23,10 +23,10 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif//__cplusplus
 
 #define DMA_OFFSET		0x007000 // TODO: add channel 15
-#define DMA_BLOCK_SIZE	0x3FC0
+#define DMA_BLOCK_SIZE	0x3FC0 //0xff4
 
 volatile uint32_t *dma_base_ptr;
 
@@ -59,9 +59,12 @@ struct dma_channel_register_map {
 
 struct dma_register_map {
     uint32_t INT_STATUS;
+    uint32_t: 32;
+    uint32_t: 32;
+    uint32_t: 32;
     uint32_t ENABLE;
 };
-#define DMA     ((struct dma_register_map *)dma_base_ptr + 0x3fc)
+#define DMA     ((struct dma_register_map *)dma_base_ptr + 0x3f8)
 
 typedef struct {
     uint32_t TI;
@@ -70,8 +73,8 @@ typedef struct {
     uint32_t TXFR_LEN;
     uint32_t STRIDE;
     uint32_t NEXTCONBK;
-    uint32_t:32; // not needed?
-    uint32_t:32;
+    uint32_t: 32; // not needed?
+    uint32_t: 32;
 } dma_cb_t;
 
 uint32_t *  dma_map(void);
@@ -79,6 +82,6 @@ void        dma_unmap(void);
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#endif /* _DMA_H_ */
+#endif//_DMA_H_
