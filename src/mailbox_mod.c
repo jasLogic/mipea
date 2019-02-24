@@ -50,7 +50,7 @@ mbox_open(void)
     int fd;
     if ((fd = open(DEVICE_FILE_NAME, 0)) < 0) {
         perror("Can't open device file: /dev/vcio");
-        exit(-1);
+        return -1;
     }
     return fd;
 }

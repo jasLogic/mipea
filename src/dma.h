@@ -27,8 +27,10 @@
 extern "C" {
 #endif//__cplusplus
 
+#define	PERIPHERAL_BASE_PHY	0x7E000000
+
 #define DMA_OFFSET		0x007000 // TODO: add channel 15
-#define DMA_BLOCK_SIZE	0x3FC0 //0xff4
+#define DMA_BLOCK_SIZE	0xff4
 
 peripheral_t dma_peripheral;
 
@@ -81,8 +83,22 @@ typedef struct {
     uint32_t: 32;
 } dma_cb_t;
 
+typedef struct {
+    uint32_t handle;
+    uint32_t bus_addr;
+    void *mem;
+    unsigned int size;
+} dma_phy_mem_blk_t;
+
 uint32_t *  dma_map(void);
 void        dma_unmap(void);
+
+uint32_t dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr);
+
+void dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size);
+void dma_free_phy_mem(dma_phy_mem_blk_t *block);
+
+int __mbox_fd;
 
 #ifdef __cplusplus
 }
