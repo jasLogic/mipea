@@ -90,8 +90,26 @@ typedef struct {
     unsigned int size;
 } dma_phy_mem_blk_t;
 
+typedef struct {
+    struct dma_channel_register_map *channel;
+    union {
+        struct {
+            uint32_t DISDEBUG: 1;
+            uint32_t WTOUTWRT: 1; // wait for outstanding writes
+            uint32_t: 4; // reserved
+            uint32_t PANIC_PRIORITY: 4;
+            uint32_t PRIOTITY: 4;
+        };
+        uint32_t cs_register;
+    };
+} dma_channel_config_t;
+
 uint32_t *  dma_map(void);
 void        dma_unmap(void);
+
+void    dma_configure(dma_channel_config_t *config);
+void    dma_enable(struct dma_channel_register_map *channel);
+void    dma_disable(struct dma_channel_register_map *channel);
 
 uint32_t dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr);
 
@@ -100,7 +118,7 @@ void dma_free_phy_mem(dma_phy_mem_blk_t *block);
 
 int __mbox_fd;
 
-#ifdef __cplusplus
+#ifdef  __cplusplus
 }
 #endif//__cplusplus
 

@@ -20,7 +20,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <string.h>
+#include <stdio.h>
 
 #include "peripherals.h"
 #include "mailbox_mod.h"
@@ -43,12 +43,27 @@ dma_map(void)
 
 	return (uint32_t *)dma_base_ptr;
 }
-
 void
 dma_unmap(void)
 {
     peripheral_unmap(&dma_peripheral);
     mbox_close(__mbox_fd); // close it again too
+}
+
+void
+dma_configure(dma_channel_config_t *config)
+{
+    config->channel->CS = config->cs_register << 16;
+}
+void
+dma_enable(struct dma_channel_register_map *channel)
+{
+    channel->CS |= 1;
+}
+void
+dma_disable(struct dma_channel_register_map *channel)
+{
+    channel->CS &= ~1;
 }
 
 uint32_t
@@ -61,11 +76,12 @@ dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr)
 void
 dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size)
 {
-    block->size = (size / PAGE_SIZE + 1) * 4096; // auf 4096 runden TODO: implement in mbox_alloc
-    block->handle = mbox_alloc(__mbox_fd, block->size, PAGE_SIZE, MEM_FLAG_L1_NONALLOCATING);
+    //block->size = (size / PAGE_SIZE + 1) * 4096; // round to 4096
+    block->size = size; // I'm not sure if rounding to 4096 is necessary, works without it for me
+    block->handle = mbox_alloc(__mbox_fd, block->size, PAGE_SIZE,
+        MEM_FLAG_L1_NONALLOCATING | MEM_FLAG_ZERO);
     block->bus_addr = mbox_lock(__mbox_fd, block->handle);
     block->mem = mbox_map(BUS_TO_PHYS(block->bus_addr), block->size);
-    memset(block->mem, 0, block->size); // TODO: with flag in mbox_alloc
 }
 
 void

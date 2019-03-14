@@ -30,6 +30,7 @@ uint32_t *
 peripheral_map(peripheral_t *per)
 {
 	if ((per->mem_fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
+		fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
 		perror("Failed to open '/dev/mem'");
 		return NULL;
 	}
@@ -38,6 +39,7 @@ peripheral_map(peripheral_t *per)
 					per->mem_fd, per->v_addr);
 
 	if (per->map == MAP_FAILED) {
+		fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
 		perror("Failed mmaping peripheral");
 		close(per->mem_fd);
 		return NULL;
@@ -50,6 +52,7 @@ void
 peripheral_unmap(peripheral_t *per)
 {
 	if (munmap(per->map, per->block_size) == -1) {
+		fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
 		perror("Failed munmapping peripheral");
 	}
 	close(per->mem_fd);

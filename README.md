@@ -14,10 +14,11 @@ If you have successfully used mipea on a Raspberry Pi which is not tested yet, p
     * Using the clock manager
 * SPI
 * Timer
+* DMA
+    * with a modified mailbox
 
 **TODO:**
 1. I2C (in progress)
-2. DMA (in progress)
 3. PCM
 
 | Raspberry Pi  | Supported | Tested |
