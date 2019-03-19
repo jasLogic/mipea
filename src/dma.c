@@ -28,25 +28,19 @@
 uint32_t *
 dma_map(void)
 {
-    dma_peripheral = (peripheral_t) {PERIPHERAL_BASE + DMA_OFFSET,
-                                        DMA_BLOCK_SIZE, 0, NULL};
-
-    if (peripheral_map(&dma_peripheral) == NULL) {
-		return NULL;
-	}
-	dma_base_ptr = (volatile uint32_t *)dma_peripheral.map;
-
     // open /dev/vcio which is used in mailbox
     if ((__mbox_fd = mbox_open()) < 0) {
         return NULL;
     }
 
-	return (uint32_t *)dma_base_ptr;
+    dma_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
+        DMA_OFFSET, DMA_SIZE);
+    return (uint32_t *)dma_base_ptr;
 }
 void
 dma_unmap(void)
 {
-    peripheral_unmap(&dma_peripheral);
+    peripheral_unmap((uint32_t *)dma_base_ptr, DMA_SIZE);
     mbox_close(__mbox_fd); // close it again too
 }
 

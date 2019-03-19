@@ -23,10 +23,10 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif//__cplusplus
 
 #define GPIO_OFFSET		0x200000
-#define GPIO_BLOCK_SIZE	0xB0
+#define GPIO_SIZE		0xB0
 
 volatile uint32_t *gpio_base_ptr;
 
@@ -82,6 +82,6 @@ void gpio_clear_pud(void);
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#endif /* _GPIO_H_ */
+#endif//_GPIO_H_

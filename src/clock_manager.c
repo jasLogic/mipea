@@ -23,23 +23,18 @@
 
 #include "peripherals.h"
 
-static peripheral_t clock_manager_peripheral = {PERIPHERAL_BASE + CLOCK_MANAGER_OFFSET,
-                                            CLOCK_MANAGER_BLOCK_SIZE, 0, NULL};
-
 uint32_t *
 clock_map(void)
 {
-    if (peripheral_map(&clock_manager_peripheral) == NULL) {
-		return NULL;
-	}
-	clock_manager_base_ptr = (volatile uint32_t *)clock_manager_peripheral.map;
-	return (uint32_t *)clock_manager_base_ptr;
+    clock_manager_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE
+        + CLOCK_MANAGER_OFFSET, CLOCK_MANAGER_SIZE);
+    return (uint32_t *)clock_manager_base_ptr;
 }
 
 void
 clock_unmap(void)
 {
-    peripheral_unmap(&clock_manager_peripheral);
+    peripheral_unmap((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE);
 }
 
 
@@ -53,9 +48,9 @@ void
 clock_disable(volatile uint32_t *reg)
 {
     if (*reg & 0x80) {
-		/* *reg |= CM_PASSWD | (1 << 5); // Kill clock? */
-		*reg = CM_PASSWD | (*reg & ~0x10); /* Disable clock */
-		while(*reg & 0x80); /* Wait for busy flag to turn off */
+		// *reg |= CM_PASSWD | (1 << 5); // Kill clock?
+		*reg = CM_PASSWD | (*reg & ~0x10); // Disable clock
+		while(*reg & 0x80); // Wait for busy flag to turn off
 	}
 }
 

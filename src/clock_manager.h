@@ -23,10 +23,10 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#define CLOCK_MANAGER_OFFSET        0x101000
-#define CLOCK_MANAGER_BLOCK_SIZE    0xA4
+#define CLOCK_MANAGER_OFFSET    0x101000
+#define CLOCK_MANAGER_SIZE      0xA4
 
 #define CM_PASSWD    0x5A000000
 
@@ -71,6 +71,6 @@ void clock_configure(volatile uint32_t *reg, clock_source_t src,
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#endif /* _CLOCK_MANAGER_H_ */
+#endif//_CLOCK_MANAGER_H_

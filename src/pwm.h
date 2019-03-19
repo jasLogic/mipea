@@ -23,10 +23,10 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#define PWM_OFFSET		0x20C000
-#define PWM_BLOCK_SIZE	0x24
+#define PWM_OFFSET  0x20C000
+#define PWM_SIZE	0x24
 
 volatile uint32_t *pwm_base_ptr;
 
@@ -34,11 +34,11 @@ struct pwm_register_map {
     uint32_t CTL;
     uint32_t STA;
     uint32_t DMAC;
-    uint32_t: 32;   /* address not implemented */
+    uint32_t: 32;   // address not implemented
     uint32_t RNG1;
     uint32_t DAT1;
     uint32_t FIF1;
-    uint32_t: 32;   /* address not implemented */
+    uint32_t: 32;   // address not implemented
     uint32_t RNG2;
     uint32_t DAT2;
 };
@@ -57,13 +57,13 @@ typedef struct {
     pwm_channel_t channel;
     union {
         struct {
-            uint32_t: 1;        /* use pwm_enable / pwm_disable */
+            uint32_t: 1;        // use pwm_enable / pwm_disable
             uint32_t mode: 1;
             uint32_t rptl: 1;
             uint32_t sbit: 1;
             uint32_t pola: 1;
             uint32_t usef: 1;
-            uint32_t: 1;        /* unimplemented / unused */
+            uint32_t: 1;        // unimplemented / unused
             uint32_t msen: 1;
         };
         uint32_t ctl_register;
@@ -79,7 +79,7 @@ void pwm_enable(pwm_channel_t channel);
 void pwm_disable(pwm_channel_t channel);
 void pwm_configure(pwm_channel_config_t *config);
 
-/* ----- CTL Register bit values ----- */
+/******* CTL Register bit values *******/
 #define PWM_CTL_MODE_PWM        0x0
 #define PWM_CTL_MODE_SERIALISER 0x1
 #define PWM_RPTL_STOP   0x0
@@ -95,6 +95,6 @@ void pwm_configure(pwm_channel_config_t *config);
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#endif /* _PWM_H_ */
+#endif//_PWM_H_

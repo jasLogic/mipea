@@ -44,11 +44,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 
+#define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
+    __LINE__, __func__)
+
 int
 mbox_open(void)
 {
     int fd;
     if ((fd = open(DEVICE_FILE_NAME, 0)) < 0) {
+        perror_inf();
         perror("Can't open device file: /dev/vcio");
         return -1;
     }
@@ -182,14 +186,14 @@ mbox_map(uint32_t addr, unsigned int size)
 
     int fd;
     if ((fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
-        fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
-        perror("Failed to open '/dev/mem'");
+        perror_inf();
+        perror("Failed to open \"/dev/mem\"");
 		return NULL;
     }
 
     void *map = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, addr);
     if (map == MAP_FAILED) {
-        fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
+        perror_inf();
 		perror("Failed mmaping peripheral");
         close(fd);
 		return NULL;
@@ -207,7 +211,7 @@ mbox_unmap(void *ptr, unsigned int size)
     size += offset;
 
     if (munmap(ptr, size) == -1) {
-        fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
+        perror_inf();
 		perror("Failed to munmap");
 	}
 }

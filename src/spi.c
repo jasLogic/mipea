@@ -23,23 +23,19 @@
 
 #include "peripherals.h"
 
-static peripheral_t spi_peripheral = {PERIPHERAL_BASE + SPI_OFFSET,
-                                        SPI_BLOCK_SIZE, 0, NULL};
-
 uint32_t *
 spi_map(void)
 {
-    if (peripheral_map(&spi_peripheral) == NULL) {
-		return NULL;
-	}
-	spi_base_ptr = (volatile uint32_t *)spi_peripheral.map;
-	return (uint32_t *)spi_base_ptr;
+    spi_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
+        SPI_OFFSET, SPI_SIZE);
+
+    return (uint32_t *)spi_base_ptr;
 }
 
 void
 spi_unmap(void)
 {
-    peripheral_unmap(&spi_peripheral);
+    peripheral_unmap((uint32_t *)spi_base_ptr, SPI_SIZE);
 }
 
 void

@@ -23,10 +23,10 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#define SPI_OFFSET		0x204000
-#define SPI_BLOCK_SIZE	0x14
+#define SPI_OFFSET  0x204000
+#define SPI_SIZE	0x14
 
 volatile uint32_t *spi_base_ptr;
 
@@ -43,17 +43,17 @@ struct spi_register_map {
 typedef struct {
     union {
         struct {
-            uint32_t cs: 2;     /* cs = chip select */
+            uint32_t cs: 2;     // cs = chip select
             uint32_t cpha: 1;
             uint32_t cpol: 1;
-            uint32_t: 2;        /* unimplemented / unused -> must be zero */
-            uint32_t cspol: 1;  /* Not changing anything? */
-            uint32_t: 14;       /* unimplemented / unused -> must be zero */
+            uint32_t: 2;        // unimplemented / unused -> must be zero
+            uint32_t cspol: 1;  // Not changing anything?
+            uint32_t: 14;       // unimplemented / unused -> must be zero
             uint32_t cspol0: 1;
             uint32_t cspol1: 1;
             uint32_t cspol2: 1;
         };
-        uint32_t cs_register;   /* cs = conntrol and status */
+        uint32_t cs_register;   // cs = conntrol and status
     };
 
     uint16_t divisor;
@@ -78,11 +78,11 @@ extern uint8_t  spi_send2_recv1(uint8_t data0, uint8_t data1);
 #define SPI_CPHA_CLK_MIDDLE     0x1
 #define SPI_CPOL_RESET_LOW  0x0
 #define SPI_CPOL_RESET_HIGH 0x1
-#define SPI_CSPOL_ACTIVE_LOW    0x0 /* can also be used for CSPOL0, 1 or 2 */
+#define SPI_CSPOL_ACTIVE_LOW    0x0 // can also be used for CSPOL0, 1 or 2
 #define SPI_CSPOL_ACTIVE_HIGH   0x1
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#endif /* _SPI_H_ */
+#endif//_SPI_H_

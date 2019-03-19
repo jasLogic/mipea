@@ -23,9 +23,6 @@
 
 #include "peripherals.h"
 
-static peripheral_t gpio_peripheral = {PERIPHERAL_BASE + GPIO_OFFSET,
-										GPIO_BLOCK_SIZE, 0, NULL};
-
 static void
 delay_cycles(unsigned int n)
 {
@@ -36,12 +33,13 @@ delay_cycles(unsigned int n)
 uint32_t *
 gpio_map(void)
 {
-	if (peripheral_map(&gpio_peripheral) == NULL) {
+	gpio_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
+		GPIO_OFFSET, GPIO_SIZE);
+	if (gpio_base_ptr == NULL) {
 		return NULL;
 	}
-	gpio_base_ptr = (volatile uint32_t *)gpio_peripheral.map;
 
-	gpio_clear_pud(); /* Clear all pullup / -downs */
+	gpio_clear_pud(); // clear all pullup / -downs
 
 	return (uint32_t *)gpio_base_ptr;
 }
@@ -49,14 +47,14 @@ gpio_map(void)
 void
 gpio_unmap(void)
 {
-	gpio_clear_pud(); /* Clear all pullup / -downs */
-	peripheral_unmap(&gpio_peripheral);
+	gpio_clear_pud(); // clear all pullup / -downs
+	peripheral_unmap((void *)gpio_base_ptr, GPIO_SIZE);
 }
 
 void
 gpio_func(uint32_t pin, pin_functions_t function)
 {
-	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); /* clear the 3 bits */
+	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); // clear the 3 bits
 
 	switch(function) {
 		case INPUT:
@@ -102,7 +100,7 @@ gpio_clr(uint32_t pin)
 inline uint32_t
 gpio_tst(uint32_t pin)
 {
-	return GP->LEV[pin / 32] & (1 << (pin % 32));
+	return GP->LEV[pin / 32] &= (1 << (pin % 32));
 }
 
 void
@@ -126,7 +124,7 @@ gpio_inp(uint32_t pin)
 void
 gpio_out(uint32_t pin)
 {
-	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); /* clear the 3 bits first */
+	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); // clear the 3 bits first
 	GP->FSEL[pin / 10] |= (1 << ((pin % 10) * 3));
 }
 

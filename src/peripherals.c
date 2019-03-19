@@ -26,34 +26,39 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+#define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
+	__LINE__, __func__)
+
 uint32_t *
-peripheral_map(peripheral_t *per)
+peripheral_map(uint32_t addr, uint32_t size)
 {
-	if ((per->mem_fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
-		fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
-		perror("Failed to open '/dev/mem'");
+	int fd;
+	void *map;
+
+	if ((fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
+		perror_inf();
+		perror("Failed to open \"/dev/mem\"");
 		return NULL;
 	}
 
-	per->map = mmap(NULL, per->block_size, PROT_READ|PROT_WRITE, MAP_SHARED,
-					per->mem_fd, per->v_addr);
+	map = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, addr);
 
-	if (per->map == MAP_FAILED) {
-		fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
+	if (map == MAP_FAILED) {
+		perror_inf();
 		perror("Failed mmaping peripheral");
-		close(per->mem_fd);
+		close(fd);
 		return NULL;
 	}
 
-	return per->map;
+	close(fd);
+	return map;
 }
 
 void
-peripheral_unmap(peripheral_t *per)
+peripheral_unmap(void* map, uint32_t size)
 {
-	if (munmap(per->map, per->block_size) == -1) {
-		fprintf(stderr, "%s:%d: In function %s:\n", __FILE__, __LINE__, __func__);
+	if (munmap(map, size) == -1) {
+		perror_inf();
 		perror("Failed munmapping peripheral");
 	}
-	close(per->mem_fd);
 }

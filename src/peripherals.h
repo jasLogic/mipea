@@ -23,7 +23,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif//__cplusplus
 
 #if defined(BCM2835)
 #define	PERIPHERAL_BASE	0x20000000
@@ -33,18 +33,11 @@ extern "C" {
 #error "No chip specified, please define either BCM2835, BCM2836 or BCM2837"
 #endif
 
-typedef struct {
-	unsigned long v_addr;
-	unsigned int block_size;
-	int mem_fd;
-	void *map;
-} peripheral_t;
-
-uint32_t *	peripheral_map(peripheral_t *per);
-void 		peripheral_unmap(peripheral_t *per);
+uint32_t *	peripheral_map(uint32_t addr, uint32_t size);
+void 		peripheral_unmap(void* map, uint32_t size);
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#endif /* _PERIPHERALS_H_ */
+#endif//_PERIPHERALS_H_
