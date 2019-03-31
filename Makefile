@@ -1,5 +1,6 @@
 SHELL=/bin/bash
 INSTALLDIR=/usr/local/lib
+HEADERDIR=/usr/local/include
 
 PROJECT=mipea
 
@@ -32,12 +33,14 @@ install: lib$(PROJECT).so.0.0
 	cp lib$(PROJECT).so.0.0 $(INSTALLDIR)
 	$(LDCONFIG) $(LDCONFIGFLAGS)
 	ln -sf $(INSTALLDIR)/lib$(PROJECT).so.0 $(INSTALLDIR)/libmipea.so
-	cp $(HEADERS) $(INSTALLDIR)/../include
+	mkdir -p $(HEADERDIR)/$(PROJECT)
+	cp $(HEADERS) $(HEADERDIR)/$(PROJECT)
 
 .PHONY: uninstall
 uninstall:
 	rm -f $(INSTALLDIR)/lib$(PROJECT).so*
-	rm -f $(patsubst src/%,$(INSTALLDIR)/../include/%,$(HEADERS))
+	rm -f $(patsubst src/%,$(HEADERDIR)/$(PROJECT)/%,$(HEADERS))
+	rm -f -r $(HEADERDIR)/$(PROJECT)
 
 .PHONY: clean
 clean:
