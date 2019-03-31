@@ -1,5 +1,5 @@
 /*
- * peripherals.h
+ * mipea.c
  * Copyright (C) 2018  jasLogic
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,30 +16,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef _PERIPHERALS_H_
-#define _PERIPHERALS_H_
+ #include "mipea.h"
 
-#include <stdint.h>
+ int
+ mipea_map(void)
+ {
+     if (!dma_map() || !gpio_map() || !pwm_map() || !spi_map()
+        || !timer_map()) {
+        return -1;
+    }
+    return 1;
+ }
 
-#ifdef __cplusplus
-extern "C" {
-#endif//__cplusplus
-
-#if defined(BCM2835)
-#define	PERIPHERAL_BASE	0x20000000
-#elif defined(BCM2836) || defined(BCM2837)
-#define PERIPHERAL_BASE 0x3F000000
-#else
-#error "No chip specified, please define either BCM2835, BCM2836 or BCM2837"
-#endif
-
-uint32_t *	peripheral_map(uint32_t addr, uint32_t size);
-void 		peripheral_unmap(void* map, uint32_t size);
-
-int			peripheral_ismapped(void *map, uint32_t size);
-
-#ifdef __cplusplus
-}
-#endif//__cplusplus
-
-#endif//_PERIPHERALS_H_
+ void
+ mipea_unmap(void)
+ {
+     dma_unmap();
+     gpio_unmap();
+     pwm_unmap();
+     spi_unmap();
+     timer_unmap();
+ }

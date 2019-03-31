@@ -26,8 +26,8 @@
  #include <stdint.h>
  #include <unistd.h>
 
- #include "gpio.h"
- #include "spi.h"
+ #include <gpio.h>
+ #include <spi.h>
 
  union spi_mcp3002_transfer {
     struct {

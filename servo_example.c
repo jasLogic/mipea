@@ -25,8 +25,8 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#include "gpio.h"
-#include "pwm.h"
+#include <gpio.h>
+#include <pwm.h>
 
 int
 main(void)

@@ -8,8 +8,10 @@
 uint32_t *
 timer_map(void)
 {
-    timer_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
-        TIMER_OFFSET, TIMER_SIZE);
+    if (!peripheral_ismapped((uint32_t *)timer_base_ptr, TIMER_SIZE)) {
+        timer_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
+            TIMER_OFFSET, TIMER_SIZE);
+    }
     return (uint32_t *)timer_base_ptr;
 }
 

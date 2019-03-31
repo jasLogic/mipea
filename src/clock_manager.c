@@ -26,8 +26,10 @@
 uint32_t *
 clock_map(void)
 {
-    clock_manager_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE
-        + CLOCK_MANAGER_OFFSET, CLOCK_MANAGER_SIZE);
+    if (!peripheral_ismapped((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE)) {
+        clock_manager_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE
+            + CLOCK_MANAGER_OFFSET, CLOCK_MANAGER_SIZE);
+    }
     return (uint32_t *)clock_manager_base_ptr;
 }
 

@@ -27,12 +27,14 @@
 uint32_t *
 pwm_map(void)
 {
-    if (clock_map() == NULL) {
-        return NULL;
-    }
+    if (!peripheral_ismapped((uint32_t *)pwm_base_ptr, PWM_SIZE)) {
+        if (clock_map() == NULL) {
+            return NULL;
+        }
 
-    pwm_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
-        PWM_OFFSET, PWM_SIZE);
+        pwm_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
+            PWM_OFFSET, PWM_SIZE);
+    }
     return (uint32_t *)pwm_base_ptr;
 }
 

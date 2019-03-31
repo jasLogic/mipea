@@ -28,13 +28,15 @@
 uint32_t *
 dma_map(void)
 {
-    // open /dev/vcio which is used in mailbox
-    if ((__mbox_fd = mbox_open()) < 0) {
-        return NULL;
-    }
+    if (!peripheral_ismapped((uint32_t *)dma_base_ptr, DMA_SIZE)) {
+        // open /dev/vcio which is used in mailbox
+        if ((__mbox_fd = mbox_open()) < 0) {
+            return NULL;
+        }
 
-    dma_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
-        DMA_OFFSET, DMA_SIZE);
+        dma_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
+            DMA_OFFSET, DMA_SIZE);
+    }
     return (uint32_t *)dma_base_ptr;
 }
 void

@@ -55,10 +55,19 @@ peripheral_map(uint32_t addr, uint32_t size)
 }
 
 void
-peripheral_unmap(void* map, uint32_t size)
+peripheral_unmap(void *map, uint32_t size)
 {
 	if (munmap(map, size) == -1) {
 		perror_inf();
 		perror("Failed munmapping peripheral");
 	}
+}
+
+int
+peripheral_ismapped(void *map, uint32_t size)
+{
+	if (msync(map, size, 0) == -1) {
+		return 0;
+	}
+	return 1;
 }

@@ -33,14 +33,15 @@ delay_cycles(unsigned int n)
 uint32_t *
 gpio_map(void)
 {
-	gpio_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
-		GPIO_OFFSET, GPIO_SIZE);
-	if (gpio_base_ptr == NULL) {
-		return NULL;
+	if (!peripheral_ismapped((void *)gpio_base_ptr, GPIO_SIZE)) {
+		gpio_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
+			GPIO_OFFSET, GPIO_SIZE);
+		if (gpio_base_ptr == NULL) {
+			return NULL;
+		}
+
+		gpio_clear_pud(); // clear all pullup / -downs
 	}
-
-	gpio_clear_pud(); // clear all pullup / -downs
-
 	return (uint32_t *)gpio_base_ptr;
 }
 
