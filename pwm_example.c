@@ -1,5 +1,5 @@
 /*
- * servo_example.c
+ * pwm_example.c
  * Copyright (C) 2018  jasLogic
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,16 @@
 
 /*
  * To compile use:
- * gcc -o servo_example servo_example.c -lmipea
+ * gcc -o pwm_example pwm_example.c -lmipea
+ */
+
+/*
+ * Although you can drive one or two servos using this library and PWM it is now
+ * possible to drive more. You could of course use `usleep()` but this is
+ * not recommended, as it is not very accurate. Instead you could use my
+ * mipea_servo library (https://github.com/jasLogic/mipea_servo)
+ * which makes use of DMA and PWM to archieve a **very** accurate pulse
+ * without CPU usage.
  */
 
 #include <stdio.h>

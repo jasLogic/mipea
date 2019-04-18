@@ -30,7 +30,8 @@ dma_map(void)
 {
     if (!peripheral_ismapped((uint32_t *)dma_base_ptr, DMA_SIZE)) {
         // open /dev/vcio which is used in mailbox
-        if ((__mbox_fd = mbox_open()) < 0) {
+        __mbox_fd = mbox_open();
+        if (__mbox_fd < 0) {
             return NULL;
         }
 
@@ -72,8 +73,7 @@ dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr)
 void
 dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size)
 {
-    //block->size = (size / PAGE_SIZE + 1) * 4096; // round to 4096
-    block->size = size; // I'm not sure if rounding to 4096 is necessary, works without it for me
+    block->size = (size / PAGE_SIZE + 1) * 4096; // round to 4096
     block->handle = mbox_alloc(__mbox_fd, block->size, PAGE_SIZE,
         MEM_FLAG_L1_NONALLOCATING | MEM_FLAG_ZERO);
     block->bus_addr = mbox_lock(__mbox_fd, block->handle);

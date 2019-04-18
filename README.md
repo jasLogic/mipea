@@ -60,6 +60,14 @@ Now you can use the registers or the provided functions.
 #### Compile and link
 `gcc -Wall -o [outputfile] [your program].c -lmipea`
 
+### Servos
+Although you can drive one or two servos using this library and PWM it is now
+possible to drive more. You could of course use `usleep()` but this is
+not recommended, as it is not very accurate. Instead you could use my
+[mipea_servo library](https://github.com/jasLogic/mipea_servo)
+which makes use of DMA and PWM to archieve a **very** accurate pulse
+without CPU usage.
+
 ## Sources and useful documentation
 
 * bcm2835_peripherals.h and bcm2835_peripherals.c are highly inspired by [Pieter Jan](http://pieter-jan.com/)'s ["Low Level Programming of the Raspberry Pi in C"](http://pieter-jan.com/node/15).

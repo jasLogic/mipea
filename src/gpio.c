@@ -101,7 +101,7 @@ gpio_clr(uint32_t pin)
 inline uint32_t
 gpio_tst(uint32_t pin)
 {
-	return GP->LEV[pin / 32] &= (1 << (pin % 32));
+	return GP->LEV[pin / 32] & (1 << (pin % 32));
 }
 
 void

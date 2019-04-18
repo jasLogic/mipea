@@ -79,7 +79,7 @@ mbox_alloc(int fd, unsigned int size, unsigned int align, unsigned int flags)
         uint32_t end_tag;
     };
 
-    struct request_alloc request;
+    volatile struct request_alloc __attribute__((aligned(16))) request;
     request.buffer.size = sizeof(struct request_alloc);
     request.buffer.req_code = 0;
     request.buffer.tag.id = 0x0003000c;
@@ -108,7 +108,7 @@ mbox_free(int fd, uint32_t handle)
         uint32_t end_tag;
     };
 
-    struct request_release request;
+    volatile struct request_release __attribute__((aligned(16))) request;
     request.buffer.size = sizeof(struct request_release);
     request.buffer.req_code = 0;
     request.buffer.tag.id = 0x0003000f;
@@ -135,7 +135,7 @@ mbox_lock(int fd, uint32_t handle)
         uint32_t end_tag;
     };
 
-    struct request_lock request;
+    volatile struct request_lock __attribute__((aligned(16))) request;
     request.buffer.size = sizeof(struct request_lock);
     request.buffer.req_code = 0;
     request.buffer.tag.id = 0x0003000d;
@@ -162,7 +162,7 @@ mbox_unlock(int fd, uint32_t handle)
         uint32_t end_tag;
     };
 
-    struct request_unlock request;
+    volatile struct request_unlock __attribute__((aligned(16))) request;
     request.buffer.size = sizeof(struct request_unlock);
     request.buffer.req_code = 0;
     request.buffer.tag.id = 0x0003000e;
