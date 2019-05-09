@@ -83,7 +83,7 @@ pwm_configure(pwm_channel_config_t *config)
 
     } else {
         PWM->CTL &= ~0xff00; // clear all pwm1 bits
-        PWM->CTL |= config->ctl_register;
+        PWM->CTL |= config->ctl_register << 8;
 
         PWM->RNG2 = config->range;
     }

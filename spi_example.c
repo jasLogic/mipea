@@ -22,19 +22,19 @@
  * gcc -o spi_example -Wall spi_example.c -lmipea
  */
 
- #include <stdio.h>
- #include <stdint.h>
- #include <unistd.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <unistd.h>
 
- #include <mipea/gpio.h>
- #include <mipea/spi.h>
+#include <mipea/gpio.h>
+#include <mipea/spi.h>
 
- union spi_mcp3002_transfer {
+union spi_mcp3002_transfer {
     struct {
-        uint8_t: 4; /* Don't care */
-        uint8_t odd: 1;  /* ODD/!SGN bit */
-        uint8_t sgl: 1;  /* SGL/!DIFF bit */
-        uint8_t lst: 2;  /* Leading zero and starting bit */
+        uint8_t: 4; // Don't care
+        uint8_t odd: 1;  // ODD/!SGN bit
+        uint8_t sgl: 1;  // SGL/!DIFF bit
+        uint8_t lst: 2;  // Leading zero and starting bit
     };
     uint8_t val;
 };
@@ -42,16 +42,16 @@
 int
 main(void)
 {
-    if (gpio_map() == NULL || spi_map() == NULL) { /* map peripherals */
-        return 1; /* return if mapping fails */
+    if (gpio_map() == NULL || spi_map() == NULL) { // map peripherals
+        return 1; // return if mapping fails
     }
 
-    uint32_t sclk = 11;    /* connected to CLK */
-	uint32_t mosi = 10;    /* connected to D_in */
-	uint32_t miso = 9;     /* connected to D_out */
-	uint32_t ce0 = 8;      /* connected to !CS/SHDN */
+    uint32_t sclk = 11;    // connected to CLK
+	uint32_t mosi = 10;    // connected to D_in
+	uint32_t miso = 9;     // connected to D_out
+	uint32_t ce0 = 8;      // connected to !CS/SHDN
 
-    /* tell the GPIOs to use SPI on them */
+    // tell the GPIOs to use SPI on them
 	gpio_func(sclk, ALT0);
 	gpio_func(mosi, ALT0);
 	gpio_func(miso, ALT0);
@@ -63,9 +63,9 @@ main(void)
              * but else the compiler gives a warning
              * because of the way 'spi_channel_config_t' is implemented
              */
-    		SPI_CS_CE0,             /* which chip enable line to use */
-            SPI_CPHA_CLK_BEGINNING, /* data on clock leading or trailing edge */
-            SPI_CPOL_RESET_LOW,     /* clock polarity: rest state low or high */
+    		SPI_CS_CE0,             // which chip enable line to use
+            SPI_CPHA_CLK_BEGINNING, // data on clock leading or trailing edge
+            SPI_CPOL_RESET_LOW,     // clock polarity: rest state low or high
             SPI_CSPOL_ACTIVE_LOW,   /*
                                      * chip select polarity: active low or high
                                      * -> I tested this on CE0 and CE1 and
@@ -74,9 +74,9 @@ main(void)
                                      * But I would set this bit anyway just to
                                      * be save.
                                      */
-            SPI_CSPOL_ACTIVE_LOW,    /* CE0 polarity: active low or high */
-            SPI_CSPOL_ACTIVE_LOW,    /* CE1 similar to CE0 */
-            SPI_CSPOL_ACTIVE_LOW,    /* CE2 similar to CE0 */
+            SPI_CSPOL_ACTIVE_LOW,    // CE0 polarity: active low or high
+            SPI_CSPOL_ACTIVE_LOW,    // CE1 similar to CE0
+            SPI_CSPOL_ACTIVE_LOW,    // CE2 similar to CE0
         }},
         1000    /*
                  * clock divisor: the RaspberryPi Zero runs at 1GHz and the
@@ -90,7 +90,7 @@ main(void)
 	spi_configure(&conf);
 
     union spi_mcp3002_transfer t;
-    t.lst = 0b01; /* Leading zero and starting bit */
+    t.lst = 0b01; // Leading zero and starting bit
     t.sgl = 1;
     t.odd = 0;
 
@@ -104,10 +104,10 @@ main(void)
 
     while(adc > 1) {
         adc = 0x300;
-        spi_transfer_start();           /* Start a new transfer -> CS */
-        adc &= spi_transfer_byte(t.val) << 8; /* Transfer the first byte */
-                                             /* and return the MS 2 bits */
-        adc |= spi_transfer_byte(0); /* Send don't care and recive the last byte */
+        spi_transfer_start();           // Start a new transfer -> CS */
+        adc &= spi_transfer_byte(t.val) << 8; // Transfer the first byte
+                                              // and return the MS 2 bits
+        adc |= spi_transfer_byte(0); // Send don't care and recive the last byte
         spi_transfer_stop();
 
         printf("ADC: %d\n", adc);
