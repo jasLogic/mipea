@@ -2,13 +2,14 @@
 #define _I2C_H_
 
 #include <stdint.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-#define I2C_BASE        0x20804000 /* BSC1 */
-#define I2C_BLOCK_SIZE  0x20
+#define I2C_OFFSET  0x804000 // BSC1
+#define I2C_SIZE    0x20 // ??
 
 volatile uint32_t *i2c_base_ptr;
 
@@ -34,14 +35,14 @@ void        i2c_unmap(void);
 
 void i2c_configure(i2c_config_t *config);
 
-extern void     i2c_transfer_start(void);
-extern void     i2c_transfer_stop(void);
+void    i2c_start(void);
+void    i2c_stop(void);
 
-extern void     i2c_transfer_byte(uint8_t byte);
-extern uint8_t  i2c_receive_byte(void);
+extern void     i2c_write_byte(uint8_t byte);
+extern uint8_t  i2c_read_byte(void);
 
-extern void     i2c_transfer_data(uint8_t *data, uint16_t dlen);
-extern void     i2c_receive_data(uint8_t *buffer, uint16_t dlen);
+extern void     i2c_write_data(const uint8_t *data, uint16_t length);
+extern void     i2c_read_data(uint8_t *data, uint16_t length);
 
 #ifdef __cplusplus
 }
