@@ -13,14 +13,27 @@ If you have successfully used mipea on a Raspberry Pi which is not tested yet, p
 * PWM
     * Using the clock manager
 * SPI
+* I2C
 * Timer
 * DMA
     * with a modified mailbox
 
-**TODO:**
-1. I2C (in progress)
-3. PCM
+### Goal of this library
+The library is very useful for **high-speed applications**, **efficiency** and
+**customization** on the **hardware level**.
 
+
+I did not create this library for simplicity. It is useful for people
+who still read the datasheet and know what the registers do but don't
+want to do the "ugly" work on the low level.
+
+Also, most functions are only a bare "skeleton" with very minimalistic design
+where **other programs need to implement higher level functionality**.
+
+If you searched for a efficient and highly customizable library which
+**only lays the foundation for other programs** then you are right.
+
+### Supported Pis
 | Raspberry Pi  | Supported | Tested |
 |---------------|:---------:|:------:|
 | 1 Model A     | ✔︎         | ✘      |
