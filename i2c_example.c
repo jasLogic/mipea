@@ -44,21 +44,21 @@ main(void)
     gpio_func(scl, ALT0);
 
     i2c_config_t conf = {
-        0x6a,   // address
-        4000    // clock divider -> clk must be < 100kHz
+        .addr = 0x6a,   // address
+        .div = 4000,    // clock divider -> clk must be < 100kHz for gyro
+        .clkstr = 0x40 // standard reset value
     };
     i2c_configure(&conf);
 
-    i2c_write_byte(0x20); // write to ctrl1 register
-    i2c_write_byte(0xF); // turn the power on
+    i2c_write_register(0x20, 0x0F); // write to cntrl1 register and turn on power
 
     while(1) {
         int data_length = 6;
-        uint8_t data[data_length];
+        int8_t data[data_length]; // data from gyro is signed
 
         i2c_write_byte(0x28 | 0x80); /* we want to read from address 0x28
                                         0x80 for consecutive reads */
-        i2c_read_data(data, data_length);
+        i2c_read_data((uint8_t *)data, data_length);
 
         printf("X: %d\nY: %d\nZ: %d\n\n", data[0] | (data[1] << 8),
             data[2] | (data[3] << 8), data[4] | (data[5] << 8));

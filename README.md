@@ -19,8 +19,8 @@ If you have successfully used mipea on a Raspberry Pi which is not tested yet, p
     * with a modified mailbox
 
 ### Goal of this library
-The library is very useful for **high-speed applications**, **efficiency** and
-**customization** on the **hardware level**.
+The library is very useful for **high-speed, lighweight applications**,
+**efficiency** and **total control** on the **hardware level**.
 
 
 I did not create this library for simplicity. It is useful for people
@@ -65,7 +65,7 @@ $ sudo make install
 ### Usage
 
 To use a peripheral, for example GPIO, you need to include the corresponding header into your program.
-`#include "gpio.h"`
+`#include <mipea/gpio.h>`
 
 After that it is crucial to map the peripheral like so `gpio_map()`. When your program is finished you should unmap the peripheral again `gpio_unmap()`
 Now you can use the registers or the provided functions.

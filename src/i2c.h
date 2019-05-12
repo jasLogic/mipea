@@ -48,6 +48,7 @@ struct i2c_register_map {
 typedef struct {
     uint8_t addr: 7;
     uint16_t div;
+    uint16_t clkstr; // clock stretch timeout
 } i2c_config_t;
 
 uint32_t *  i2c_map(void);
@@ -64,7 +65,10 @@ extern uint8_t  i2c_read_byte(void);
 extern void     i2c_write_data(const uint8_t *data, uint16_t length);
 extern void     i2c_read_data(uint8_t *data, uint16_t length);
 
-/******** important defines ********/
+extern void     i2c_write_register(uint8_t reg, uint8_t data);
+extern uint8_t  i2c_read_register(uint8_t reg);
+
+/******** useful defines ********/
 #define I2C_FIFO_SIZE   16
 
 #define I2C_C_I2CEN 0x8000
@@ -78,6 +82,6 @@ extern void     i2c_read_data(uint8_t *data, uint16_t length);
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
+#endif//__cplusplus
 
-#endif /* _I2C_H_ */
+#endif//_I2C_H_

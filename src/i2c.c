@@ -43,6 +43,7 @@ i2c_configure(i2c_config_t *config)
 {
     I2C->A = config->addr;
     I2C->DIV = config->div;
+    I2C->CLKT = config->clkstr;
 }
 
 void
@@ -54,7 +55,6 @@ i2c_start(void)
 void
 i2c_stop(void)
 {
-    while(!(I2C->S & I2C_S_DONE)); // wait for last transmission to be completed
     I2C->C &= ~I2C_C_I2CEN; // disable bsc controller
 }
 
@@ -62,7 +62,6 @@ inline void
 i2c_write_byte(uint8_t byte)
 {
     I2C->DLEN = 1; // one byte transfer
-    I2C->S |= I2C_S_DONE; // clear done flag -> if???
     I2C->C |= I2C_C_CLEAR; // clear fifo
     I2C->C &= ~I2C_C_READ; // clear read bit -> write
 
@@ -77,7 +76,6 @@ inline uint8_t
 i2c_read_byte(void)
 {
     I2C->DLEN = 1; // one byte transfer
-    I2C->S |= I2C_S_DONE; // clear done flag -> if???
     I2C->C |= I2C_C_READ | I2C_C_CLEAR; // set read bit, clear FIFO
 
     I2C->C |= I2C_C_ST; // start transfer
@@ -93,7 +91,6 @@ i2c_write_data(const uint8_t *data, uint16_t length)
     uint16_t i;
 
     I2C->DLEN = length;
-    I2C->S |= I2C_S_DONE; // clear done flag -> if???
     I2C->C |= I2C_C_CLEAR; // clear fifo
     I2C->C &= ~I2C_C_READ; // clear read bit -> write
 
@@ -115,7 +112,6 @@ i2c_read_data(uint8_t *data, uint16_t length)
     uint16_t i = 0;
 
     I2C->DLEN = length;
-    I2C->S |= I2C_S_DONE; // clear done flag -> if???
     I2C->C |= I2C_C_READ | I2C_C_CLEAR; // set read bit, clear FIFO
 
     I2C->C |= I2C_C_ST; // start transfer
@@ -129,4 +125,28 @@ i2c_read_data(uint8_t *data, uint16_t length)
         data[i++] = I2C->FIFO;
     }
     I2C->S |= I2C_S_DONE; // clear done flag
+}
+
+/*
+ * the difference between this function and 2 i2c_read_byte is that
+ * this function is only ONE transmission with two data packets, while
+ * 2 times i2c_read_byte makes two individual transmissions which might not
+ * work on some ics
+ */
+inline void
+i2c_write_register(uint8_t reg, uint8_t data)
+{
+    uint8_t tf[2] = {reg, data};
+    i2c_write_data(tf, 2);
+}
+
+/*
+ * different to i2c_write_register, this function can be replaced by
+ * one i2c_write_byte and i2c_read_byte
+ */
+inline uint8_t
+i2c_read_register(uint8_t reg)
+{
+    i2c_write_byte(reg);
+    return i2c_read_byte();
 }
