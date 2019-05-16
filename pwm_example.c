@@ -31,7 +31,6 @@
  */
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <unistd.h>
 
 #include <mipea/gpio.h>
@@ -94,7 +93,7 @@ main(void)
     pwm_configure(&ch);
     pwm_enable(PWM_CHANNEL0);
 
-    bool going_up = true;
+    int going_up = true;
     unsigned char num = 0;
 
     for (int i = 0; i < 10;) {

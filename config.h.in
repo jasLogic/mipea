@@ -1,0 +1,6 @@
+#ifdef  _CONFIG_H_
+#define _CONFIG_H_
+
+#undef BCM2835
+
+#endif//_CONFIG_H_

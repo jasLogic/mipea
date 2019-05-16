@@ -19,7 +19,7 @@ If you have successfully used mipea on a Raspberry Pi which is not tested yet, p
     * with a modified mailbox
 
 ### Goal of this library
-The library is very useful for **high-speed, lighweight applications**,
+The library is very useful for **high-speed and lighweight applications**,
 **efficiency** and **total control** on the **hardware level**.
 
 
@@ -55,9 +55,10 @@ If you searched for a efficient and highly customizable library which
 $ git clone https://github.com/jasLogic/mipea.git
 $ cd mipea
 ```
-You now have to edit the `Makefile`. Add to the `DEFINES=` line `-D BCM283x`
+You now have to edit the `Makefile.am`. Add to the `AM_CFLAGS=-D` `BCM283x`
 where `x` is 5, 6 or 7 depending on your Raspberry Pi.
 ```
+$ ./configure
 $ make
 $ sudo make install
 ```

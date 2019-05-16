@@ -1,5 +1,4 @@
-- use autoconf and automake
 - dma example
 - i2c: check which pi and set offset accordingly
-- wiki
+- documentation
 - PCM
