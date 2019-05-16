@@ -22,13 +22,13 @@
 #include <stddef.h>
 
 #include "peripherals.h"
+#include "../config.h" // for inline
 
 uint32_t *
 spi_map(void)
 {
     if (!peripheral_ismapped((uint32_t *)spi_base_ptr, SPI_SIZE)) {
-        spi_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
-            SPI_OFFSET, SPI_SIZE);
+        spi_base_ptr = (volatile uint32_t *)peripheral_map(SPI_OFFSET, SPI_SIZE);
     }
     return (uint32_t *)spi_base_ptr;
 }

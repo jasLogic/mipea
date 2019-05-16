@@ -38,7 +38,7 @@ struct spi_register_map {
     uint32_t LTOH;
     uint32_t DC;
 };
-#define SPI     ((struct spi_register_map *)spi_base_ptr)
+#define SPI     ((volatile struct spi_register_map *)spi_base_ptr)
 
 typedef struct {
     union {

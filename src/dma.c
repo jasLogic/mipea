@@ -35,8 +35,7 @@ dma_map(void)
             return NULL;
         }
 
-        dma_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
-            DMA_OFFSET, DMA_SIZE);
+        dma_base_ptr = (volatile uint32_t *)peripheral_map(DMA_OFFSET, DMA_SIZE);
     }
     return (uint32_t *)dma_base_ptr;
 }

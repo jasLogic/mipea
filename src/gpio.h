@@ -56,7 +56,7 @@ struct gpio_register_map {
 	uint32_t PUD;
 	uint32_t PUDCLK[2];
 };
-#define GP		((struct gpio_register_map *)gpio_base_ptr)
+#define GP		((volatile struct gpio_register_map *)gpio_base_ptr)
 
 typedef enum {
 	INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5

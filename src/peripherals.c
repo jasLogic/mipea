@@ -26,11 +26,17 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+#ifdef BCM2835
+#define PERIPHERAL_BASE PERIPHERAL_BASE_BCM2835
+#else
+#define PERIPHERAL_BASE PERIPHERAL_BASE_BCM2836_7
+#endif//BCM2835
+
 #define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
 	__LINE__, __func__)
 
 uint32_t *
-peripheral_map(uint32_t addr, uint32_t size)
+peripheral_map(uint32_t offset, uint32_t size)
 {
 	int fd;
 	void *map;
@@ -41,7 +47,8 @@ peripheral_map(uint32_t addr, uint32_t size)
 		return NULL;
 	}
 
-	map = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, addr);
+	map = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd,
+		PERIPHERAL_BASE + offset);
 
 	if (map == MAP_FAILED) {
 		perror_inf();

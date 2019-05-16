@@ -42,7 +42,7 @@ struct pwm_register_map {
     uint32_t RNG2;
     uint32_t DAT2;
 };
-#define PWM     ((struct pwm_register_map *)pwm_base_ptr)
+#define PWM     ((volatile struct pwm_register_map *)pwm_base_ptr)
 
 #define RNG_CHANNEL0    PWM->RNG1
 #define DAT_CHANNEL0    PWM->DAT1

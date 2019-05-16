@@ -22,6 +22,7 @@
 #include <stddef.h>
 
 #include "peripherals.h"
+#include "../config.h" // for inline
 
 static void
 delay_cycles(unsigned int n)
@@ -34,8 +35,7 @@ uint32_t *
 gpio_map(void)
 {
 	if (!peripheral_ismapped((void *)gpio_base_ptr, GPIO_SIZE)) {
-		gpio_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
-			GPIO_OFFSET, GPIO_SIZE);
+		gpio_base_ptr = (volatile uint32_t *)peripheral_map(GPIO_OFFSET, GPIO_SIZE);
 		if (gpio_base_ptr == NULL) {
 			return NULL;
 		}

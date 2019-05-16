@@ -54,10 +54,6 @@ If you searched for a efficient and highly customizable library which
 ```
 $ git clone https://github.com/jasLogic/mipea.git
 $ cd mipea
-```
-You now have to edit the `Makefile.am`. Add to the `AM_CFLAGS=-D` `BCM283x`
-where `x` is 5, 6 or 7 depending on your Raspberry Pi.
-```
 $ ./configure
 $ make
 $ sudo make install

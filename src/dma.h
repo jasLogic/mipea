@@ -43,21 +43,21 @@ struct dma_channel_register_map {
     uint32_t NEXTCONBK;
     uint32_t DEBUG;
 };
-#define DMA_0   ((struct dma_channel_register_map *)dma_base_ptr)
-#define DMA_1   ((struct dma_channel_register_map *)(dma_base_ptr + 0x40))
-#define DMA_2   ((struct dma_channel_register_map *)(dma_base_ptr + 0x80))
-#define DMA_3   ((struct dma_channel_register_map *)(dma_base_ptr + 0xc0))
-#define DMA_4   ((struct dma_channel_register_map *)(dma_base_ptr + 0x100))
-#define DMA_5   ((struct dma_channel_register_map *)(dma_base_ptr + 0x140))
-#define DMA_6   ((struct dma_channel_register_map *)(dma_base_ptr + 0x180))
-#define DMA_7   ((struct dma_channel_register_map *)(dma_base_ptr + 0x1c0))
-#define DMA_8   ((struct dma_channel_register_map *)(dma_base_ptr + 0x200))
-#define DMA_9   ((struct dma_channel_register_map *)(dma_base_ptr + 0x240))
-#define DMA_10  ((struct dma_channel_register_map *)(dma_base_ptr + 0x280))
-#define DMA_11  ((struct dma_channel_register_map *)(dma_base_ptr + 0x2c0))
-#define DMA_12  ((struct dma_channel_register_map *)(dma_base_ptr + 0x300))
-#define DMA_13  ((struct dma_channel_register_map *)(dma_base_ptr + 0x340))
-#define DMA_14  ((struct dma_channel_register_map *)(dma_base_ptr + 0x380))
+#define DMA_0   ((volatile struct dma_channel_register_map *)dma_base_ptr)
+#define DMA_1   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x40))
+#define DMA_2   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x80))
+#define DMA_3   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0xc0))
+#define DMA_4   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x100))
+#define DMA_5   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x140))
+#define DMA_6   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x180))
+#define DMA_7   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x1c0))
+#define DMA_8   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x200))
+#define DMA_9   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x240))
+#define DMA_10  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x280))
+#define DMA_11  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x2c0))
+#define DMA_12  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x300))
+#define DMA_13  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x340))
+#define DMA_14  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x380))
 
 struct dma_register_map {
     uint32_t INT_STATUS;

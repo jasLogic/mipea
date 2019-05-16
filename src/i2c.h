@@ -26,10 +26,9 @@
 extern "C" {
 #endif//__cplusplus
 
-// uncomment this line for older pis
-//#define I2C_OFFSET  0x205000 // BSC0
-#define I2C_OFFSET  0x804000 // BSC1
-#define I2C_SIZE    0x18
+#define I2C_OFFSET_0    0x205000
+#define I2C_OFFSET_1    0x804000
+#define I2C_SIZE        0x18
 
 volatile uint32_t *i2c_base_ptr;
 
@@ -43,7 +42,7 @@ struct i2c_register_map {
     uint32_t DEL;
     uint32_t CLKT;
 };
-#define I2C     ((struct i2c_register_map *)i2c_base_ptr)
+#define I2C     ((volatile struct i2c_register_map *)i2c_base_ptr)
 
 typedef struct {
     uint8_t addr: 7;

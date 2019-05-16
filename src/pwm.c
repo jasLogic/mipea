@@ -32,8 +32,7 @@ pwm_map(void)
             return NULL;
         }
 
-        pwm_base_ptr = (volatile uint32_t *)peripheral_map(PERIPHERAL_BASE +
-            PWM_OFFSET, PWM_SIZE);
+        pwm_base_ptr = (volatile uint32_t *)peripheral_map(PWM_OFFSET, PWM_SIZE);
     }
     return (uint32_t *)pwm_base_ptr;
 }

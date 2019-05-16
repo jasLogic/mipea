@@ -21,7 +21,7 @@ struct timer_register_map {
     uint32_t C2;
     uint32_t C3;
 };
-#define TIMER     ((struct timer_register_map *)timer_base_ptr)
+#define TIMER     ((volatile struct timer_register_map *)timer_base_ptr)
 
 uint32_t *  timer_map(void);
 void        timer_unmap(void);

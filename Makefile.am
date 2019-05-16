@@ -5,4 +5,4 @@ libmipea_a_SOURCES=src/clock_manager.c src/dma.c src/gpio.c src/i2c.c src/mailbo
 
 pkginclude_HEADERS=src/clock_manager.h src/dma.h src/gpio.h src/i2c.h src/mailbox_mod.h src/mipea.h src/peripherals.h src/pwm.h src/spi.h src/timer.h
 
-AM_CFLAGS=-D BCM2835
+#AM_CFLAGS=-D BCM2835
