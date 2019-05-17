@@ -18,10 +18,11 @@
 
  /*
   * To compile use:
-  * gcc -o example example.c -lmipea
+  * gcc -o gpio_example gpio_example.c -lmipea
   */
 
 #include <unistd.h>
+#include <stdio.h>
 
 #include <mipea/gpio.h>
 

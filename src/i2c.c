@@ -19,22 +19,21 @@
 #include "i2c.h"
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include "peripherals.h"
 #include "../config.h" // for information on the i2c bus and inline
 
-#ifdef USE_I2C_BUS_0
-#define I2C_OFFSET  I2C_OFFSET_0
+#if defined(USE_I2C_BUS_0)
+    #define I2C_OFFSET  I2C_OFFSET_0
 #else
-#define I2C_OFFSET  I2C_OFFSET_1
+    #define I2C_OFFSET  I2C_OFFSET_1
 #endif//USE_I2C_BUS_0
 
 uint32_t *
 i2c_map(void)
 {
     if (!peripheral_ismapped((void *)i2c_base_ptr, I2C_SIZE)) {
-        i2c_base_ptr = (volatile uint32_t *) peripheral_map(I2C_OFFSET, I2C_SIZE);
+        i2c_base_ptr = (volatile uint32_t *)peripheral_map(I2C_OFFSET, I2C_SIZE);
     }
 	return (uint32_t *)i2c_base_ptr;
 }

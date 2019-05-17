@@ -1,9 +1,10 @@
 AC_PREREQ([2.69])
-AC_INIT([mipea], [1.3])
+AC_INIT([mipea], [2.0.0])
 AC_CONFIG_SRCDIR([src/mipea.c])
 
 
 AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign subdir-objects -Wall -Werror])
 
 AC_LANG(C)
@@ -11,10 +12,10 @@ AC_PROG_CC
 AC_PROG_INSTALL
 
 AM_PROG_AR
-AC_PROG_RANLIB
+LT_INIT
 
-AC_CHECK_LIB([c], [main])
-AC_CHECK_HEADERS([fcntl.h stddef.h stdint.h stdlib.h sys/ioctl.h unistd.h], [], [AC_MSG_ERROR([header error])])
+AC_CHECK_LIB([c], [main], [], [AC_MSG_ERROR([libc is needed])])
+AC_CHECK_HEADERS([fcntl.h stddef.h stdint.h stdlib.h sys/ioctl.h unistd.h], [], [AC_MSG_ERROR([header missing])])
 
 AC_C_INLINE
 AC_TYPE_UINT16_T
@@ -43,6 +44,7 @@ then
     AC_DEFINE([BCM2835], [1], [Define to 1 if the SoC is a BCM2835])
 else
     AC_MSG_RESULT([BCM2836/7])
+    AC_DEFINE([BCM2836_7], [1], [Define to 1 if the SoC is a BCM2836/7])
 fi
 
 # check if it is a "old" pi -> rev < 0004 -> then use bus 0

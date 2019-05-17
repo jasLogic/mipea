@@ -21,19 +21,10 @@
 
 #include <stdint.h>
 
-#include "../config.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif//__cplusplus
 
-/*
-#ifdef BCM2835
-#define	PERIPHERAL_BASE	0x20000000
-#else
-#define PERIPHERAL_BASE 0x3F000000
-#endif//BCM2835
-*/
 #define PERIPHERAL_BASE_BCM2835     0x20000000
 #define PERIPHERAL_BASE_BCM2836_7   0x3F000000
 

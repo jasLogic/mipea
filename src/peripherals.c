@@ -26,10 +26,14 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-#ifdef BCM2835
-#define PERIPHERAL_BASE PERIPHERAL_BASE_BCM2835
+#include "../config.h"
+
+#if defined(BCM2835)
+	#define PERIPHERAL_BASE PERIPHERAL_BASE_BCM2835
+#elif defined(BCM2836_7)
+	#define PERIPHERAL_BASE PERIPHERAL_BASE_BCM2836_7
 #else
-#define PERIPHERAL_BASE PERIPHERAL_BASE_BCM2836_7
+	#error "No SoC specified"
 #endif//BCM2835
 
 #define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
