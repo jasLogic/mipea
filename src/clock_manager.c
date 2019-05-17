@@ -36,7 +36,9 @@ clock_map(void)
 void
 clock_unmap(void)
 {
-    peripheral_unmap((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE);
+    if (peripheral_ismapped((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE)) {
+        peripheral_unmap((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE);
+    }
 }
 
 

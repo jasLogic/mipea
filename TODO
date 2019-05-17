@@ -1,6 +1,5 @@
+- dma example
+- documentation
 - better autotool usage
 - better checking for SoC and Revision
-- dma example
-- i2c: check which pi and set offset accordingly
-- documentation
 - PCM

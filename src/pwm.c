@@ -44,7 +44,9 @@ pwm_unmap(void)
     pwm_disable(PWM_CHANNEL1);
     clock_disable(&CM->PWMCTL);
 
-    peripheral_unmap((uint32_t *)pwm_base_ptr, PWM_SIZE);
+    if (peripheral_ismapped((uint32_t *)pwm_base_ptr, PWM_SIZE)) {
+        peripheral_unmap((uint32_t *)pwm_base_ptr, PWM_SIZE);
+    }
     clock_unmap(); // unmap clock too
 }
 

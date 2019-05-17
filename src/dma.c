@@ -42,7 +42,9 @@ dma_map(void)
 void
 dma_unmap(void)
 {
-    peripheral_unmap((uint32_t *)dma_base_ptr, DMA_SIZE);
+    if (peripheral_ismapped((uint32_t *)dma_base_ptr, DMA_SIZE)) {
+        peripheral_unmap((uint32_t *)dma_base_ptr, DMA_SIZE);
+    }
     mbox_close(__mbox_fd); // close it again too
 }
 

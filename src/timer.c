@@ -18,7 +18,9 @@ timer_map(void)
 void
 timer_unmap(void)
 {
-    peripheral_unmap((uint32_t *)timer_base_ptr, TIMER_SIZE);
+    if (peripheral_ismapped((uint32_t *)timer_base_ptr, TIMER_SIZE)) {
+        peripheral_unmap((uint32_t *)timer_base_ptr, TIMER_SIZE);
+    }
 }
 
 inline void

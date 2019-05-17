@@ -41,7 +41,9 @@ i2c_map(void)
 void
 i2c_unmap(void)
 {
-    peripheral_unmap((void *)i2c_base_ptr, I2C_SIZE);
+    if (peripheral_ismapped((void *)i2c_base_ptr, I2C_SIZE)) {
+        peripheral_unmap((void *)i2c_base_ptr, I2C_SIZE);
+    }
 }
 
 void

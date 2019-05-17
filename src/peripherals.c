@@ -77,8 +77,7 @@ peripheral_unmap(void *map, uint32_t size)
 int
 peripheral_ismapped(void *map, uint32_t size)
 {
-	if (msync(map, size, 0) == -1) {
-		return 0;
-	}
+	if (map == NULL) return 0;
+	if (msync(map, size, 0) == -1) return 0;
 	return 1;
 }

@@ -36,7 +36,9 @@ spi_map(void)
 void
 spi_unmap(void)
 {
-    peripheral_unmap((uint32_t *)spi_base_ptr, SPI_SIZE);
+    if (peripheral_ismapped((uint32_t *)spi_base_ptr, SPI_SIZE)) {
+        peripheral_unmap((uint32_t *)spi_base_ptr, SPI_SIZE);
+    }
 }
 
 void

@@ -49,7 +49,9 @@ void
 gpio_unmap(void)
 {
 	gpio_clear_pud(); // clear all pullup / -downs
-	peripheral_unmap((void *)gpio_base_ptr, GPIO_SIZE);
+	if (peripheral_ismapped((void *)gpio_base_ptr, GPIO_SIZE)) {
+		peripheral_unmap((void *)gpio_base_ptr, GPIO_SIZE);
+	}
 }
 
 void
