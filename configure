@@ -12056,44 +12056,51 @@ if test -e "/proc/cpuinfo"
 then
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
-else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-    as_fn_error $? "cannot find file /proc/cpuinfo" "$LINENO" 5
-fi
 
-# check the SoC
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for SoC" >&5
+    # check the SoC
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for SoC" >&5
 $as_echo_n "checking for SoC... " >&6; }
-if test "$(grep BCM2835 /proc/cpuinfo)"
-then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: BCM2835" >&5
+    if test "$(grep BCM2835 /proc/cpuinfo)"
+    then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: BCM2835" >&5
 $as_echo "BCM2835" >&6; }
 
 $as_echo "#define BCM2835 1" >>confdefs.h
 
-else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: BCM2836/7" >&5
+    else
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: BCM2836/7" >&5
 $as_echo "BCM2836/7" >&6; }
 
 $as_echo "#define BCM2836_7 1" >>confdefs.h
 
-fi
+    fi
 
-# check if it is a "old" pi -> rev < 0004 -> then use bus 0
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for I2C bus" >&5
+    # check if it is a "old" pi -> rev < 0004 -> then use bus 0
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for I2C bus" >&5
 $as_echo_n "checking for I2C bus... " >&6; }
-rev="$(grep Revision /proc/cpuinfo)"
-if test "${rev: -4}" -lt "4"
-then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: 0" >&5
+    rev="$(grep Revision /proc/cpuinfo)"
+    if test "${rev: -4}" -lt "4"
+    then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: 0" >&5
 $as_echo "0" >&6; }
 
 $as_echo "#define USE_I2C_BUS_0 1" >>confdefs.h
 
-else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: 1" >&5
+    else
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: 1" >&5
 $as_echo "1" >&6; }
+    fi
+else
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: cannot find file /proc/cpuinfo" >&5
+$as_echo "$as_me: WARNING: cannot find file /proc/cpuinfo" >&2;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: IMPORTANT: Go into config.h and define the SoC you are using \
+        (BCM2835 or BCM2836_7) to 1. If you are using a Pi with a revision less \
+        than 4 define USE_I2C_BUS_0 to 1." >&5
+$as_echo "$as_me: WARNING: IMPORTANT: Go into config.h and define the SoC you are using \
+        (BCM2835 or BCM2836_7) to 1. If you are using a Pi with a revision less \
+        than 4 define USE_I2C_BUS_0 to 1." >&2;}
 fi
 
 ac_config_headers="$ac_config_headers config.h"
