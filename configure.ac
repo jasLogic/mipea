@@ -32,9 +32,10 @@ if test -e "/proc/cpuinfo"
 then
     AC_MSG_RESULT([yes])
 
-    # check the SoC
+    rev="$(grep Revision /proc/cpuinfo)"
+    # check the SoC, all Raspberry Pis 1 (Revision <= 0x00c1)
     AC_MSG_CHECKING([for SoC])
-    if test "$(grep BCM2835 /proc/cpuinfo)"
+    if test $(printf "%d" 0x${rev: -4}) -le "193"
     then
         AC_MSG_RESULT([BCM2835])
         AC_DEFINE([BCM2835], [1], [Define to 1 if the SoC is a BCM2835])
@@ -45,8 +46,7 @@ then
 
     # check if it is a "old" pi -> rev < 0004 -> then use bus 0
     AC_MSG_CHECKING([for I2C bus])
-    rev="$(grep Revision /proc/cpuinfo)"
-    if test "${rev: -4}" -lt "4"
+    if test $(printf "%d" 0x${rev: -4}) -lt "4"
     then
         AC_MSG_RESULT([0])
         AC_DEFINE([USE_I2C_BUS_0], [1], [Define to 1 if the SoC uses I2C bus 0 (Revision < 0004)])

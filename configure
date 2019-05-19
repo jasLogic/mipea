@@ -12057,10 +12057,11 @@ then
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
-    # check the SoC
+    rev="$(grep Revision /proc/cpuinfo)"
+    # check the SoC, all Raspberry Pis 1 (Revision <= 0x00c1)
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for SoC" >&5
 $as_echo_n "checking for SoC... " >&6; }
-    if test "$(grep BCM2835 /proc/cpuinfo)"
+    if test $(printf "%d" 0x${rev: -4}) -le "193"
     then
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: BCM2835" >&5
 $as_echo "BCM2835" >&6; }
@@ -12078,8 +12079,7 @@ $as_echo "#define BCM2836_7 1" >>confdefs.h
     # check if it is a "old" pi -> rev < 0004 -> then use bus 0
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for I2C bus" >&5
 $as_echo_n "checking for I2C bus... " >&6; }
-    rev="$(grep Revision /proc/cpuinfo)"
-    if test "${rev: -4}" -lt "4"
+    if test $(printf "%d" 0x${rev: -4}) -lt "4"
     then
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: 0" >&5
 $as_echo "0" >&6; }

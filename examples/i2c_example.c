@@ -50,6 +50,8 @@ main(void)
     };
     i2c_configure(&conf);
 
+    i2c_start(); // start i2c
+
     i2c_write_register(0x20, 0x0F); // write to cntrl1 register and turn on power
 
     while(1) {
