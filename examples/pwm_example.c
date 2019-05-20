@@ -39,33 +39,33 @@
 int
 main(void)
 {
-    if (gpio_map() == NULL || pwm_map() == NULL) { /* Map peripherals */
-        return 1; /* return if mapping fails */
+    if (gpio_map() == NULL || pwm_map() == NULL) { // Map peripherals
+        return 1; // return if mapping fails
     }
 
-    int servo = 18; /* servo signal on pin 18 */
-    gpio_func(servo, ALT5); /* pin 18 uses alternate function 5 for pwm */
+    int servo = 18; // servo signal on pin 18
+    gpio_func(servo, ALT5); // pin 18 uses alternate function 5 for pwm
 
     pwm_channel_config_t ch = {
-        PWM_CHANNEL0,   /* Which channel to use 0/1 */
+        PWM_CHANNEL0,   // Which channel to use 0/1
         {{  /*
              * these strange double braces are not needed,
              * but else the compiler gives a warning because of
              * the way 'pwm_channel_config_t' is implemented
              */
-            PWM_CTL_MODE_PWM,   /* use pwm mode */
-            PWM_RPTL_STOP,      /* if serial mode: repeat the last data */
-            PWM_SBIT_LOW,       /* polarity when no transmission is active */
-            PWM_POLA_DEFAULT,   /* do not invert the output */
-            PWM_USEF_DATA,      /* if serial mode: use fifo? */
+            PWM_CTL_MODE_PWM,   // use pwm mode
+            PWM_RPTL_STOP,      // if serial mode: repeat the last data
+            PWM_SBIT_LOW,       // polarity when no transmission is active
+            PWM_POLA_DEFAULT,   // do not invert the output
+            PWM_USEF_DATA,      // if serial mode: use fifo?
             PWM_MSEN_MSRATIO,   /*
                                  * pwm algorithm: distribute the pwm as
                                  * even as possible, not useful for
                                  * servo control
                                  */
         }},
-        1953,   /* clock divisor */
-        5120    /* the range of the counter */
+        1953,   // clock divisor
+        5120    // the range of the counter
     };
 
     /*
@@ -93,20 +93,21 @@ main(void)
     pwm_configure(&ch);
     pwm_enable(PWM_CHANNEL0);
 
-    int going_up = true;
+    int going_up = 1;
     unsigned char num = 0;
 
-    for (int i = 0; i < 10;) {
+    int i;
+    for (i = 0; i < 10;) {
         if (going_up) {
             if (num == 255) {
-                going_up = false;
+                going_up = 0;
                 ++i;
             } else {
                 ++num;
             }
         } else {
             if (num == 0) {
-                going_up = true;
+                going_up = 1;
             } else {
                 --num;
             }

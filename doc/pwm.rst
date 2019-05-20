@@ -21,6 +21,22 @@ Macros
     This macro holds the size of the I2C registers which needs to be mapped.
     It has the value :code:`0x24`
 
+.. macro:: RNG_CHANNEL0
+.. macro:: DAT_CHANNEL0
+.. macro:: RNG_CHANNEL1
+.. macro:: DAT_CHANNEL1
+
+    ::
+
+        #define RNG_CHANNEL0    PWM->RNG1
+        #define DAT_CHANNEL0    PWM->DAT1
+        #define RNG_CHANNEL1    PWM->RNG2
+        #define DAT_CHANNEL1    PWM->DAT2
+
+    To prevent confusion (because the Datasheet_ calls the PWM channels 1 and 2
+    and the Raspberry Pi 0 and 1) the values of the registers which need to be
+    used "on the fly" are :code;`defined` from 2 to 1 and from 1 to 0.
+
 Configuration Macros
 --------------------
 ================================ ====================================

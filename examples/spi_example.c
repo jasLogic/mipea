@@ -116,4 +116,6 @@ main(void)
 
     gpio_unmap();
     spi_unmap();
+
+    return 0;
 }
