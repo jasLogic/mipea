@@ -51,14 +51,34 @@ If you searched for a efficient and highly customizable library which
 
 ### Installation
 
+The `configure` script and `Makefile.in` are not included in this repository so
+you have two options to install the library
+
+#### Download the configure script
+On GitHub, when you look under the tab [releases](https://github.com/jasLogic/mipea/releases)
+you will find some release with a name like for example "v2.0.0".
+Then you can download the corresponding file named "mipea_x.x.x"
+which *includes the configure script and Makefile.in*.
+After downloading just run these commands from inside the downloaded directory.
 ```
-$ git clone https://github.com/jasLogic/mipea.git
-$ cd mipea
 $ ./configure
 $ make
 $ sudo make install
 ```
 
+#### Building the configure script
+When you have the GNU autotools installed you can simply clone this repository
+and build the `configure` script and `Makefile.in` yourself.
+```
+$ git clone https://github.com/jasLogic/mipea.git
+$ cd mipea
+$ autoreconf --install
+$ ./configure
+$ make
+$ sudo make install
+```
+
+#### Linking
 I noticed that sometimes the library can be linked, but when running a program
 an error message appears saying: `File or directory not found`. If you have
 this problem just run `ldconfig` or follow the output from `sudo make install`:
