@@ -43,7 +43,7 @@ struct spi_register_map {
 typedef struct {
     union {
         struct {
-            uint32_t cs: 2;     // cs = chip select
+            uint32_t: 2;
             uint32_t cpha: 1;
             uint32_t cpol: 1;
             uint32_t: 2;        // unimplemented / unused -> must be zero
@@ -53,7 +53,7 @@ typedef struct {
             uint32_t cspol1: 1;
             uint32_t cspol2: 1;
         };
-        uint32_t cs_register;   // cs = conntrol and status
+        uint32_t cs_register;   // cs = control and status
     };
 
     uint16_t divisor;
@@ -63,6 +63,7 @@ uint32_t *  spi_map(void);
 void        spi_unmap(void);
 
 void spi_configure(spi_channel_config_t *config);
+void spi_set_ce(uint8_t ce);
 
 extern void     spi_transfer_start(void);
 extern void     spi_transfer_stop(void);

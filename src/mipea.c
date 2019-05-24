@@ -21,7 +21,7 @@
 int
 mipea_map(void)
 {
-    if (!dma_map() || !gpio_map() || !pwm_map() || !spi_map()
+    if (!dma_map() || !gpio_map() || !i2c_map() || !pwm_map() || !spi_map()
         || !timer_map()) {
         return -1;
     }
@@ -33,6 +33,7 @@ mipea_unmap(void)
 {
     dma_unmap();
     gpio_unmap();
+    i2c_unmap();
     pwm_unmap();
     spi_unmap();
     timer_unmap();

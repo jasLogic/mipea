@@ -47,7 +47,6 @@ main(void)
     gpio_func(servo, ALT5); // pin 18 uses alternate function 5 for pwm
 
     pwm_channel_config_t ch = {
-        PWM_CHANNEL0,   // Which channel to use 0/1
         {{  /*
              * these strange double braces are not needed,
              * but else the compiler gives a warning because of
@@ -90,7 +89,7 @@ main(void)
      *  => solves to: divisor = 1953.125
      */
 
-    pwm_configure(&ch);
+    pwm_configure(PWM_CHANNEL0, &ch);
     pwm_enable(PWM_CHANNEL0);
 
     int going_up = 1;

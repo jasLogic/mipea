@@ -10,22 +10,31 @@ Macros
 
 .. macro:: CLOCK_MANAGER_OFFSET
 
+    ::
+
+        0x101000
+
     This macro defines the offset at which the clock manager registers
     are located relative to the peripheral base.
-    It has the value :code:`0x101000`
 
 .. macro:: CLOCK_MANAGER_SIZE
 
+    ::
+
+        0xA4
+
     This macro holds the size of the clock manager registers
     which needs to be mapped.
-    It has the value :code:`0xA4`
 
 .. macro:: CM_PASSWD
+
+    ::
+
+        0x5A000000
 
     This macro holds the clock manager password. This value must always be
     present when writing to a clock manager register
     (e.g. by OR with the value).
-    It has the value :code:`0x5A000000`
 
 Registers
 =========

@@ -63,7 +63,6 @@ main(void)
              * but else the compiler gives a warning
              * because of the way 'spi_channel_config_t' is implemented
              */
-    		SPI_CS_CE0,             // which chip enable line to use
             SPI_CPHA_CLK_BEGINNING, // data on clock leading or trailing edge
             SPI_CPOL_RESET_LOW,     // clock polarity: rest state low or high
             SPI_CSPOL_ACTIVE_LOW,   /*
@@ -88,6 +87,7 @@ main(void)
 	};
 
 	spi_configure(&conf);
+    spi_set_ce(SPI_CS_CE0); // set which chip enable line to use
 
     union spi_mcp3002_transfer t;
     t.lst = 0b01; // Leading zero and starting bit

@@ -10,13 +10,20 @@ Macros
 
 .. macro:: SPI_OFFSET
 
+    ::
+
+        0x204000
+
     This macro defines the offset at which the SPI registers are located from
-    the peripheral base. It has the value :code:`0x204000`
+    the peripheral base.
 
 .. macro:: SPI_SIZE
 
+    ::
+
+        0x14
+
     This macro holds the size of the I2C registers which needs to be mapped.
-    It has the value :code:`0x14`
 
 Configuration Macros
 --------------------
@@ -73,7 +80,7 @@ Structs
         typedef struct {
             union {
                 struct {
-                    uint32_t cs: 2;
+                    uint32_t: 2;
                     uint32_t cpha: 1;
                     uint32_t cpol: 1;
                     uint32_t: 2;
@@ -123,6 +130,11 @@ Functions
 
     This function configures SPI with a :type:`spi_channel_config_t`
     pointed to by :code:`config`.
+
+.. function:: void spi_set_ce(uint8_t ce)
+
+    This function sets which chip enable line the SPI controller should use.
+    This can be a 3 bit value.
 
 .. function:: void spi_transfer_start(void)
 

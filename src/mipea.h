@@ -21,6 +21,7 @@
 
 #include "dma.h"
 #include "gpio.h"
+#include "i2c.h"
 #include "pwm.h"
 #include "spi.h"
 #include "timer.h"

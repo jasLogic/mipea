@@ -71,12 +71,12 @@ pwm_disable(pwm_channel_t channel)
 }
 
 void
-pwm_configure(pwm_channel_config_t *config)
+pwm_configure(pwm_channel_t channel, pwm_channel_config_t *config)
 {
     clock_configure(&CM->PWMCTL, CLOCK_PLLD, config->divisor, 0);
     clock_enable(&CM->PWMCTL);
 
-    if (config->channel == PWM_CHANNEL0) {
+    if (channel == PWM_CHANNEL0) {
         PWM->CTL &= ~0xff; // clear all pwm0 bits
         PWM->CTL |= config->ctl_register;
 

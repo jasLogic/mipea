@@ -1,22 +1,16 @@
+[![Documentation Status](https://readthedocs.org/projects/mipea/badge/?version=latest)](https://mipea.readthedocs.io/en/latest/?badge=latest)
+![GitHub release](https://img.shields.io/github/release/jasLogic/mipea.svg)
+![GitHub](https://img.shields.io/github/license/jasLogic/mipea.svg?color=informational)
+
 # mipea
 
 ## minimalistic peripheral access for the Raspberry Pi
 
-This library grants easy and fast access to peripherals. The GPIO, PWM and SPI are implemented at the moment.
+This library grants easy and fast access to peripherals.
 
 Contributions are welcome, please fork and open a pull request.
 
 If you have successfully used mipea on a Raspberry Pi which is not tested yet, please inform me and I can add it to the list.
-
-**Peripherals Implemented at the moment:**
-* GPIO
-* PWM
-    * Using the clock manager
-* SPI
-* I2C
-* Timer
-* DMA
-    * with a modified mailbox
 
 ### Goal of this library
 The library is very useful for **high-speed and lighweight applications**,
@@ -103,6 +97,11 @@ See any operating system documentation about shared libraries for
 more information, such as the ld(1) and ld.so(8) manual pages.
 ----------------------------------------------------------------------
 ```
+
+### Documentation
+
+Documentation is uploaded to [ReadTheDocs](mipea.readthedocs.io).
+You can also build the documentation yourself using `sphinx`.
 
 ### Usage
 

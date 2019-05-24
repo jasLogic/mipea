@@ -29,8 +29,11 @@ Macros
 
 .. macro:: I2C_SIZE
 
+    ::
+
+        0x18
+
     This macro holds the size of the I2C registers which needs to be mapped.
-    It has the value :code:`0x18`
 
 :macro:`I2C_FIFO_SIZE`
 :macro:`I2C_C_I2CEN`
@@ -74,41 +77,6 @@ Registers
     By using this macro, the registers of the I2C can be accessed like this
     :code:`I2C->FIFO`.
 
-Structs
-=======
-
-.. type:: i2c_config_t
-
-    This struct is used to configure the I2C controller::
-
-        typedef struct {
-            uint8_t addr: 7;
-            uint16_t div;
-            uint16_t clkstr;
-        } i2c_config_t;
-
-    .. member:: uint8_t addr: 7
-
-        This member holds the address of the I2C device that should be contacted.
-        I2C addresses have a length of seven bits.
-
-    .. member:: uint16_t div
-
-        This member sets the clock divider for the BSC controller.
-
-        .. note:: The clock source is the core clock with a frequency, \
-            according to the Datasheet_, of :code:`150 MHz` and \
-            according to `this file`_ and other sources of :code:`250 MHz`. \
-            When I tested the clock speed of I2C and SPI with a logic analyzer, \
-            it seems that :code:`250 MHz` **is correct** \
-            (at least for the Raspberry Pi Zero I use).
-
-    .. member:: uint16_t clkstr
-
-        This member sets the clock stretch timeout (or delay). This means that
-        the master will wait :code:`clkstr` cycles after the rising clock edge
-        for the slave to respond. After this the timeout flag is set.
-
 Functions
 =========
 
@@ -122,10 +90,28 @@ Functions
 
     This function unmaps the I2C registers.
 
-.. function:: void i2c_configure(i2c_config_t *config)
+.. function:: void i2c_set_address(uint8_t addr)
 
-    This function configures the BSC controller with the :type:`i2c_config_t`
-    pointed to by :code:`config`.
+    This function sets the address of the I2C device to communicate with.
+    The address is a seven bit value.
+
+.. function:: void i2c_set_clkdiv(uint16_t divisor)
+
+    This function sets the clock divisor of the BSC controller.
+
+    .. note:: The clock source is the core clock with a frequency, \
+        according to the Datasheet_, of :code:`150 MHz` and \
+        according to `this file`_ and other sources of :code:`250 MHz`. \
+        When I tested the clock speed of I2C and SPI with a logic analyzer, \
+        it seems that :code:`250 MHz` **is correct** \
+        (at least for the Raspberry Pi Zero I use).
+
+.. function:: void i2c_set_clkstr(uint16_t clkstr)
+
+    This function  sets the clock stretch timeout (or delay). This means that
+    the master will wait :code:`clkstr` cycles after the rising clock edge
+    for the slave to respond. After this the timeout flag is set.
+    This can often be left at reset value :code:`0x40`.
 
 .. function:: void i2c_start(void)
 

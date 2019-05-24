@@ -47,11 +47,21 @@ i2c_unmap(void)
 }
 
 void
-i2c_configure(i2c_config_t *config)
+i2c_set_address(uint8_t addr)
 {
-    I2C->A = config->addr;
-    I2C->DIV = config->div;
-    I2C->CLKT = config->clkstr;
+    I2C->A = addr & 0x7f; // only 7 bit
+}
+
+void
+i2c_set_clkdiv(uint16_t divisor)
+{
+    I2C->DIV = divisor;
+}
+
+void
+i2c_set_clkstr(uint16_t clkstr)
+{
+    I2C->CLKT = clkstr;
 }
 
 void

@@ -54,7 +54,6 @@ typedef enum {
 } pwm_channel_t;
 
 typedef struct {
-    pwm_channel_t channel;
     union {
         struct {
             uint32_t: 1;        // use pwm_enable / pwm_disable
@@ -63,7 +62,7 @@ typedef struct {
             uint32_t sbit: 1;
             uint32_t pola: 1;
             uint32_t usef: 1;
-            uint32_t: 1;        // unimplemented / unused
+            uint32_t: 1;
             uint32_t msen: 1;
         };
         uint32_t ctl_register;
@@ -75,21 +74,22 @@ typedef struct {
 uint32_t *  pwm_map(void);
 void        pwm_unmap(void);
 
+void pwm_configure(pwm_channel_t channel, pwm_channel_config_t *config);
+
 void pwm_enable(pwm_channel_t channel);
 void pwm_disable(pwm_channel_t channel);
-void pwm_configure(pwm_channel_config_t *config);
 
 /******* CTL Register bit values *******/
 #define PWM_CTL_MODE_PWM        0x0
 #define PWM_CTL_MODE_SERIALISER 0x1
-#define PWM_RPTL_STOP   0x0
-#define PWM_RPTL_REPEAT 0x1
-#define PWM_SBIT_LOW    0x0
-#define PWM_SBIT_HIGH   0x1
-#define PWM_POLA_DEFAULT    0x0
-#define PWM_POLA_INVERTED   0x1
-#define PWM_USEF_DATA   0x0
-#define PWM_USEF_FIFO   0x1
+#define PWM_RPTL_STOP           0x0
+#define PWM_RPTL_REPEAT         0x1
+#define PWM_SBIT_LOW            0x0
+#define PWM_SBIT_HIGH           0x1
+#define PWM_POLA_DEFAULT        0x0
+#define PWM_POLA_INVERTED       0x1
+#define PWM_USEF_DATA           0x0
+#define PWM_USEF_FIFO           0x1
 #define PWM_MSEN_PWMALGORITHM   0x0
 #define PWM_MSEN_MSRATIO        0x1
 

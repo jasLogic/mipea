@@ -44,16 +44,12 @@ struct i2c_register_map {
 };
 #define I2C     ((volatile struct i2c_register_map *)i2c_base_ptr)
 
-typedef struct {
-    uint8_t addr: 7;
-    uint16_t div;
-    uint16_t clkstr; // clock stretch timeout
-} i2c_config_t;
-
 uint32_t *  i2c_map(void);
 void        i2c_unmap(void);
 
-void i2c_configure(i2c_config_t *config);
+void i2c_set_address(uint8_t addr);
+void i2c_set_clkdiv(uint16_t divisor);
+void i2c_set_clkstr(uint16_t clkstr);
 
 void    i2c_start(void);
 void    i2c_stop(void);

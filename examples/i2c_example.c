@@ -43,12 +43,9 @@ main(void)
     gpio_func(sda, ALT0);
     gpio_func(scl, ALT0);
 
-    i2c_config_t conf = {
-        .addr = 0x6a,   // address
-        .div = 4000,    // clock divider -> clk must be < 100kHz for gyro
-        .clkstr = 0x40 // standard reset value
-    };
-    i2c_configure(&conf);
+    i2c_set_address(0x6a); // set address
+    i2c_set_clkdiv(4000); // clock divider -> clk must be < 100kHz for gyro
+    i2c_set_clkstr(0x40); // can often be ignored and left on reset value
 
     i2c_start(); // start i2c
 

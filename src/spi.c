@@ -48,29 +48,35 @@ spi_configure(spi_channel_config_t *config)
     SPI->CLK = config->divisor;
 }
 
+void
+spi_set_ce(uint8_t ce)
+{
+    SPI->CS = ce & 3; // only use the last 2 bits
+}
+
 inline void
 spi_transfer_start(void)
 {
-    SPI->CS |= 0x80; /* set TA */
+    SPI->CS |= 0x80; // set TA
 }
 
 inline void
 spi_transfer_stop(void)
 {
-    while(!(SPI->CS & 0x10000)) {} /* wait for DONE */
-    SPI->CS &= ~0x80; /* clear TA */
+    while(!(SPI->CS & 0x10000));// wait for DONE
+    SPI->CS &= ~0x80; // clear TA
 }
 
 inline uint8_t
 spi_transfer_byte(uint8_t data)
 {
-    SPI->CS |= 0x30; /* Clear FIFO */
+    SPI->CS |= 0x30; // Clear FIFO
     SPI->FIFO = data;
-    while(!(SPI->CS & 0x20000)) {} /* wait for data in RX FIFO */
+    while(!(SPI->CS & 0x20000)); // wait for data in RX FIFO
     return (uint8_t) SPI->FIFO;
 }
 
-/* send 2 bytes and return the data from the last transmission */
+// send 2 bytes and return the data from the last transmission
 inline uint8_t
 spi_send2_recv1(uint8_t data0, uint8_t data1)
 {

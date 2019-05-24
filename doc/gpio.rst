@@ -10,13 +10,20 @@ Macros
 
 .. macro:: GPIO_OFFSET
 
+    ::
+
+        0x200000
+
     This macro defines the offset at which the GPIO registers are located from
-    the peripheral base. It has the value :code:`0x200000`
+    the peripheral base.
 
 .. macro:: GPIO_SIZE
 
+    ::
+
+        0xB0
+
     This macro holds the size of the GPIO registers which needs to be mapped.
-    It has the value :code:`0xB0`
 
 Registers
 =========

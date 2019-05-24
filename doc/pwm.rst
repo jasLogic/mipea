@@ -13,13 +13,20 @@ Macros
 
 .. macro:: PWM_OFFSET
 
+    ::
+
+        0x20C000
+
     This macro defines the offset at which the PWM registers are located from
-    the peripheral base. It has the value :code:`0x20C000`
+    the peripheral base.
 
 .. macro:: PWM_SIZE
 
+    ::
+
+        0x24
+
     This macro holds the size of the I2C registers which needs to be mapped.
-    It has the value :code:`0x24`
 
 .. macro:: RNG_CHANNEL0
 .. macro:: DAT_CHANNEL0
@@ -71,11 +78,11 @@ Registers
             uint32_t CTL;
             uint32_t STA;
             uint32_t DMAC;
-            uint32_t: 32;   // address not implemented
+            uint32_t: 32;
             uint32_t RNG1;
             uint32_t DAT1;
             uint32_t FIF1;
-            uint32_t: 32;   // address not implemented
+            uint32_t: 32;
             uint32_t RNG2;
             uint32_t DAT2;
         };
@@ -108,7 +115,6 @@ Structs
     This struct is used to configure a PWM channel::
 
         typedef struct {
-            pwm_channel_t channel;
             union {
                 struct {
                     uint32_t: 1;
@@ -125,10 +131,6 @@ Structs
             unsigned int divisor;
             uint32_t range;
         } pwm_channel_config_t;
-
-    .. member:: pwm_channel_t channel
-
-        This member specifies the PWM channel to configure.
 
     .. member:: uint32_t ctl_register
 
@@ -157,10 +159,10 @@ Functions
 
     This function unmaps the PWM registers.
 
-.. function:: void pwm_configure(pwm_channel_config_t *config)
+.. function:: void pwm_configure(pwm_channel_t channel, pwm_channel_config_t *config)
 
-    This function configures a PWM channel with a :type:`pwm_channel_config_t`
-    pointed to by :code:`config`.
+    This function configures :type:`pwm_channel_t` :code:`channel` with a
+    :type:`pwm_channel_config_t` pointed to by :code:`config`.
 
 .. function:: void pwm_enable(pwm_channel_t channel)
 
