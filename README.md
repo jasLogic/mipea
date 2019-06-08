@@ -1,6 +1,6 @@
 [![Documentation Status](https://readthedocs.org/projects/mipea/badge/?version=latest)](https://mipea.readthedocs.io/en/latest/?badge=latest)
-![GitHub release](https://img.shields.io/github/release/jasLogic/mipea.svg)
-![GitHub](https://img.shields.io/github/license/jasLogic/mipea.svg?color=informational)
+[![GitHub release](https://img.shields.io/github/release/jasLogic/mipea.svg)](https://github.com/jasLogic/mipea/releases)
+[![GitHub](https://img.shields.io/github/license/jasLogic/mipea.svg?color=informational)](LICENSE.md)
 
 # mipea
 
@@ -38,7 +38,7 @@ If you searched for a efficient and highly customizable library which
 | 2 Model B     | ✔︎         | ✘      |
 | 2 Model Bv1.2 | ✔︎         | ✘      |
 | 3 Model B     | ✔︎         | ✔︎      |
-| 3 Model B+    | ✔︎         | ✘      |
+| 3 Model B+    | ✔︎         | ✔︎      |
 | Zero v1.2     | ✔︎         | ✘      |
 | Zero          | ✔︎         | ✔︎      |
 | Zero W        | ✔︎         | ✘      |
@@ -61,8 +61,8 @@ $ sudo make install
 ```
 
 #### Building the configure script
-When you have the GNU autotools installed you can simply clone this repository
-and build the `configure` script and `Makefile.in` yourself.
+When you have the GNU autotools and libtool installed you can simply clone the
+repository and build the `configure` script and `Makefile.in` yourself.
 ```
 $ git clone https://github.com/jasLogic/mipea.git
 $ cd mipea
@@ -100,7 +100,7 @@ more information, such as the ld(1) and ld.so(8) manual pages.
 
 ### Documentation
 
-Documentation is uploaded to [ReadTheDocs](mipea.readthedocs.io).
+Documentation is uploaded to [ReadTheDocs](https://mipea.readthedocs.io).
 You can also build the documentation yourself using `sphinx`.
 
 ### Usage

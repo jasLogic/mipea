@@ -24,8 +24,7 @@
 #include "peripherals.h"
 #include "../config.h" // for inline
 
-uint32_t *
-spi_map(void)
+uint32_t *spi_map(void)
 {
     if (!peripheral_ismapped((uint32_t *)spi_base_ptr, SPI_SIZE)) {
         spi_base_ptr = (volatile uint32_t *)peripheral_map(SPI_OFFSET, SPI_SIZE);
@@ -33,42 +32,34 @@ spi_map(void)
     return (uint32_t *)spi_base_ptr;
 }
 
-void
-spi_unmap(void)
+void spi_unmap(void)
 {
-    if (peripheral_ismapped((uint32_t *)spi_base_ptr, SPI_SIZE)) {
-        peripheral_unmap((uint32_t *)spi_base_ptr, SPI_SIZE);
-    }
+    peripheral_unmap((uint32_t *)spi_base_ptr, SPI_SIZE);
 }
 
-void
-spi_configure(spi_channel_config_t *config)
+void spi_configure(spi_channel_config_t *config)
 {
     SPI->CS = config->cs_register;
     SPI->CLK = config->divisor;
 }
 
-void
-spi_set_ce(uint8_t ce)
+void spi_set_ce(uint8_t ce)
 {
     SPI->CS = ce & 3; // only use the last 2 bits
 }
 
-inline void
-spi_transfer_start(void)
+inline void spi_transfer_start(void)
 {
     SPI->CS |= 0x80; // set TA
 }
 
-inline void
-spi_transfer_stop(void)
+inline void spi_transfer_stop(void)
 {
     while(!(SPI->CS & 0x10000));// wait for DONE
     SPI->CS &= ~0x80; // clear TA
 }
 
-inline uint8_t
-spi_transfer_byte(uint8_t data)
+inline uint8_t spi_transfer_byte(uint8_t data)
 {
     SPI->CS |= 0x30; // Clear FIFO
     SPI->FIFO = data;
@@ -77,8 +68,7 @@ spi_transfer_byte(uint8_t data)
 }
 
 // send 2 bytes and return the data from the last transmission
-inline uint8_t
-spi_send2_recv1(uint8_t data0, uint8_t data1)
+inline uint8_t spi_send2_recv1(uint8_t data0, uint8_t data1)
 {
     spi_transfer_start();
     spi_transfer_byte(data0);

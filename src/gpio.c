@@ -24,15 +24,13 @@
 #include "peripherals.h"
 #include "../config.h" // for inline
 
-static void
-delay_cycles(unsigned int n)
+static void delay_cycles(unsigned int n)
 {
-	unsigned int i;
+	volatile unsigned int i; // do not optimize delay loop
 	for (i = 0; i < n; ++i);
 }
 
-uint32_t *
-gpio_map(void)
+uint32_t *gpio_map(void)
 {
 	if (!peripheral_ismapped((void *)gpio_base_ptr, GPIO_SIZE)) {
 		gpio_base_ptr = (volatile uint32_t *)peripheral_map(GPIO_OFFSET, GPIO_SIZE);
@@ -45,17 +43,13 @@ gpio_map(void)
 	return (uint32_t *)gpio_base_ptr;
 }
 
-void
-gpio_unmap(void)
+void gpio_unmap(void)
 {
 	gpio_clear_pud(); // clear all pullup / -downs
-	if (peripheral_ismapped((void *)gpio_base_ptr, GPIO_SIZE)) {
-		peripheral_unmap((void *)gpio_base_ptr, GPIO_SIZE);
-	}
+	peripheral_unmap((void *)gpio_base_ptr, GPIO_SIZE);
 }
 
-void
-gpio_func(uint32_t pin, pin_functions_t function)
+void gpio_func(uint32_t pin, pin_functions_t function)
 {
 	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); // clear the 3 bits
 
@@ -88,26 +82,22 @@ gpio_func(uint32_t pin, pin_functions_t function)
 	}
 }
 
-inline void
-gpio_set(uint32_t pin)
+inline void gpio_set(uint32_t pin)
 {
 	GP->SET[pin / 32] = (1 << (pin % 32));
 }
 
-inline void
-gpio_clr(uint32_t pin)
+inline void gpio_clr(uint32_t pin)
 {
 	GP->CLR[pin / 32] = (1 << (pin % 32));
 }
 
-inline uint32_t
-gpio_tst(uint32_t pin)
+inline uint32_t gpio_tst(uint32_t pin)
 {
 	return GP->LEV[pin / 32] & (1 << (pin % 32));
 }
 
-void
-gpio_pud(uint32_t pin, pud_t val)
+void gpio_pud(uint32_t pin, pud_t val)
 {
 	GP->PUD = val;
 	delay_cycles(150);
@@ -118,21 +108,18 @@ gpio_pud(uint32_t pin, pud_t val)
 }
 
 
-void
-gpio_inp(uint32_t pin)
+void gpio_inp(uint32_t pin)
 {
 	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3));
 }
 
-void
-gpio_out(uint32_t pin)
+void gpio_out(uint32_t pin)
 {
 	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); // clear the 3 bits first
 	GP->FSEL[pin / 10] |= (1 << ((pin % 10) * 3));
 }
 
-void
-gpio_clear_pud(void)
+void gpio_clear_pud(void)
 {
 	GP->PUD = 0;
 	delay_cycles(150);

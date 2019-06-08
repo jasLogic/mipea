@@ -23,8 +23,7 @@
 
 #include "peripherals.h"
 
-uint32_t *
-clock_map(void)
+uint32_t *clock_map(void)
 {
     if (!peripheral_ismapped((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE)) {
         clock_manager_base_ptr = (volatile uint32_t *)peripheral_map(
@@ -33,23 +32,18 @@ clock_map(void)
     return (uint32_t *)clock_manager_base_ptr;
 }
 
-void
-clock_unmap(void)
+void clock_unmap(void)
 {
-    if (peripheral_ismapped((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE)) {
-        peripheral_unmap((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE);
-    }
+    peripheral_unmap((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE);
 }
 
 
-void
-clock_enable(volatile uint32_t *reg)
+void clock_enable(volatile uint32_t *reg)
 {
     *reg |= CM_PASSWD | 0x10;
 }
 
-void
-clock_disable(volatile uint32_t *reg)
+void clock_disable(volatile uint32_t *reg)
 {
     if (*reg & 0x80) {
 		// *reg |= CM_PASSWD | (1 << 5); // Kill clock?
@@ -58,8 +52,7 @@ clock_disable(volatile uint32_t *reg)
 	}
 }
 
-void
-clock_configure(volatile uint32_t *reg, clock_source_t src,
+void clock_configure(volatile uint32_t *reg, clock_source_t src,
                 unsigned int divisor, unsigned int mash)
 {
     clock_disable(reg);

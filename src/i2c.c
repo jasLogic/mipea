@@ -29,8 +29,7 @@
     #define I2C_OFFSET  I2C_OFFSET_1
 #endif//USE_I2C_BUS_0
 
-uint32_t *
-i2c_map(void)
+uint32_t *i2c_map(void)
 {
     if (!peripheral_ismapped((void *)i2c_base_ptr, I2C_SIZE)) {
         i2c_base_ptr = (volatile uint32_t *)peripheral_map(I2C_OFFSET, I2C_SIZE);
@@ -38,46 +37,37 @@ i2c_map(void)
 	return (uint32_t *)i2c_base_ptr;
 }
 
-void
-i2c_unmap(void)
+void i2c_unmap(void)
 {
-    if (peripheral_ismapped((void *)i2c_base_ptr, I2C_SIZE)) {
-        peripheral_unmap((void *)i2c_base_ptr, I2C_SIZE);
-    }
+    peripheral_unmap((void *)i2c_base_ptr, I2C_SIZE);
 }
 
-void
-i2c_set_address(uint8_t addr)
+void i2c_set_address(uint8_t addr)
 {
     I2C->A = addr & 0x7f; // only 7 bit
 }
 
-void
-i2c_set_clkdiv(uint16_t divisor)
+void i2c_set_clkdiv(uint16_t divisor)
 {
     I2C->DIV = divisor;
 }
 
-void
-i2c_set_clkstr(uint16_t clkstr)
+void i2c_set_clkstr(uint16_t clkstr)
 {
     I2C->CLKT = clkstr;
 }
 
-void
-i2c_start(void)
+void i2c_start(void)
 {
     I2C->C |= I2C_C_I2CEN; // clear fifo, enable bsc controller
     I2C->S = 0x50; // reset flag register
 }
-void
-i2c_stop(void)
+void i2c_stop(void)
 {
     I2C->C &= ~I2C_C_I2CEN; // disable bsc controller
 }
 
-inline void
-i2c_write_byte(uint8_t byte)
+inline void i2c_write_byte(uint8_t byte)
 {
     I2C->DLEN = 1; // one byte transfer
     I2C->C |= I2C_C_CLEAR; // clear fifo
@@ -90,8 +80,7 @@ i2c_write_byte(uint8_t byte)
     I2C->S |= I2C_S_DONE; // clear done flag
 }
 
-inline uint8_t
-i2c_read_byte(void)
+inline uint8_t i2c_read_byte(void)
 {
     I2C->DLEN = 1; // one byte transfer
     I2C->C |= I2C_C_READ | I2C_C_CLEAR; // set read bit, clear FIFO
@@ -103,8 +92,7 @@ i2c_read_byte(void)
     return I2C->FIFO;
 }
 
-inline void
-i2c_write_data(const uint8_t *data, uint16_t length)
+inline void i2c_write_data(const uint8_t *data, uint16_t length)
 {
     uint16_t i;
 
@@ -124,8 +112,7 @@ i2c_write_data(const uint8_t *data, uint16_t length)
     I2C->S |= I2C_S_DONE; // clear done flag
 }
 
-inline void
-i2c_read_data(uint8_t *data, uint16_t length)
+inline void i2c_read_data(uint8_t *data, uint16_t length)
 {
     uint16_t i = 0;
 
@@ -151,8 +138,7 @@ i2c_read_data(uint8_t *data, uint16_t length)
  * 2 times i2c_read_byte makes two individual transmissions which might not
  * work on some ics
  */
-inline void
-i2c_write_register(uint8_t reg, uint8_t data)
+inline void i2c_write_register(uint8_t reg, uint8_t data)
 {
     uint8_t tf[2] = {reg, data};
     i2c_write_data(tf, 2);
@@ -162,8 +148,7 @@ i2c_write_register(uint8_t reg, uint8_t data)
  * different to i2c_write_register, this function can be replaced by
  * one i2c_write_byte and i2c_read_byte
  */
-inline uint8_t
-i2c_read_register(uint8_t reg)
+inline uint8_t i2c_read_register(uint8_t reg)
 {
     i2c_write_byte(reg);
     return i2c_read_byte();

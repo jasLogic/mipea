@@ -39,8 +39,7 @@
 #define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
 	__LINE__, __func__)
 
-uint32_t *
-peripheral_map(uint32_t offset, uint32_t size)
+uint32_t *peripheral_map(uint32_t offset, uint32_t size)
 {
 	int fd;
 	void *map;
@@ -65,17 +64,17 @@ peripheral_map(uint32_t offset, uint32_t size)
 	return map;
 }
 
-void
-peripheral_unmap(void *map, uint32_t size)
+int peripheral_unmap(void *map, uint32_t size)
 {
-	if (munmap(map, size) == -1) {
-		perror_inf();
-		perror("Failed munmapping peripheral");
+	if (peripheral_ismapped(map, size)) {
+		if (munmap(map, size) == -1) {
+			perror_inf();
+			perror("Failed munmapping peripheral");
+		}
 	}
 }
 
-int
-peripheral_ismapped(void *map, uint32_t size)
+int peripheral_ismapped(void *map, uint32_t size)
 {
 	if (map == NULL) return 0;
 	if (msync(map, size, 0) == -1) return 0;

@@ -29,7 +29,7 @@ extern "C" {
 #define PERIPHERAL_BASE_BCM2836_7   0x3F000000
 
 uint32_t *	peripheral_map(uint32_t offset, uint32_t size);
-void 		peripheral_unmap(void* map, uint32_t size);
+int 		peripheral_unmap(void* map, uint32_t size);
 
 int			peripheral_ismapped(void *map, uint32_t size);
 

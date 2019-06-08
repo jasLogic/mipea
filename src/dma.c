@@ -25,8 +25,7 @@
 #include "peripherals.h"
 #include "mailbox_mod.h"
 
-uint32_t *
-dma_map(void)
+uint32_t *dma_map(void)
 {
     if (!peripheral_ismapped((uint32_t *)dma_base_ptr, DMA_SIZE)) {
         // open /dev/vcio which is used in mailbox
@@ -39,40 +38,32 @@ dma_map(void)
     }
     return (uint32_t *)dma_base_ptr;
 }
-void
-dma_unmap(void)
+void dma_unmap(void)
 {
-    if (peripheral_ismapped((uint32_t *)dma_base_ptr, DMA_SIZE)) {
-        peripheral_unmap((uint32_t *)dma_base_ptr, DMA_SIZE);
-    }
+    peripheral_unmap((uint32_t *)dma_base_ptr, DMA_SIZE);
     mbox_close(__mbox_fd); // close it again too
 }
 
-void
-dma_configure(dma_channel_config_t *config)
+void dma_configure(dma_channel_config_t *config)
 {
     config->channel->CS = config->cs_register << 16;
 }
-void
-dma_enable(struct dma_channel_register_map *channel)
+void dma_enable(struct dma_channel_register_map *channel)
 {
     channel->CS |= 1;
 }
-void
-dma_disable(struct dma_channel_register_map *channel)
+void dma_disable(struct dma_channel_register_map *channel)
 {
     channel->CS &= ~1;
 }
 
-uint32_t
-dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr)
+uint32_t dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr)
 {
     unsigned int offset = (uint8_t *)addr - (uint8_t *)block->mem;
 	return block->bus_addr + offset;
 }
 
-void
-dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size)
+void dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size)
 {
     block->size = (size / PAGE_SIZE + 1) * 4096; // round to 4096
     block->handle = mbox_alloc(__mbox_fd, block->size, PAGE_SIZE,
@@ -81,8 +72,7 @@ dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size)
     block->mem = mbox_map(BUS_TO_PHYS(block->bus_addr), block->size);
 }
 
-void
-dma_free_phy_mem(dma_phy_mem_blk_t *block)
+void dma_free_phy_mem(dma_phy_mem_blk_t *block)
 {
     mbox_unmap(block->mem, block->size);
     mbox_unlock(__mbox_fd, block->handle);
