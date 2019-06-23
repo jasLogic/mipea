@@ -78,7 +78,6 @@ void gpio_pud(uint32_t pin, pud_t val);
 
 void gpio_inp(uint32_t pin);
 void gpio_out(uint32_t pin);
-void gpio_clear_pud(void);
 
 #ifdef __cplusplus
 }

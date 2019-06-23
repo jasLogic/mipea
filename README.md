@@ -12,6 +12,12 @@ Contributions are welcome, please fork and open a pull request.
 
 If you have successfully used mipea on a Raspberry Pi which is not tested yet, please inform me and I can add it to the list.
 
+#### Warning
+gpio in versions 2.1.0 and below may temporarily disable wifi on some
+Raspberry Pis until reboot. This was because of the `gpio_clear_pud` function
+which cleared all pullup / -downs on all pins. I suspect that the function
+disabled a pullup / -down necessary for the wifi chip.
+
 ### Goal of this library
 The library is very useful for **high-speed and lighweight applications**,
 **efficiency** and **total control** on the **hardware level**.

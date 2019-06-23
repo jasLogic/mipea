@@ -31,15 +31,15 @@
 
 uint32_t *i2c_map(void)
 {
-    if (!peripheral_ismapped((void *)i2c_base_ptr, I2C_SIZE)) {
-        i2c_base_ptr = (volatile uint32_t *)peripheral_map(I2C_OFFSET, I2C_SIZE);
+    if (!peripheral_ismapped(i2c_base_ptr, I2C_SIZE)) {
+        i2c_base_ptr = peripheral_map(I2C_OFFSET, I2C_SIZE);
     }
 	return (uint32_t *)i2c_base_ptr;
 }
 
 void i2c_unmap(void)
 {
-    peripheral_unmap((void *)i2c_base_ptr, I2C_SIZE);
+    peripheral_unmap(i2c_base_ptr, I2C_SIZE);
 }
 
 void i2c_set_address(uint8_t addr)

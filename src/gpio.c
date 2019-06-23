@@ -32,21 +32,18 @@ static void delay_cycles(unsigned int n)
 
 uint32_t *gpio_map(void)
 {
-	if (!peripheral_ismapped((void *)gpio_base_ptr, GPIO_SIZE)) {
-		gpio_base_ptr = (volatile uint32_t *)peripheral_map(GPIO_OFFSET, GPIO_SIZE);
+	if (!peripheral_ismapped(gpio_base_ptr, GPIO_SIZE)) {
+		gpio_base_ptr = peripheral_map(GPIO_OFFSET, GPIO_SIZE);
 		if (gpio_base_ptr == NULL) {
 			return NULL;
 		}
-
-		gpio_clear_pud(); // clear all pullup / -downs
 	}
 	return (uint32_t *)gpio_base_ptr;
 }
 
 void gpio_unmap(void)
 {
-	gpio_clear_pud(); // clear all pullup / -downs
-	peripheral_unmap((void *)gpio_base_ptr, GPIO_SIZE);
+	peripheral_unmap(gpio_base_ptr, GPIO_SIZE);
 }
 
 void gpio_func(uint32_t pin, pin_functions_t function)
@@ -117,20 +114,4 @@ void gpio_out(uint32_t pin)
 {
 	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); // clear the 3 bits first
 	GP->FSEL[pin / 10] |= (1 << ((pin % 10) * 3));
-}
-
-void gpio_clear_pud(void)
-{
-	GP->PUD = 0;
-	delay_cycles(150);
-	uint32_t i;
-	for (i = 0; i < 32; ++i) {
-		GP->PUDCLK[0] = (1 << i);
-	}
-	for (i = 0; i < 11; ++i) {
-		GP->PUDCLK[1] = (1 << i);
-	}
-	delay_cycles(150);
-	GP->PUDCLK[0] = 0;
-	GP->PUDCLK[1] = 0;
 }

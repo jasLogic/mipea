@@ -25,16 +25,16 @@
 
 uint32_t *clock_map(void)
 {
-    if (!peripheral_ismapped((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE)) {
-        clock_manager_base_ptr = (volatile uint32_t *)peripheral_map(
-            CLOCK_MANAGER_OFFSET, CLOCK_MANAGER_SIZE);
+    if (!peripheral_ismapped(clock_manager_base_ptr, CLOCK_MANAGER_SIZE)) {
+        clock_manager_base_ptr = peripheral_map(CLOCK_MANAGER_OFFSET,
+            CLOCK_MANAGER_SIZE);
     }
     return (uint32_t *)clock_manager_base_ptr;
 }
 
 void clock_unmap(void)
 {
-    peripheral_unmap((uint32_t *)clock_manager_base_ptr, CLOCK_MANAGER_SIZE);
+    peripheral_unmap(clock_manager_base_ptr, CLOCK_MANAGER_SIZE);
 }
 
 

@@ -132,12 +132,5 @@ Functions
 .. function:: void gpio_out(uint32_t pin)
 
     Make pin :code:`pin` an output.
-
-.. function:: void gpio_clear_pud(void)
-
-    This function clears all pullup / -downs. This function is called in
-    :func:`gpio_map` and :func:`gpio_unmap` because the Raspberry Pi does *not*
-    clear its pullup / -downs, even after power down.
-
-
+    
 .. _Datasheet: https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf

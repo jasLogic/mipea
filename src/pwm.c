@@ -26,12 +26,12 @@
 
 uint32_t *pwm_map(void)
 {
-    if (!peripheral_ismapped((uint32_t *)pwm_base_ptr, PWM_SIZE)) {
+    if (!peripheral_ismapped(pwm_base_ptr, PWM_SIZE)) {
         if (clock_map() == NULL) {
             return NULL;
         }
 
-        pwm_base_ptr = (volatile uint32_t *)peripheral_map(PWM_OFFSET, PWM_SIZE);
+        pwm_base_ptr = peripheral_map(PWM_OFFSET, PWM_SIZE);
     }
     return (uint32_t *)pwm_base_ptr;
 }
@@ -42,7 +42,7 @@ void pwm_unmap(void)
     pwm_disable(PWM_CHANNEL1);
     clock_disable(&CM->PWMCTL);
 
-    peripheral_unmap((uint32_t *)pwm_base_ptr, PWM_SIZE);
+    peripheral_unmap(pwm_base_ptr, PWM_SIZE);
     clock_unmap(); // unmap clock too
 }
 

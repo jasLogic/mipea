@@ -26,15 +26,15 @@
 
 uint32_t *spi_map(void)
 {
-    if (!peripheral_ismapped((uint32_t *)spi_base_ptr, SPI_SIZE)) {
-        spi_base_ptr = (volatile uint32_t *)peripheral_map(SPI_OFFSET, SPI_SIZE);
+    if (!peripheral_ismapped(spi_base_ptr, SPI_SIZE)) {
+        spi_base_ptr = peripheral_map(SPI_OFFSET, SPI_SIZE);
     }
     return (uint32_t *)spi_base_ptr;
 }
 
 void spi_unmap(void)
 {
-    peripheral_unmap((uint32_t *)spi_base_ptr, SPI_SIZE);
+    peripheral_unmap(spi_base_ptr, SPI_SIZE);
 }
 
 void spi_configure(spi_channel_config_t *config)

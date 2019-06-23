@@ -61,22 +61,22 @@ uint32_t *peripheral_map(uint32_t offset, uint32_t size)
 	}
 
 	close(fd);
-	return map;
+	return (uint32_t *)map;
 }
 
-int peripheral_unmap(void *map, uint32_t size)
+void peripheral_unmap(volatile uint32_t *map, uint32_t size)
 {
 	if (peripheral_ismapped(map, size)) {
-		if (munmap(map, size) == -1) {
+		if (munmap((void *)map, size) == -1) {
 			perror_inf();
 			perror("Failed munmapping peripheral");
 		}
 	}
 }
 
-int peripheral_ismapped(void *map, uint32_t size)
+int peripheral_ismapped(volatile uint32_t *map, uint32_t size)
 {
 	if (map == NULL) return 0;
-	if (msync(map, size, 0) == -1) return 0;
+	if (msync((void *)map, size, 0) == -1) return 0;
 	return 1;
 }

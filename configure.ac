@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([mipea], [2.0.0])
+AC_INIT([mipea], [2.1.1])
 AC_CONFIG_SRCDIR([src/mipea.c])
 
 
@@ -57,7 +57,7 @@ then
         else
             AC_MSG_RESULT([1])
         fi
-        
+
     else
         AC_MSG_WARN([cannot find revision])
         AC_MSG_WARN([IMPORTANT: Go into config.h and define the SoC you are using \
