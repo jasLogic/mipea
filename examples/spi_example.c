@@ -57,11 +57,11 @@ main(void)
 	gpio_func(miso, ALT0);
 	gpio_func(ce0, ALT0);
 
-	spi_channel_config_t conf = {
+	spi_channel_config conf = {
         {{  /*
              * these strange double braces are not needed,
              * but else the compiler gives a warning
-             * because of the way 'spi_channel_config_t' is implemented
+             * because of the way 'spi_channel_config' is implemented
              */
             SPI_CPHA_CLK_BEGINNING, // data on clock leading or trailing edge
             SPI_CPOL_RESET_LOW,     // clock polarity: rest state low or high

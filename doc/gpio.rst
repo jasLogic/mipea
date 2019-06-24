@@ -76,7 +76,7 @@ Registers
 Enums
 =====
 
-.. type:: _pin_function
+.. type:: gpio_pin_function
 
     This enum holds the values for the various pin functions::
 
@@ -84,7 +84,7 @@ Enums
         	INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5
         };
 
-.. type:: _pull_up_down
+.. type:: gpio_pud
 
     This enum holds the values for the states of the pullups / -downs::
 

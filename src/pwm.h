@@ -69,12 +69,12 @@ typedef struct {
     };
     unsigned int divisor;
     uint32_t range;
-} pwm_channel_config_t;
+} pwm_channel_config;
 
 uint32_t *  pwm_map(void);
 void        pwm_unmap(void);
 
-void pwm_configure(enum pwm_channel_num channel, pwm_channel_config_t *config);
+void pwm_configure(enum pwm_channel_num channel, pwm_channel_config *config);
 
 void pwm_enable(enum pwm_channel_num channel);
 void pwm_disable(enum pwm_channel_num channel);

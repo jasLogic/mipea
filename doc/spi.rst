@@ -73,7 +73,7 @@ Registers
 Structs
 =======
 
-.. type:: spi_channel_config_t
+.. type:: spi_channel_config
 
     This struct is used to configure SPI::
 
@@ -94,7 +94,7 @@ Structs
             };
 
             uint16_t divisor;
-        } spi_channel_config_t;
+        } spi_channel_config;
 
     .. member:: uint32_t cs_register
 
@@ -126,9 +126,9 @@ Functions
 
     This function unmaps the SPI registers.
 
-.. function:: void spi_configure(spi_channel_config_t *config)
+.. function:: void spi_configure(spi_channel_config *config)
 
-    This function configures SPI with a :type:`spi_channel_config_t`
+    This function configures SPI with a :type:`spi_channel_config`
     pointed to by :code:`config`.
 
 .. function:: void spi_set_ce(uint8_t ce)

@@ -64,7 +64,7 @@ void pwm_disable(enum pwm_channel_num channel)
     }
 }
 
-void pwm_configure(enum pwm_channel_num channel, pwm_channel_config_t *config)
+void pwm_configure(enum pwm_channel_num channel, pwm_channel_config *config)
 {
     clock_configure(&CM->PWMCTL, CLOCK_PLLD, config->divisor, 0);
     clock_enable(&CM->PWMCTL);

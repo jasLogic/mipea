@@ -37,7 +37,7 @@ void spi_unmap(void)
     peripheral_unmap(spi_base_ptr, SPI_SIZE);
 }
 
-void spi_configure(spi_channel_config_t *config)
+void spi_configure(spi_channel_config *config)
 {
     SPI->CS = config->cs_register;
     SPI->CLK = config->divisor;

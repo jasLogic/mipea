@@ -46,11 +46,11 @@ main(void)
     int servo = 18; // servo signal on pin 18
     gpio_func(servo, ALT5); // pin 18 uses alternate function 5 for pwm
 
-    pwm_channel_config_t ch = {
+    pwm_channel_config ch = {
         {{  /*
              * these strange double braces are not needed,
              * but else the compiler gives a warning because of
-             * the way 'pwm_channel_config_t' is implemented
+             * the way 'pwm_channel_config' is implemented
              */
             PWM_CTL_MODE_PWM,   // use pwm mode
             PWM_RPTL_STOP,      // if serial mode: repeat the last data

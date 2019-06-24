@@ -56,13 +56,13 @@ void dma_disable(volatile struct dma_channel_register_map *channel)
     channel->CS &= ~1;
 }
 
-uint32_t dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr)
+uint32_t dma_virt_to_phy(dma_phy_mem_blk *block, void *addr)
 {
     unsigned int offset = (uint8_t *)addr - (uint8_t *)block->mem;
 	return block->bus_addr + offset;
 }
 
-void dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size)
+void dma_alloc_phy_mem(dma_phy_mem_blk *block, unsigned int size)
 {
     block->size = (size / PAGE_SIZE + 1) * 4096; // round to 4096
     block->handle = mbox_alloc(_mbox_fd, block->size, PAGE_SIZE,
@@ -71,7 +71,7 @@ void dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size)
     block->mem = mbox_map(BUS_TO_PHYS(block->bus_addr), block->size);
 }
 
-void dma_free_phy_mem(dma_phy_mem_blk_t *block)
+void dma_free_phy_mem(dma_phy_mem_blk *block)
 {
     mbox_unmap(block->mem, block->size);
     mbox_unlock(_mbox_fd, block->handle);

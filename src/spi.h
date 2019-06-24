@@ -57,12 +57,12 @@ typedef struct {
     };
 
     uint16_t divisor;
-} spi_channel_config_t;
+} spi_channel_config;
 
 uint32_t *  spi_map(void);
 void        spi_unmap(void);
 
-void spi_configure(spi_channel_config_t *config);
+void spi_configure(spi_channel_config *config);
 void spi_set_ce(uint8_t ce);
 
 extern void     spi_transfer_start(void);

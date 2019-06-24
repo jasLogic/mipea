@@ -99,18 +99,18 @@ Registers
 Enums
 =====
 
-.. type:: pwm_channel_t
+.. type:: pwm_channel_num
 
     This enum holds the values distinguishing PWM channel 0 and 1::
 
         typedef enum {
             PWM_CHANNEL0, PWM_CHANNEL1
-        } pwm_channel_t;
+        } pwm_channel_num;
 
 Structs
 =======
 
-.. type:: pwm_channel_config_t
+.. type:: pwm_channel_config
 
     This struct is used to configure a PWM channel::
 
@@ -130,7 +130,7 @@ Structs
             };
             unsigned int divisor;
             uint32_t range;
-        } pwm_channel_config_t;
+        } pwm_channel_config;
 
     .. member:: uint32_t ctl_register
 
@@ -159,18 +159,18 @@ Functions
 
     This function unmaps the PWM registers.
 
-.. function:: void pwm_configure(pwm_channel_t channel, pwm_channel_config_t *config)
+.. function:: void pwm_configure(pwm_channel_num channel, pwm_channel_config *config)
 
-    This function configures :type:`pwm_channel_t` :code:`channel` with a
-    :type:`pwm_channel_config_t` pointed to by :code:`config`.
+    This function configures :type:`pwm_channel_num` :code:`channel` with a
+    :type:`pwm_channel_config` pointed to by :code:`config`.
 
-.. function:: void pwm_enable(pwm_channel_t channel)
+.. function:: void pwm_enable(pwm_channel_num channel)
 
-    This function enables :type:`pwm_channel_t` :code:`channel`.
+    This function enables :type:`pwm_channel_num` :code:`channel`.
 
-.. function:: void pwm_disable(pwm_channel_t channel)
+.. function:: void pwm_disable(pwm_channel_num channel)
 
-    This function disables :type:`pwm_channel_t` :code:`channnel`.
+    This function disables :type:`pwm_channel_num` :code:`channnel`.
 
 .. _Datasheet: https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf
 .. _this file: https://github.com/bootc/linux/blob/073993b3f3e23fb8d376f9e159eee410968e0c57/arch/arm/mach-bcm2708/bcm2708.c#L208
