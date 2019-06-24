@@ -49,9 +49,9 @@ struct pwm_register_map {
 #define RNG_CHANNEL1    PWM->RNG2
 #define DAT_CHANNEL1    PWM->DAT2
 
-typedef enum {
+enum pwm_channel_num {
     PWM_CHANNEL0, PWM_CHANNEL1
-} pwm_channel_t;
+};
 
 typedef struct {
     union {
@@ -74,10 +74,10 @@ typedef struct {
 uint32_t *  pwm_map(void);
 void        pwm_unmap(void);
 
-void pwm_configure(pwm_channel_t channel, pwm_channel_config_t *config);
+void pwm_configure(enum pwm_channel_num channel, pwm_channel_config_t *config);
 
-void pwm_enable(pwm_channel_t channel);
-void pwm_disable(pwm_channel_t channel);
+void pwm_enable(enum pwm_channel_num channel);
+void pwm_disable(enum pwm_channel_num channel);
 
 /******* CTL Register bit values *******/
 #define PWM_CTL_MODE_PWM        0x0

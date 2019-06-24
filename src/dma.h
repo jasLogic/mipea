@@ -104,15 +104,15 @@ uint32_t *  dma_map(void);
 void        dma_unmap(void);
 
 void    dma_configure(dma_channel_config_t *config);
-void    dma_enable(struct dma_channel_register_map *channel);
-void    dma_disable(struct dma_channel_register_map *channel);
+void    dma_enable(volatile struct dma_channel_register_map *channel);
+void    dma_disable(volatile struct dma_channel_register_map *channel);
 
 uint32_t dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr);
 
 void dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size);
 void dma_free_phy_mem(dma_phy_mem_blk_t *block);
 
-int __mbox_fd;
+int _mbox_fd;
 
 #ifdef  __cplusplus
 }

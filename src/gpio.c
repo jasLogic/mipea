@@ -32,11 +32,8 @@ static void delay_cycles(unsigned int n)
 
 uint32_t *gpio_map(void)
 {
-	if (!peripheral_ismapped(gpio_base_ptr, GPIO_SIZE)) {
-		gpio_base_ptr = peripheral_map(GPIO_OFFSET, GPIO_SIZE);
-		if (gpio_base_ptr == NULL) {
-			return NULL;
-		}
+	if (peripheral_map(&gpio_base_ptr, GPIO_OFFSET, GPIO_SIZE) < 0) {
+		return NULL;
 	}
 	return (uint32_t *)gpio_base_ptr;
 }
@@ -46,7 +43,7 @@ void gpio_unmap(void)
 	peripheral_unmap(gpio_base_ptr, GPIO_SIZE);
 }
 
-void gpio_func(uint32_t pin, pin_functions_t function)
+void gpio_func(uint32_t pin, enum gpio_pin_function function)
 {
 	GP->FSEL[pin / 10] &= ~(7 << ((pin % 10) * 3)); // clear the 3 bits
 
@@ -94,9 +91,9 @@ inline uint32_t gpio_tst(uint32_t pin)
 	return GP->LEV[pin / 32] & (1 << (pin % 32));
 }
 
-void gpio_pud(uint32_t pin, pud_t val)
+void gpio_pud(uint32_t pin, enum gpio_pud pud)
 {
-	GP->PUD = val;
+	GP->PUD = pud;
 	delay_cycles(150);
 	GP->PUDCLK[pin / 32] = (1 << (pin % 32));
 	delay_cycles(150);

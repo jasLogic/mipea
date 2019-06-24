@@ -39,29 +39,31 @@
 #define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
 	__LINE__, __func__)
 
-uint32_t *peripheral_map(uint32_t offset, uint32_t size)
+int peripheral_map(volatile uint32_t **map, uint32_t offset, uint32_t size)
 {
-	int fd;
-	void *map;
-
-	if ((fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
-		perror_inf();
-		perror("Failed to open \"/dev/mem\"");
-		return NULL;
+	if (peripheral_ismapped(*map, size)) {
+		return 1; // already mapped
 	}
 
-	map = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd,
+	int fd = open("/dev/mem", O_RDWR | O_SYNC);
+	if (fd < 0) {
+		perror_inf();
+		perror("Failed to open /dev/mem");
+		return -1;
+	}
+
+	*map = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
 		PERIPHERAL_BASE + offset);
 
-	if (map == MAP_FAILED) {
+	close(fd);
+
+	if (*map == MAP_FAILED) {
 		perror_inf();
 		perror("Failed mmaping peripheral");
-		close(fd);
-		return NULL;
+		return -1;
 	}
 
-	close(fd);
-	return (uint32_t *)map;
+	return 0;
 }
 
 void peripheral_unmap(volatile uint32_t *map, uint32_t size)

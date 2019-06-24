@@ -25,7 +25,7 @@ mipea_map(void)
         || !timer_map()) {
         return -1;
     }
-    return 1;
+    return 0;
 }
 
 void

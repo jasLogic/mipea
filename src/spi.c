@@ -26,8 +26,8 @@
 
 uint32_t *spi_map(void)
 {
-    if (!peripheral_ismapped(spi_base_ptr, SPI_SIZE)) {
-        spi_base_ptr = peripheral_map(SPI_OFFSET, SPI_SIZE);
+    if (peripheral_map(&spi_base_ptr, SPI_OFFSET, SPI_SIZE) < 0) {
+        return NULL;
     }
     return (uint32_t *)spi_base_ptr;
 }

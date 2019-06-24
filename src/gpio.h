@@ -58,23 +58,23 @@ struct gpio_register_map {
 };
 #define GP		((volatile struct gpio_register_map *)gpio_base_ptr)
 
-typedef enum {
+enum gpio_pin_function {
 	INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5
-} pin_functions_t;
-typedef enum {
+};
+enum gpio_pud {
 	PUD_DISABLE, PUD_DOWN, PUD_UP
-} pud_t;
+};
 
 uint32_t *	gpio_map(void);
 void 		gpio_unmap(void);
 
-void gpio_func(uint32_t pin, pin_functions_t function);
+void gpio_func(uint32_t pin, enum gpio_pin_function function);
 
 extern void 	gpio_set(uint32_t pin);
 extern void 	gpio_clr(uint32_t pin);
 extern uint32_t gpio_tst(uint32_t pin);
 
-void gpio_pud(uint32_t pin, pud_t val);
+void gpio_pud(uint32_t pin, enum gpio_pud pud);
 
 void gpio_inp(uint32_t pin);
 void gpio_out(uint32_t pin);

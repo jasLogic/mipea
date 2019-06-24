@@ -88,6 +88,12 @@ or follow the output from :code:`sudo make install`::
     more information, such as the ld(1) and ld.so(8) manual pages.
     ----------------------------------------------------------------------
 
+Wifi stops working when using the library
+-----------------------------------------
+
+In versions 2.1.0 and below the GPIO map and unmap functions cleared *all*
+pullup / -downs on all pins. This could lead to the wifi not working until a
+reboot. This issue should be fixed with version 2.1.1.
 
 .. _GitHub: https://github.com/jasLogic/mipea
 .. _releases: https://github.com/jasLogic/mipea/releases

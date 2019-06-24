@@ -31,7 +31,7 @@ Macros
 Functions
 =========
 
-.. function:: uint32_t * peripheral_map (uint32_t offset, uint32_t size)
+.. function:: int peripheral_map (volatile uint32_t **map, uint32_t offset, uint32_t size)
 
     This function maps a code memory block of size :code:`size` at offset
     :code:`offset` from the peripheral base.
@@ -40,7 +40,7 @@ Functions
         :code:`4096` on the Raspberry Pi.
 
 
-    The function returns a pointer to the mapped memory on success and :code:`NULL` on error.
+    The function returns 0 on success and a negative number on error.
 
 .. function:: void peripheral_unmap (void* map, uint32_t size)
 

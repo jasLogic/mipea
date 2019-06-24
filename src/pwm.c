@@ -26,12 +26,12 @@
 
 uint32_t *pwm_map(void)
 {
-    if (!peripheral_ismapped(pwm_base_ptr, PWM_SIZE)) {
-        if (clock_map() == NULL) {
-            return NULL;
-        }
+    if (clock_map() == NULL) {
+        return NULL;
+    }
 
-        pwm_base_ptr = peripheral_map(PWM_OFFSET, PWM_SIZE);
+    if (peripheral_map(&pwm_base_ptr, PWM_OFFSET, PWM_SIZE) < 0) {
+        return NULL;
     }
     return (uint32_t *)pwm_base_ptr;
 }
@@ -46,7 +46,7 @@ void pwm_unmap(void)
     clock_unmap(); // unmap clock too
 }
 
-void pwm_enable(pwm_channel_t channel)
+void pwm_enable(enum pwm_channel_num channel)
 {
     if (channel == PWM_CHANNEL0) {
         PWM->CTL |= 1;
@@ -55,7 +55,7 @@ void pwm_enable(pwm_channel_t channel)
     }
 }
 
-void pwm_disable(pwm_channel_t channel)
+void pwm_disable(enum pwm_channel_num channel)
 {
     if (channel == PWM_CHANNEL0) {
         PWM->CTL &= ~1;
@@ -64,7 +64,7 @@ void pwm_disable(pwm_channel_t channel)
     }
 }
 
-void pwm_configure(pwm_channel_t channel, pwm_channel_config_t *config)
+void pwm_configure(enum pwm_channel_num channel, pwm_channel_config_t *config)
 {
     clock_configure(&CM->PWMCTL, CLOCK_PLLD, config->divisor, 0);
     clock_enable(&CM->PWMCTL);

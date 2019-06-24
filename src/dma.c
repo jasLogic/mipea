@@ -20,39 +20,38 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <stdio.h>
 
 #include "peripherals.h"
 #include "mailbox_mod.h"
 
 uint32_t *dma_map(void)
 {
-    if (!peripheral_ismapped(dma_base_ptr, DMA_SIZE)) {
-        // open /dev/vcio which is used in mailbox
-        __mbox_fd = mbox_open();
-        if (__mbox_fd < 0) {
-            return NULL;
-        }
+    // open /dev/vcio which is used in mailbox
+    _mbox_fd = mbox_open();
+    if (_mbox_fd < 0) {
+        return NULL;
+    }
 
-        dma_base_ptr = peripheral_map(DMA_OFFSET, DMA_SIZE);
+    if (peripheral_map(&dma_base_ptr, DMA_OFFSET, DMA_SIZE) < 0) {
+        return NULL;
     }
     return (uint32_t *)dma_base_ptr;
 }
 void dma_unmap(void)
 {
     peripheral_unmap(dma_base_ptr, DMA_SIZE);
-    mbox_close(__mbox_fd); // close it again too
+    mbox_close(_mbox_fd); // close it again too
 }
 
 void dma_configure(dma_channel_config_t *config)
 {
     config->channel->CS = config->cs_register << 16;
 }
-void dma_enable(struct dma_channel_register_map *channel)
+void dma_enable(volatile struct dma_channel_register_map *channel)
 {
     channel->CS |= 1;
 }
-void dma_disable(struct dma_channel_register_map *channel)
+void dma_disable(volatile struct dma_channel_register_map *channel)
 {
     channel->CS &= ~1;
 }
@@ -66,16 +65,16 @@ uint32_t dma_virt_to_phy(dma_phy_mem_blk_t *block, void *addr)
 void dma_alloc_phy_mem(dma_phy_mem_blk_t *block, unsigned int size)
 {
     block->size = (size / PAGE_SIZE + 1) * 4096; // round to 4096
-    block->handle = mbox_alloc(__mbox_fd, block->size, PAGE_SIZE,
+    block->handle = mbox_alloc(_mbox_fd, block->size, PAGE_SIZE,
         MEM_FLAG_L1_NONALLOCATING | MEM_FLAG_ZERO);
-    block->bus_addr = mbox_lock(__mbox_fd, block->handle);
+    block->bus_addr = mbox_lock(_mbox_fd, block->handle);
     block->mem = mbox_map(BUS_TO_PHYS(block->bus_addr), block->size);
 }
 
 void dma_free_phy_mem(dma_phy_mem_blk_t *block)
 {
     mbox_unmap(block->mem, block->size);
-    mbox_unlock(__mbox_fd, block->handle);
-    mbox_free(__mbox_fd, block->handle);
+    mbox_unlock(_mbox_fd, block->handle);
+    mbox_free(_mbox_fd, block->handle);
     block->mem = NULL;
 }

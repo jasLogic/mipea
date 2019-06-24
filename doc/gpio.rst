@@ -76,21 +76,21 @@ Registers
 Enums
 =====
 
-.. type:: pin_functions_t
+.. type:: _pin_function
 
     This enum holds the values for the various pin functions::
 
-        typedef enum {
+        enum gpio_pin_function {
         	INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5
-        } pin_functions_t;
+        };
 
-.. type:: pud_t
+.. type:: _pull_up_down
 
     This enum holds the values for the states of the pullups / -downs::
 
-        typedef enum {
+        enum gpio_pud {
         	PUD_DISABLE, PUD_DOWN, PUD_UP
-        } pud_t;
+        };
 
 Functions
 =========
@@ -104,7 +104,7 @@ Functions
 
     This function unmaps the GPIOs.
 
-.. function:: void gpio_func(uint32_t pin, pin_functions_t function)
+.. function:: void gpio_func(uint32_t pin, enum gpio_pin_function function)
 
     This function sets the pin :code:`pin` to the pin function :code:`function`.
 
@@ -121,9 +121,9 @@ Functions
     Test the pin :code:`pin`. This function returns :code:`0` or :code:`false`
     when the pin is low and non-zero if the pin is high.
 
-.. function:: void gpio_pud(uint32_t pin, pud_t val)
+.. function:: void gpio_pud(uint32_t pin, enum gpio_pud pud)
 
-    Use the pullup / -down functionality :code:`val` on the pin :code:`pin`.
+    Use the pullup / -down functionality :code:`pud` on the pin :code:`pin`.
 
 .. function:: void gpio_inp(uint32_t pin)
 
@@ -132,5 +132,5 @@ Functions
 .. function:: void gpio_out(uint32_t pin)
 
     Make pin :code:`pin` an output.
-    
+
 .. _Datasheet: https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf

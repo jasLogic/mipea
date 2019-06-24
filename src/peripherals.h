@@ -28,7 +28,12 @@ extern "C" {
 #define PERIPHERAL_BASE_BCM2835     0x20000000
 #define PERIPHERAL_BASE_BCM2836_7   0x3F000000
 
-uint32_t *peripheral_map(uint32_t offset, uint32_t size);
+enum {
+    PERIPHERAL_EOPEN = 1,
+    PERIPHERAL_EMAP = 2
+};
+
+int peripheral_map(volatile uint32_t **map, uint32_t offset, uint32_t size);
 void peripheral_unmap(volatile uint32_t *map, uint32_t size);
 
 int peripheral_ismapped(volatile uint32_t *map, uint32_t size);

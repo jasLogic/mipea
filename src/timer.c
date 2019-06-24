@@ -8,8 +8,8 @@
 
 uint32_t *timer_map(void)
 {
-    if (!peripheral_ismapped(timer_base_ptr, TIMER_SIZE)) {
-        timer_base_ptr = peripheral_map(TIMER_OFFSET, TIMER_SIZE);
+    if (peripheral_map(&timer_base_ptr, TIMER_OFFSET, TIMER_SIZE) < 0) {
+        return NULL;
     }
     return (uint32_t *)timer_base_ptr;
 }
