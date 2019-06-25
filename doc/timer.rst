@@ -64,7 +64,7 @@ Functions
 
     This function maps the timer registers. It calls :func:`peripheral_map` with
     the values :code:`TIMER_OFFSET` and :macro:`TIMER_SIZE`. On error
-    a negative number is returned.
+    :code:`-1` is returned.
 
 .. function:: void timer_unmap(void)
 

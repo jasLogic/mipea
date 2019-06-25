@@ -20,6 +20,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <errno.h>
 
 #include "peripherals.h"
 #include "mailbox_mod.h"

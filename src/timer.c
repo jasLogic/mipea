@@ -13,7 +13,7 @@ int timer_map(void)
 
 void timer_unmap(void)
 {
-        peripheral_unmap(timer_base_ptr, TIMER_SIZE);
+    peripheral_unmap(timer_base_ptr, TIMER_SIZE);
 }
 
 inline void timer_read(uint64_t *counter)

@@ -26,9 +26,8 @@
 
 int pwm_map(void)
 {
-    int ret = clock_map();
-    if (ret < 0) {
-        return ret;
+    if (clock_map() < 0) {
+        return -1;
     }
 
     return peripheral_map(&pwm_base_ptr, PWM_OFFSET, PWM_SIZE);

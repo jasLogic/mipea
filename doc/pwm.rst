@@ -153,8 +153,8 @@ Functions
 .. function:: int pwm_map(void)
 
     This function maps the PWM registers. It calls :func:`peripheral_map` with
-    the values :macro:`PWM_OFFSET` and :macro:`PWM_SIZE`. On error a negative
-    number is returned.
+    the values :macro:`PWM_OFFSET` and :macro:`PWM_SIZE`. On error
+    :code:`-1` is returned.
 
 .. function:: void pwm_unmap(void)
 

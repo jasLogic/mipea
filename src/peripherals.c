@@ -42,7 +42,7 @@
 int peripheral_map(volatile uint32_t **map, uint32_t offset, uint32_t size)
 {
 	if (peripheral_ismapped(*map, size)) {
-		return 1; // already mapped
+		return 0; // already mapped
 	}
 
 	int fd = open("/dev/mem", O_RDWR | O_SYNC);
@@ -79,6 +79,7 @@ void peripheral_unmap(volatile uint32_t *map, uint32_t size)
 int peripheral_ismapped(volatile uint32_t *map, uint32_t size)
 {
 	if (map == NULL) return 0;
-	if (msync((void *)map, size, 0) == -1) return 0;
+	if (msync((void *)map, size, 0) == -1)
+		return 0;
 	return 1;
 }

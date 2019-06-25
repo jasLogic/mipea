@@ -98,8 +98,8 @@ Functions
 .. function:: int gpio_map(void)
 
     This function maps the GPIO registers. It calls :func:`peripheral_map` with
-    the values :macro:`GPIO_OFFSET` and :macro:`GPIO_SIZE`. On error a negative
-    number is returned.
+    the values :macro:`GPIO_OFFSET` and :macro:`GPIO_SIZE`. On error
+    :code:`-1` is returned.
 
 .. function:: void gpio_unmap(void)
 

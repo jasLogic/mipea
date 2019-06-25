@@ -13,7 +13,7 @@ Functions
 
 .. function:: int mipea_map(void)
 
-    This function maps all the peripherals and returns -1 on error.
+    This function maps all the peripherals and returns :code:`-1` on error.
 
 .. function:: void mipea_unmap(void)
 

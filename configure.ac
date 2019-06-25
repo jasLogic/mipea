@@ -5,7 +5,7 @@ AC_CONFIG_SRCDIR([src/mipea.c])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([foreign subdir-objects -Wall -Werror])
+AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 
 AC_LANG(C)
 AC_PROG_CC
@@ -73,6 +73,6 @@ else
 fi
 
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile])
 
 AC_OUTPUT

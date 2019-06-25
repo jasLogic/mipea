@@ -40,7 +40,7 @@ Functions
         :code:`4096` on the Raspberry Pi.
 
 
-    The function returns 0 on success and a negative number on error.
+    The function returns 0 on success and :code:`-1` on error.
 
 .. function:: void peripheral_unmap (void* map, uint32_t size)
 

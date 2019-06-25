@@ -84,7 +84,7 @@ Functions
 
     This function maps the I2C registers. It calls :func:`peripheral_map` with
     the values :code:`I2C_OFFSET` and :macro:`I2C_SIZE`. :code:`I2C_OFFSET` is
-    defined in :code:`i2c.c`. On error a negative number is returned.
+    defined in :code:`i2c.c`. On error :code:`-1` is returned.
 
 .. function:: void i2c_unmap(void)
 

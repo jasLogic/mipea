@@ -120,8 +120,8 @@ Functions
 .. function:: int spi_map(void)
 
     This function maps the SPI registers. It calls :func:`peripheral_map` with
-    the values :macro:`SPI_OFFSET` and :macro:`SPI_SIZE`. On error a negative
-    number is returned.
+    the values :macro:`SPI_OFFSET` and :macro:`SPI_SIZE`. On error
+    :code:`-1` is returned.
 
 .. function:: void spi_unmap(void)
 
