@@ -65,8 +65,8 @@ enum gpio_pud {
 	PUD_DISABLE, PUD_DOWN, PUD_UP
 };
 
-uint32_t *	gpio_map(void);
-void 		gpio_unmap(void);
+int		gpio_map(void);
+void 	gpio_unmap(void);
 
 void gpio_func(uint32_t pin, enum gpio_pin_function function);
 

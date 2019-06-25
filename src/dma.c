@@ -24,19 +24,17 @@
 #include "peripherals.h"
 #include "mailbox_mod.h"
 
-uint32_t *dma_map(void)
+int dma_map(void)
 {
     // open /dev/vcio which is used in mailbox
     _mbox_fd = mbox_open();
     if (_mbox_fd < 0) {
-        return NULL;
+        return -1;
     }
 
-    if (peripheral_map(&dma_base_ptr, DMA_OFFSET, DMA_SIZE) < 0) {
-        return NULL;
-    }
-    return (uint32_t *)dma_base_ptr;
+    return peripheral_map(&dma_base_ptr, DMA_OFFSET, DMA_SIZE);
 }
+
 void dma_unmap(void)
 {
     peripheral_unmap(dma_base_ptr, DMA_SIZE);

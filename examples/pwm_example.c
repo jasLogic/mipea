@@ -39,7 +39,7 @@
 int
 main(void)
 {
-    if (gpio_map() == NULL || pwm_map() == NULL) { // Map peripherals
+    if (gpio_map() < 0 || pwm_map() < 0) { // Map peripherals
         return 1; // return if mapping fails
     }
 

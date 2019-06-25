@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([mipea], [2.1.1])
+AC_INIT([mipea], [2.2.0])
 AC_CONFIG_SRCDIR([src/mipea.c])
 
 

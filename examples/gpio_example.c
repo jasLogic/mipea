@@ -29,7 +29,7 @@
 int
 main(void)
 {
-    if (gpio_map() == NULL) { // map peripherals
+    if (gpio_map() < 0) { // map peripherals
         return 1; // return if mapping fails
     }
 

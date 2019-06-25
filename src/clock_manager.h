@@ -61,8 +61,8 @@ typedef enum {
     CLOCK_HDMI
 } clock_source_t;
 
-uint32_t *  clock_map(void);
-void        clock_unmap(void);
+int     clock_map(void);
+void    clock_unmap(void);
 
 void clock_enable(volatile uint32_t *reg);
 void clock_disable(volatile uint32_t *reg);

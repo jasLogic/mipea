@@ -32,7 +32,7 @@
 int
 main(void)
 {
-    if (gpio_map() == NULL || i2c_map() == NULL) { // map peripherals
+    if (gpio_map() < 0 || i2c_map() < 0) { // map peripherals
         return 1; // return if mapping fails
     }
 

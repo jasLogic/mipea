@@ -17,6 +17,7 @@ mipea - minimalistic peripheral access library for the Raspberry Pi
    i2c.rst
    pwm.rst
    spi.rst
+   timer.rst
    mipea.rst
 
    gpl.rst

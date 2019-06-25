@@ -42,7 +42,7 @@ union spi_mcp3002_transfer {
 int
 main(void)
 {
-    if (gpio_map() == NULL || spi_map() == NULL) { // map peripherals
+    if (gpio_map() < 0 || spi_map() < 0) { // map peripherals
         return 1; // return if mapping fails
     }
 

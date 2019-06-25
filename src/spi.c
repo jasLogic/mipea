@@ -24,12 +24,9 @@
 #include "peripherals.h"
 #include "../config.h" // for inline
 
-uint32_t *spi_map(void)
+int spi_map(void)
 {
-    if (peripheral_map(&spi_base_ptr, SPI_OFFSET, SPI_SIZE) < 0) {
-        return NULL;
-    }
-    return (uint32_t *)spi_base_ptr;
+    return peripheral_map(&spi_base_ptr, SPI_OFFSET, SPI_SIZE);
 }
 
 void spi_unmap(void)

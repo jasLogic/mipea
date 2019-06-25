@@ -24,16 +24,14 @@
 #include "peripherals.h"
 #include "clock_manager.h"
 
-uint32_t *pwm_map(void)
+int pwm_map(void)
 {
-    if (clock_map() == NULL) {
-        return NULL;
+    int ret = clock_map();
+    if (ret < 0) {
+        return ret;
     }
 
-    if (peripheral_map(&pwm_base_ptr, PWM_OFFSET, PWM_SIZE) < 0) {
-        return NULL;
-    }
-    return (uint32_t *)pwm_base_ptr;
+    return peripheral_map(&pwm_base_ptr, PWM_OFFSET, PWM_SIZE);
 }
 
 void pwm_unmap(void)

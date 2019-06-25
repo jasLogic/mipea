@@ -97,11 +97,12 @@ Enums
 Functions
 =========
 
-.. function:: uint32_t * clock_map(void)
+.. function:: int clock_map(void)
 
     This function maps the clock manager registers.
     It calls :func:`peripheral_map` with the values
-    :macro:`CLOCK_MANAGER_OFFSET` and :macro:`CLOCK_MANAGER_SIZE`.
+    :macro:`CLOCK_MANAGER_OFFSET` and :macro:`CLOCK_MANAGER_SIZE`. On error
+    a negative number is returned.
 
 .. function:: void clock_unmap(void)
 

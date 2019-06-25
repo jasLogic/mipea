@@ -44,8 +44,8 @@ struct i2c_register_map {
 };
 #define I2C     ((volatile struct i2c_register_map *)i2c_base_ptr)
 
-uint32_t *  i2c_map(void);
-void        i2c_unmap(void);
+int     i2c_map(void);
+void    i2c_unmap(void);
 
 void i2c_set_address(uint8_t addr);
 void i2c_set_clkdiv(uint16_t divisor);

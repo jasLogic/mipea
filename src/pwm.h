@@ -71,8 +71,8 @@ typedef struct {
     uint32_t range;
 } pwm_channel_config;
 
-uint32_t *  pwm_map(void);
-void        pwm_unmap(void);
+int     pwm_map(void);
+void    pwm_unmap(void);
 
 void pwm_configure(enum pwm_channel_num channel, pwm_channel_config *config);
 

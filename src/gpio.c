@@ -30,12 +30,9 @@ static void delay_cycles(unsigned int n)
 	for (i = 0; i < n; ++i);
 }
 
-uint32_t *gpio_map(void)
+int gpio_map(void)
 {
-	if (peripheral_map(&gpio_base_ptr, GPIO_OFFSET, GPIO_SIZE) < 0) {
-		return NULL;
-	}
-	return (uint32_t *)gpio_base_ptr;
+	return peripheral_map(&gpio_base_ptr, GPIO_OFFSET, GPIO_SIZE);
 }
 
 void gpio_unmap(void)

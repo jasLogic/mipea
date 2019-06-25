@@ -23,8 +23,8 @@ struct timer_register_map {
 };
 #define TIMER     ((volatile struct timer_register_map *)timer_base_ptr)
 
-uint32_t *  timer_map(void);
-void        timer_unmap(void);
+int     timer_map(void);
+void    timer_unmap(void);
 
 extern void timer_read(uint64_t *counter);
 

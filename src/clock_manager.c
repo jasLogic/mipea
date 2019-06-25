@@ -23,12 +23,9 @@
 
 #include "peripherals.h"
 
-uint32_t *clock_map(void)
+int clock_map(void)
 {
-    if (peripheral_map(&clock_manager_base_ptr, CLOCK_MANAGER_OFFSET, CLOCK_MANAGER_SIZE) < 0) {
-        return NULL;
-    }
-    return (uint32_t *)clock_manager_base_ptr;
+    return peripheral_map(&clock_manager_base_ptr, CLOCK_MANAGER_OFFSET, CLOCK_MANAGER_SIZE);
 }
 
 void clock_unmap(void)

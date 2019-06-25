@@ -117,10 +117,11 @@ Structs
 Functions
 =========
 
-.. function:: uint32_t * spi_map(void)
+.. function:: int spi_map(void)
 
     This function maps the SPI registers. It calls :func:`peripheral_map` with
-    the values :macro:`SPI_OFFSET` and :macro:`SPI_SIZE`.
+    the values :macro:`SPI_OFFSET` and :macro:`SPI_SIZE`. On error a negative
+    number is returned.
 
 .. function:: void spi_unmap(void)
 

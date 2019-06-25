@@ -6,12 +6,9 @@
 #include "peripherals.h"
 #include "../config.h" // for inline
 
-uint32_t *timer_map(void)
+int timer_map(void)
 {
-    if (peripheral_map(&timer_base_ptr, TIMER_OFFSET, TIMER_SIZE) < 0) {
-        return NULL;
-    }
-    return (uint32_t *)timer_base_ptr;
+    return peripheral_map(&timer_base_ptr, TIMER_OFFSET, TIMER_SIZE);
 }
 
 void timer_unmap(void)

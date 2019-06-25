@@ -95,10 +95,11 @@ Enums
 Functions
 =========
 
-.. function:: uint32_t * gpio_map(void)
+.. function:: int gpio_map(void)
 
     This function maps the GPIO registers. It calls :func:`peripheral_map` with
-    the values :macro:`GPIO_OFFSET` and :macro:`GPIO_SIZE`.
+    the values :macro:`GPIO_OFFSET` and :macro:`GPIO_SIZE`. On error a negative
+    number is returned.
 
 .. function:: void gpio_unmap(void)
 

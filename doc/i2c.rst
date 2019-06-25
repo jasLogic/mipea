@@ -80,11 +80,11 @@ Registers
 Functions
 =========
 
-.. function:: uint32_t * i2c_map(void)
+.. function:: int i2c_map(void)
 
     This function maps the I2C registers. It calls :func:`peripheral_map` with
     the values :code:`I2C_OFFSET` and :macro:`I2C_SIZE`. :code:`I2C_OFFSET` is
-    defined in :code:`i2c.c`.
+    defined in :code:`i2c.c`. On error a negative number is returned.
 
 .. function:: void i2c_unmap(void)
 

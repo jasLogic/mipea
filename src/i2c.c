@@ -29,12 +29,9 @@
     #define I2C_OFFSET  I2C_OFFSET_1
 #endif//USE_I2C_BUS_0
 
-uint32_t *i2c_map(void)
+int i2c_map(void)
 {
-    if (peripheral_map(&i2c_base_ptr, I2C_OFFSET, I2C_SIZE) < 0) {
-        return NULL;
-    }
-    return (uint32_t *)i2c_base_ptr;
+    return peripheral_map(&i2c_base_ptr, I2C_OFFSET, I2C_SIZE);
 }
 
 void i2c_unmap(void)

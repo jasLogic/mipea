@@ -100,8 +100,8 @@ typedef struct {
     };
 } dma_channel_config_t;
 
-uint32_t *  dma_map(void);
-void        dma_unmap(void);
+int     dma_map(void);
+void    dma_unmap(void);
 
 void    dma_configure(dma_channel_config_t *config);
 void    dma_enable(volatile struct dma_channel_register_map *channel);
