@@ -29,12 +29,14 @@
 #include "../config.h"
 
 #if defined(BCM2835)
-	#define PERIPHERAL_BASE PERIPHERAL_BASE_BCM2835
+	static const size_t PERIPHERAL_BASE = 0x20000000;
 #elif defined(BCM2836_7)
-	#define PERIPHERAL_BASE PERIPHERAL_BASE_BCM2836_7
+	static const size_t PERIPHERAL_BASE = 0x3F000000;
+#elif defined(BCM2711)
+	static const size_t PERIPHERAL_BASE = 0xFE000000;
 #else
 	#error "No SoC specified"
-#endif//BCM2835
+#endif//BCM2xxx
 
 #define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
 	__LINE__, __func__)
@@ -69,7 +71,7 @@ int peripheral_map(volatile uint32_t **map, uint32_t offset, uint32_t size)
 void peripheral_unmap(volatile uint32_t *map, uint32_t size)
 {
 	if (peripheral_ismapped(map, size)) {
-		if (munmap((void *)map, size) == -1) {
+		if (munmap((void *)map, size) < 0) {
 			perror_inf();
 			perror("Failed munmapping peripheral");
 		}
@@ -78,8 +80,9 @@ void peripheral_unmap(volatile uint32_t *map, uint32_t size)
 
 int peripheral_ismapped(volatile uint32_t *map, uint32_t size)
 {
-	if (map == NULL) return 0;
-	if (msync((void *)map, size, 0) == -1)
+	if (map == NULL)
+		return 0;
+	if (msync((void *)map, size, 0) < 0)
 		return 0;
 	return 1;
 }

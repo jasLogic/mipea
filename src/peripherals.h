@@ -25,9 +25,6 @@
 extern "C" {
 #endif//__cplusplus
 
-#define PERIPHERAL_BASE_BCM2835     0x20000000
-#define PERIPHERAL_BASE_BCM2836_7   0x3F000000
-
 int peripheral_map(volatile uint32_t **map, uint32_t offset, uint32_t size);
 void peripheral_unmap(volatile uint32_t *map, uint32_t size);
 

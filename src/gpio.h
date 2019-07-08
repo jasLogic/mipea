@@ -25,11 +25,6 @@
 extern "C" {
 #endif//__cplusplus
 
-#define GPIO_OFFSET		0x200000
-#define GPIO_SIZE		0xB0
-
-volatile uint32_t *gpio_base_ptr;
-
 struct gpio_register_map {
 	uint32_t FSEL[6];
 	uint32_t: 32;
@@ -52,29 +47,49 @@ struct gpio_register_map {
 	uint32_t AREN[2];
 	uint32_t: 32;
 	uint32_t AFEN[2];
-	uint32_t: 32;
+	uint32_t: 32; // 0x90
 	uint32_t PUD;
 	uint32_t PUDCLK[2];
+// BCM2711 only
+	uint32_t: 32; // 0xa0
+	uint32_t: 32;
+	uint32_t: 32;
+	uint32_t: 32;
+	uint32_t: 32; // 0xb0
+	uint32_t: 32;
+	uint32_t: 32;
+	uint32_t: 32;
+	uint32_t: 32; // 0xc0
+	uint32_t: 32;
+	uint32_t: 32;
+	uint32_t: 32;
+	uint32_t: 32; // 0xd0
+	uint32_t: 32;
+	uint32_t: 32;
+	uint32_t: 32;
+	uint32_t: 32; // 0xe0
+	uint32_t PUPPDN[4];
 };
-#define GP		((volatile struct gpio_register_map *)gpio_base_ptr)
 
-enum gpio_pin_function {
+extern volatile struct gpio_register_map *GP;
+
+enum {
 	INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5
 };
-enum gpio_pud {
+enum {
 	PUD_DISABLE, PUD_DOWN, PUD_UP
 };
 
 int		gpio_map(void);
 void 	gpio_unmap(void);
 
-void gpio_func(uint32_t pin, enum gpio_pin_function function);
+void gpio_func(uint32_t pin, int function);
 
 extern void 	gpio_set(uint32_t pin);
 extern void 	gpio_clr(uint32_t pin);
 extern uint32_t gpio_tst(uint32_t pin);
 
-void gpio_pud(uint32_t pin, enum gpio_pud pud);
+void gpio_pud(uint32_t pin, int pud);
 
 void gpio_inp(uint32_t pin);
 void gpio_out(uint32_t pin);

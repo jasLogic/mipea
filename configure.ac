@@ -43,6 +43,11 @@ then
         then
             AC_MSG_RESULT([BCM2835])
             AC_DEFINE([BCM2835], [1], [Define to 1 if the SoC is a BCM2835])
+        # check for Raspberry Pi 4 (Revision == 0x3111)
+        elif test $(printf "%d" 0x${rev: -4}) -eq "12561"
+        then
+            AC_MSG_RESULT([BCM2711])
+            AC_DEFINE([BCM2711], [1], [Define to 1 if the SoC is a BCM2711])
         else
             AC_MSG_RESULT([BCM2836/7])
             AC_DEFINE([BCM2836_7], [1], [Define to 1 if the SoC is a BCM2836/7])

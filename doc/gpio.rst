@@ -5,32 +5,8 @@
 GPIOs
 *****
 
-Macros
-======
-
-.. macro:: GPIO_OFFSET
-
-    ::
-
-        0x200000
-
-    This macro defines the offset at which the GPIO registers are located from
-    the peripheral base.
-
-.. macro:: GPIO_SIZE
-
-    ::
-
-        0xB0
-
-    This macro holds the size of the GPIO registers which needs to be mapped.
-
 Registers
 =========
-
-.. var:: volatile uint32_t *gpio_base_ptr
-
-    This pointer points, when mapped, to the base of the GPIO registers.
 
 .. type:: struct gpio_register_map
 
@@ -64,31 +40,33 @@ Registers
         	uint32_t PUDCLK[2];
         };
 
-.. macro:: GP
+.. var:: extern volatile struct gpio_register_map *GP
 
     ::
 
-        #define GP ((volatile struct gpio_register_map *)gpio_base_ptr)
+        GP = (volatile struct gpio_register_map *)gpio_base_ptr;
 
-    By using this macro, the registers of the GPIOs can be accessed like this
+    By using this struct, the registers of the GPIOs can be accessed like this
     :code:`GP->SET[0]`.
 
 Enums
 =====
 
-.. type:: gpio_pin_function
+Pin functions
+-------------
 
     This enum holds the values for the various pin functions::
 
-        enum gpio_pin_function {
+        enum {
         	INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5
         };
 
-.. type:: gpio_pud
+Pullup / -downs
+---------------
 
     This enum holds the values for the states of the pullups / -downs::
 
-        enum gpio_pud {
+        enum {
         	PUD_DISABLE, PUD_DOWN, PUD_UP
         };
 
@@ -105,7 +83,7 @@ Functions
 
     This function unmaps the GPIOs.
 
-.. function:: void gpio_func(uint32_t pin, enum gpio_pin_function function)
+.. function:: void gpio_func(uint32_t pin, int function)
 
     This function sets the pin :code:`pin` to the pin function :code:`function`.
 
@@ -122,7 +100,7 @@ Functions
     Test the pin :code:`pin`. This function returns :code:`0` or :code:`false`
     when the pin is low and non-zero if the pin is high.
 
-.. function:: void gpio_pud(uint32_t pin, enum gpio_pud pud)
+.. function:: void gpio_pud(uint32_t pin, int pud)
 
     Use the pullup / -down functionality :code:`pud` on the pin :code:`pin`.
 
