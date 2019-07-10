@@ -59,7 +59,7 @@ extern void     i2c_write_register(uint8_t reg, uint8_t data);
 extern uint8_t  i2c_read_register(uint8_t reg);
 
 /******** useful values ********/
-int I2C_FIFO_SIZE = 16;
+enum {I2C_FIFO_SIZE = 16};
 enum {
     I2C_C_I2CEN = 0x8000,
     I2C_C_ST = 0x80,
