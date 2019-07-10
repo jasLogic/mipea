@@ -24,9 +24,18 @@
 #include "peripherals.h"
 #include "../config.h" // for inline
 
+static const size_t SPI_OFFSET = 0x204000;
+static const size_t SPI_SIZE = 0x14;
+
+static volatile uint32_t *spi_base_ptr = NULL;
+volatile struct spi_register_map *SPI = NULL;
+
 int spi_map(void)
 {
-    return peripheral_map(&spi_base_ptr, SPI_OFFSET, SPI_SIZE);
+    if (peripheral_map(&spi_base_ptr, SPI_OFFSET, SPI_SIZE) < 0)
+        return -1;
+    SPI = (volatile struct spi_register_map *)spi_base_ptr;
+    return 0;
 }
 
 void spi_unmap(void)

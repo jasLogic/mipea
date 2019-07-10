@@ -26,12 +26,6 @@
 extern "C" {
 #endif//__cplusplus
 
-#define I2C_OFFSET_0    0x205000
-#define I2C_OFFSET_1    0x804000
-#define I2C_SIZE        0x18
-
-volatile uint32_t *i2c_base_ptr;
-
 struct i2c_register_map {
     uint32_t C;
     uint32_t S;
@@ -42,7 +36,8 @@ struct i2c_register_map {
     uint32_t DEL;
     uint32_t CLKT;
 };
-#define I2C     ((volatile struct i2c_register_map *)i2c_base_ptr)
+
+extern volatile struct i2c_register_map *I2C;
 
 int     i2c_map(void);
 void    i2c_unmap(void);
@@ -63,17 +58,19 @@ extern void     i2c_read_data(uint8_t *data, uint16_t length);
 extern void     i2c_write_register(uint8_t reg, uint8_t data);
 extern uint8_t  i2c_read_register(uint8_t reg);
 
-/******** useful defines ********/
-#define I2C_FIFO_SIZE   16
-
-#define I2C_C_I2CEN 0x8000
-#define I2C_C_ST    0x80
-#define I2C_C_CLEAR 0x10
-#define I2C_C_READ  0x01
-
-#define I2C_S_RXS   0x20
-#define I2C_S_TXD   0x10
-#define I2C_S_DONE  0x02
+/******** useful values ********/
+int I2C_FIFO_SIZE = 16;
+enum {
+    I2C_C_I2CEN = 0x8000,
+    I2C_C_ST = 0x80,
+    I2C_C_CLEAR = 0x10,
+    I2C_C_READ = 0x01
+};
+enum {
+    I2C_S_RXS = 0x20,
+    I2C_S_TXD = 0x10,
+    I2C_S_DONE = 0x02
+};
 
 #ifdef __cplusplus
 }

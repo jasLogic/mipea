@@ -24,13 +24,20 @@
 #include "peripherals.h"
 #include "clock_manager.h"
 
+static const size_t PWM_OFFSET = 0x20C000;
+static const size_t PWM_SIZE = 0x24;
+
+static volatile uint32_t *pwm_base_ptr = NULL;
+volatile struct pwm_register_map *PWM = NULL;
+
 int pwm_map(void)
 {
-    if (clock_map() < 0) {
+    if (clock_map() < 0)
         return -1;
-    }
-
-    return peripheral_map(&pwm_base_ptr, PWM_OFFSET, PWM_SIZE);
+    if (peripheral_map(&pwm_base_ptr, PWM_OFFSET, PWM_SIZE) < 0)
+        return -1;
+    PWM = (volatile struct pwm_register_map *)pwm_base_ptr;
+    return 0;
 }
 
 void pwm_unmap(void)
@@ -43,7 +50,7 @@ void pwm_unmap(void)
     clock_unmap(); // unmap clock too
 }
 
-void pwm_enable(enum pwm_channel_num channel)
+void pwm_enable(int channel)
 {
     if (channel == PWM_CHANNEL0) {
         PWM->CTL |= 1;
@@ -52,7 +59,7 @@ void pwm_enable(enum pwm_channel_num channel)
     }
 }
 
-void pwm_disable(enum pwm_channel_num channel)
+void pwm_disable(int channel)
 {
     if (channel == PWM_CHANNEL0) {
         PWM->CTL &= ~1;
@@ -61,7 +68,7 @@ void pwm_disable(enum pwm_channel_num channel)
     }
 }
 
-void pwm_configure(enum pwm_channel_num channel, pwm_channel_config *config)
+void pwm_configure(int channel, pwm_channel_config *config)
 {
     clock_configure(&CM->PWMCTL, CLOCK_PLLD, config->divisor, 0);
     clock_enable(&CM->PWMCTL);

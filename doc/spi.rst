@@ -5,46 +5,8 @@
 SPI
 ***
 
-Macros
-======
-
-.. macro:: SPI_OFFSET
-
-    ::
-
-        0x204000
-
-    This macro defines the offset at which the SPI registers are located from
-    the peripheral base.
-
-.. macro:: SPI_SIZE
-
-    ::
-
-        0x14
-
-    This macro holds the size of the I2C registers which needs to be mapped.
-
-Configuration Macros
---------------------
-=============================== ===============================
-:macro:`SPI_CS_CE0`             Use chip enable 0
-:macro:`SPI_CS_CE1`             Use chip enable 1
-:macro:`SPI_CS_CE2`             Use chip enable 2
-:macro:`SPI_CPHA_CLK_BEGINNING` Data on clock leading edge
-:macro:`SPI_CPHA_CLK_MIDDLE`    Data on clock trailing edge
-:macro:`SPI_CPOL_RESET_LOW`     Clock polarity: active low
-:macro:`SPI_CPOL_RESET_HIGH`    Clock polarity: active high
-:macro:`SPI_CSPOL_ACTIVE_LOW`   Chip enable: active low
-:macro:`SPI_CSPOL_ACTIVE_HIGH`  Chip enable: active high
-=============================== ===============================
-
 Registers
 =========
-
-.. var:: volatile uint32_t *spi_base_ptr
-
-    This pointer points, when mapped, to the base of the SPI registers.
 
 .. type:: struct spi_register_map
 
@@ -61,13 +23,13 @@ Registers
             uint32_t DC;
         };
 
-.. macro:: SPI
+.. var:: extern volatile struct spi_register_map *SPI
 
     ::
 
-        #define SPI ((volatile struct spi_register_map *)spi_base_ptr)
+        SPI = (volatile struct spi_register_map *)spi_base_ptr;
 
-    By using this macro, the registers of the SPI can be accessed like this
+    By using this variable, the registers of the SPI can be accessed like this
     :code:`SPI->CS`.
 
 Structs
@@ -159,6 +121,21 @@ Functions
     receive and return the third byte. :func:`spi_transfer_start`
     and :func:`spi_transfer_stop` *may not* be called when using this
     function.
+
+CS Register Bit Values
+----------------------
+
+============================== ===============================
+:data:`SPI_CS_CE0`             Use chip enable 0
+:data:`SPI_CS_CE1`             Use chip enable 1
+:data:`SPI_CS_CE2`             Use chip enable 2
+:data:`SPI_CPHA_CLK_BEGINNING` Data on clock leading edge
+:data:`SPI_CPHA_CLK_MIDDLE`    Data on clock trailing edge
+:data:`SPI_CPOL_RESET_LOW`     Clock polarity: active low
+:data:`SPI_CPOL_RESET_HIGH`    Clock polarity: active high
+:data:`SPI_CSPOL_ACTIVE_LOW`   Chip enable: active low
+:data:`SPI_CSPOL_ACTIVE_HIGH`  Chip enable: active high
+============================== ===============================
 
 .. _Datasheet: https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf
 .. _this file: https://github.com/bootc/linux/blob/073993b3f3e23fb8d376f9e159eee410968e0c57/arch/arm/mach-bcm2708/bcm2708.c#L208

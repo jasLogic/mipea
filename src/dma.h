@@ -20,17 +20,13 @@
 #define _DMA_H_
 
 #include <stdint.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif//__cplusplus
 
-#define	PERIPHERAL_BASE_PHY	0x7E000000
-
-#define DMA_OFFSET	0x007000 // TODO: add channel 15
-#define DMA_SIZE	0xff4
-
-volatile uint32_t *dma_base_ptr;
+static const size_t PERIPHERAL_BASE_PHY = 0x7E000000;
 
 struct dma_channel_register_map {
     uint32_t CS;
@@ -43,21 +39,6 @@ struct dma_channel_register_map {
     uint32_t NEXTCONBK;
     uint32_t DEBUG;
 };
-#define DMA_0   ((volatile struct dma_channel_register_map *)dma_base_ptr)
-#define DMA_1   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x40))
-#define DMA_2   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x80))
-#define DMA_3   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0xc0))
-#define DMA_4   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x100))
-#define DMA_5   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x140))
-#define DMA_6   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x180))
-#define DMA_7   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x1c0))
-#define DMA_8   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x200))
-#define DMA_9   ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x240))
-#define DMA_10  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x280))
-#define DMA_11  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x2c0))
-#define DMA_12  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x300))
-#define DMA_13  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x340))
-#define DMA_14  ((volatile struct dma_channel_register_map *)(dma_base_ptr + 0x380))
 
 struct dma_register_map {
     uint32_t INT_STATUS;
@@ -66,7 +47,6 @@ struct dma_register_map {
     uint32_t: 32;
     uint32_t ENABLE;
 };
-#define DMA     ((struct dma_register_map *)(dma_base_ptr + 0x3f8))
 
 typedef struct {
     uint32_t TI;
@@ -98,12 +78,30 @@ typedef struct {
         };
         uint32_t cs_register;
     };
-} dma_channel_config_t;
+} dma_channel_config;
+
+extern volatile struct dma_channel_register_map *DMAC0;
+extern volatile struct dma_channel_register_map *DMAC1;
+extern volatile struct dma_channel_register_map *DMAC2;
+extern volatile struct dma_channel_register_map *DMAC3;
+extern volatile struct dma_channel_register_map *DMAC4;
+extern volatile struct dma_channel_register_map *DMAC5;
+extern volatile struct dma_channel_register_map *DMAC6;
+extern volatile struct dma_channel_register_map *DMAC7;
+extern volatile struct dma_channel_register_map *DMAC8;
+extern volatile struct dma_channel_register_map *DMAC9;
+extern volatile struct dma_channel_register_map *DMAC10;
+extern volatile struct dma_channel_register_map *DMAC11;
+extern volatile struct dma_channel_register_map *DMAC12;
+extern volatile struct dma_channel_register_map *DMAC13;
+extern volatile struct dma_channel_register_map *DMAC14;
+
+extern volatile struct dma_register_map *DMA;
 
 int     dma_map(void);
 void    dma_unmap(void);
 
-void    dma_configure(dma_channel_config_t *config);
+void    dma_configure(dma_channel_config *config);
 void    dma_enable(volatile struct dma_channel_register_map *channel);
 void    dma_disable(volatile struct dma_channel_register_map *channel);
 

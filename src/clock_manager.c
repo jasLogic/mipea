@@ -23,9 +23,20 @@
 
 #include "peripherals.h"
 
+static const size_t CLOCK_MANAGER_OFFSET = 0x101000;
+static const size_t CLOCK_MANAGER_SIZE = 0xA4;
+
+const uint32_t CM_PASSWD = 0x5A000000;
+
+static volatile uint32_t *clock_manager_base_ptr = NULL;
+volatile struct clock_manager_register_map *CM = NULL;
+
 int clock_map(void)
 {
-    return peripheral_map(&clock_manager_base_ptr, CLOCK_MANAGER_OFFSET, CLOCK_MANAGER_SIZE);
+    if (peripheral_map(&clock_manager_base_ptr, CLOCK_MANAGER_OFFSET, CLOCK_MANAGER_SIZE) < 0)
+        return -1;
+    CM = (volatile struct clock_manager_register_map *)(clock_manager_base_ptr + 28);
+    return 0;
 }
 
 void clock_unmap(void)
@@ -48,7 +59,7 @@ void clock_disable(volatile uint32_t *reg)
 	}
 }
 
-void clock_configure(volatile uint32_t *reg, clock_source_t src,
+void clock_configure(volatile uint32_t *reg, int src,
                 unsigned int divisor, unsigned int mash)
 {
     clock_disable(reg);

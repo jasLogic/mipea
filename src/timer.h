@@ -7,11 +7,6 @@
 extern "C" {
 #endif//__cplusplus
 
-#define TIMER_OFFSET    0x003000
-#define TIMER_SIZE      0x1C
-
-volatile uint32_t *timer_base_ptr;
-
 struct timer_register_map {
     uint32_t CS;
     uint32_t CLO;
@@ -21,7 +16,8 @@ struct timer_register_map {
     uint32_t C2;
     uint32_t C3;
 };
-#define TIMER     ((volatile struct timer_register_map *)timer_base_ptr)
+
+extern volatile struct timer_register_map *TMR;
 
 int     timer_map(void);
 void    timer_unmap(void);

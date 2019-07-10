@@ -71,14 +71,14 @@ struct gpio_register_map {
 	uint32_t PUPPDN[4];
 };
 
-extern volatile struct gpio_register_map *GP;
-
 enum {
 	INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5
 };
 enum {
 	PUD_DISABLE, PUD_DOWN, PUD_UP
 };
+
+extern volatile struct gpio_register_map *GP;
 
 int		gpio_map(void);
 void 	gpio_unmap(void);

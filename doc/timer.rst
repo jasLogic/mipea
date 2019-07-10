@@ -5,32 +5,8 @@
 Timer
 *****
 
-Macros
-======
-
-.. macro:: TIMER_OFFSET
-
-    ::
-
-        0x003000
-
-    This macro defines the offset at which the timer registers are located from
-    the peripheral base.
-
-.. macro:: TIMER_SIZE
-
-    ::
-
-        0x1C
-
-    This macro holds the size of the timer registers which needs to be mapped.
-
 Registers
 =========
-
-.. var:: volatile uint32_t *timer_base_ptr
-
-    This pointer points, when mapped, to the base of the timer registers.
 
 .. type:: struct timer_register_map
 
@@ -48,14 +24,14 @@ Registers
             uint32_t C3;
         };
 
-.. macro:: TIMER
+.. var:: extern volatile struct timer_register_map *TMR
 
     ::
 
-        #define TIMER ((volatile struct timer_register_map *)timer_base_ptr)
+        TMR = (volatile struct timer_register_map *)timer_base_ptr;
 
-    By using this macro, the registers of the timer can be accessed like this
-    :code:`TIMER->CLO`.
+    By using this variable, the registers of the timer can be accessed like this
+    :code:`TMR->CLO`.
 
 Functions
 =========

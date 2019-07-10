@@ -5,43 +5,8 @@
 Clock Manager
 *************
 
-Macros
-======
-
-.. macro:: CLOCK_MANAGER_OFFSET
-
-    ::
-
-        0x101000
-
-    This macro defines the offset at which the clock manager registers
-    are located relative to the peripheral base.
-
-.. macro:: CLOCK_MANAGER_SIZE
-
-    ::
-
-        0xA4
-
-    This macro holds the size of the clock manager registers
-    which needs to be mapped.
-
-.. macro:: CM_PASSWD
-
-    ::
-
-        0x5A000000
-
-    This macro holds the clock manager password. This value must always be
-    present when writing to a clock manager register
-    (e.g. by OR with the value).
-
 Registers
 =========
-
-.. var:: volatile uint32_t *clock_manager_base_ptr
-
-    This pointer points, when mapped, to the base of the clock manager registers.
 
 .. type:: struct clock_manager_register_map
 
@@ -67,23 +32,24 @@ Registers
             uint32_t PWMDIV;
         }
 
-.. macro:: CM
+.. var:: extern volatile struct clock_manager_register_map *CM
 
     ::
 
-        #define CM ((volatile struct clock_manager_register_map *)(clock_manager_base_ptr + 28))
+        CM = (volatile struct clock_manager_register_map *)(clock_manager_base_ptr + 28);
 
-    By using this macro, the registers of the clcok manager can be accessed
+    By using this variable, the registers of the clock manager can be accessed
     like this :code:`CM->PWMCTL`.
 
 Enums
 =====
 
-.. type:: clock_source_t
+Clock sources
+-------------
 
     This enum holds the values for the different clock sources::
 
-        typedef enum {
+        enum {
             CLOCK_GND,
             CLOCK_OSC,
             CLOCK_TST0,
@@ -92,7 +58,20 @@ Enums
             CLOCK_PLLC,
             CLOCK_PLLD,
             CLOCK_HDMI
-        } clock_source_t;
+        };
+
+Global Variables
+================
+
+.. var:: extern const uint32_t CM_PASSWD;
+
+    ::
+
+        const uint32_t CM_PASSWD = 0x5A000000;
+
+    This variable holds the clock manager password. This value must always be
+    present when writing to a clock manager register
+    (e.g. by OR with the value).
 
 Functions
 =========

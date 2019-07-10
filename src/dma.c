@@ -25,15 +25,57 @@
 #include "peripherals.h"
 #include "mailbox_mod.h"
 
+static const size_t DMA_OFFSET = 0x007000; // TODO: add channel 15
+static const size_t DMA_SIZE = 0xFF4;
+
+static volatile uint32_t *dma_base_ptr = NULL;
+
+volatile struct dma_channel_register_map *DMAC0 = NULL;
+volatile struct dma_channel_register_map *DMAC1 = NULL;
+volatile struct dma_channel_register_map *DMAC2 = NULL;
+volatile struct dma_channel_register_map *DMAC3 = NULL;
+volatile struct dma_channel_register_map *DMAC4 = NULL;
+volatile struct dma_channel_register_map *DMAC5 = NULL;
+volatile struct dma_channel_register_map *DMAC6 = NULL;
+volatile struct dma_channel_register_map *DMAC7 = NULL;
+volatile struct dma_channel_register_map *DMAC8 = NULL;
+volatile struct dma_channel_register_map *DMAC9 = NULL;
+volatile struct dma_channel_register_map *DMAC10 = NULL;
+volatile struct dma_channel_register_map *DMAC11 = NULL;
+volatile struct dma_channel_register_map *DMAC12 = NULL;
+volatile struct dma_channel_register_map *DMAC13 = NULL;
+volatile struct dma_channel_register_map *DMAC14 = NULL;
+
+volatile struct dma_register_map *DMA = NULL;
+
 int dma_map(void)
 {
     // open /dev/vcio which is used in mailbox
     _mbox_fd = mbox_open();
-    if (_mbox_fd < 0) {
+    if (_mbox_fd < 0)
         return -1;
-    }
+    if (peripheral_map(&dma_base_ptr, DMA_OFFSET, DMA_SIZE) < 0)
+        return -1;
 
-    return peripheral_map(&dma_base_ptr, DMA_OFFSET, DMA_SIZE);
+    DMAC0 = (volatile struct dma_channel_register_map *)(dma_base_ptr);
+    DMAC1 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x40);
+    DMAC2 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x80);
+    DMAC3 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0xc0);
+    DMAC4 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x100);
+    DMAC5 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x140);
+    DMAC6 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x180);
+    DMAC7 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x1c0);
+    DMAC8 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x200);
+    DMAC9 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x240);
+    DMAC10 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x280);
+    DMAC11 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x2c0);
+    DMAC12 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x300);
+    DMAC13 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x340);
+    DMAC14 = (volatile struct dma_channel_register_map *)(dma_base_ptr + 0x380);
+
+    DMA = (volatile struct dma_register_map *)(dma_base_ptr + 0x3f8);
+
+    return 0;
 }
 
 void dma_unmap(void)
@@ -42,7 +84,7 @@ void dma_unmap(void)
     mbox_close(_mbox_fd); // close it again too
 }
 
-void dma_configure(dma_channel_config_t *config)
+void dma_configure(dma_channel_config *config)
 {
     config->channel->CS = config->cs_register << 16;
 }

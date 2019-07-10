@@ -38,6 +38,25 @@ Registers
         	uint32_t: 32;
         	uint32_t PUD;
         	uint32_t PUDCLK[2];
+        // BCM2711 only
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t: 32;
+        	uint32_t PUPPDN[4];
         };
 
 .. var:: extern volatile struct gpio_register_map *GP

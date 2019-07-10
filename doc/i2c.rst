@@ -5,51 +5,8 @@
 I2C
 ***
 
-Macros
-======
-
-.. macro:: I2C_OFFSET_0
-
-    ::
-
-        0x205000
-
-.. macro:: I2C_OFFSET_1
-
-    ::
-
-        0x804000
-
-    The BCM2835/6/7 has three BSC (I2C) controllers, from which only one is
-    connected to the I2C pins. The older Pis (where the last four digits
-    of the revision number are less than :code:`0004`) have BSC0 connected to
-    the pins, all the other BSC1. The configure script tries to read the
-    :code:`/proc/cpuinfo` file, which includes the revision number, and than
-    defines :code:`USE_I2C_BUS_0` accordingly. See :doc:`install`
-
-.. macro:: I2C_SIZE
-
-    ::
-
-        0x18
-
-    This macro holds the size of the I2C registers which needs to be mapped.
-
-:macro:`I2C_FIFO_SIZE`
-:macro:`I2C_C_I2CEN`
-:macro:`I2C_C_ST`
-:macro:`I2C_C_CLEAR`
-:macro:`I2C_C_READ`
-:macro:`I2C_S_RXS`
-:macro:`I2C_S_TXD`
-:macro:`I2C_S_DONE`
-
 Registers
 =========
-
-.. var:: volatile uint32_t *i2c_base_ptr
-
-    This pointer points, when mapped, to the base of the I2C registers.
 
 .. type:: struct i2c_register_map
 
@@ -68,13 +25,13 @@ Registers
             uint32_t CLKT;
         };
 
-.. macro:: I2C
+.. var:: extern volatile struct i2c_register_map *I2C
 
     ::
 
-        #define I2C ((volatile struct i2c_register_map *)i2c_base_ptr)
+        I2C = (volatile struct i2c_register_map *)i2c_base_ptr;
 
-    By using this macro, the registers of the I2C can be accessed like this
+    By using this variable, the registers of the I2C can be accessed like this
     :code:`I2C->FIFO`.
 
 Functions
@@ -153,6 +110,19 @@ Functions
     :func:`i2c_write_byte` and to :func:`i2c_read_byte`. This is because
     I2C needs to make two transmissions anyway to change the read / write bit.
 
+Useful Values
+-------------
+
+=====================   =====================
+:data:`I2C_FIFO_SIZE`   The size of the I2C FIFO
+:data:`I2C_C_I2CEN`     Enable I2C
+:data:`I2C_C_ST`        Start transfer
+:data:`I2C_C_CLEAR`     Clear the FIFO
+:data:`I2C_C_READ`      This transfer read from the slave
+:data:`I2C_S_RXS`       FIFO can be read
+:data:`I2C_S_TXD`       FIFO is full
+:data:`I2C_S_DONE`      Transfer done
+=====================   =====================
 
 .. _Datasheet: https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf
 .. _this file: https://github.com/bootc/linux/blob/073993b3f3e23fb8d376f9e159eee410968e0c57/arch/arm/mach-bcm2708/bcm2708.c#L208

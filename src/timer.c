@@ -6,9 +6,19 @@
 #include "peripherals.h"
 #include "../config.h" // for inline
 
+static const size_t TIMER_OFFSET = 0x003000;
+static const size_t TIMER_SIZE = 0x1C;
+
+static volatile uint32_t *timer_base_ptr = NULL;
+
+volatile struct timer_register_map *TMR = NULL;
+
 int timer_map(void)
 {
-    return peripheral_map(&timer_base_ptr, TIMER_OFFSET, TIMER_SIZE);
+    if (peripheral_map(&timer_base_ptr, TIMER_OFFSET, TIMER_SIZE) < 0)
+        return -1;
+    TMR = (volatile struct timer_register_map *)timer_base_ptr;
+    return 0;
 }
 
 void timer_unmap(void)
@@ -18,7 +28,7 @@ void timer_unmap(void)
 
 inline void timer_read(uint64_t *counter)
 {
-    *counter = TIMER->CHI;
+    *counter = TMR->CHI;
     *counter = *counter << 32;
-    *counter |= TIMER->CLO;
+    *counter |= TMR->CLO;
 }

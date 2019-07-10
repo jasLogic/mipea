@@ -24,14 +24,22 @@
 #include "../config.h" // for information on the i2c bus and inline
 
 #if defined(USE_I2C_BUS_0)
-    #define I2C_OFFSET  I2C_OFFSET_0
+    static const size_t I2C_OFFSET = 0x205000;
 #else
-    #define I2C_OFFSET  I2C_OFFSET_1
+    static const size_t I2C_OFFSET = 0x804000;
 #endif//USE_I2C_BUS_0
+
+static const size_t I2C_SIZE = 0x18;
+
+volatile uint32_t *i2c_base_ptr = NULL;
+volatile struct i2c_register_map *I2C = NULL;
 
 int i2c_map(void)
 {
-    return peripheral_map(&i2c_base_ptr, I2C_OFFSET, I2C_SIZE);
+    if (peripheral_map(&i2c_base_ptr, I2C_OFFSET, I2C_SIZE) < 0)
+        return -1;
+    I2C = (volatile struct i2c_register_map *)i2c_base_ptr;
+    return 0;
 }
 
 void i2c_unmap(void)

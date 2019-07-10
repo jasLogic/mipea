@@ -25,13 +25,6 @@
 extern "C" {
 #endif//__cplusplus
 
-#define CLOCK_MANAGER_OFFSET    0x101000
-#define CLOCK_MANAGER_SIZE      0xA4
-
-#define CM_PASSWD    0x5A000000
-
-volatile uint32_t *clock_manager_base_ptr;
-
 struct clock_manager_register_map {
     uint32_t GP0CTL;
     uint32_t GP0DIV;
@@ -48,9 +41,8 @@ struct clock_manager_register_map {
     uint32_t PWMCTL;
     uint32_t PWMDIV;
 };
-#define CM  ((volatile struct clock_manager_register_map *)(clock_manager_base_ptr + 28))
 
-typedef enum {
+enum {
     CLOCK_GND,
     CLOCK_OSC,
     CLOCK_TST0,
@@ -59,15 +51,19 @@ typedef enum {
     CLOCK_PLLC,
     CLOCK_PLLD,
     CLOCK_HDMI
-} clock_source_t;
+};
+
+extern const uint32_t CM_PASSWD;
+
+extern volatile struct clock_manager_register_map *CM;
 
 int     clock_map(void);
 void    clock_unmap(void);
 
 void clock_enable(volatile uint32_t *reg);
 void clock_disable(volatile uint32_t *reg);
-void clock_configure(volatile uint32_t *reg, clock_source_t src,
-                    unsigned int divisor, unsigned int mash);
+void clock_configure(volatile uint32_t *reg, int src, unsigned int divisor,
+    unsigned int mash);
 
 #ifdef __cplusplus
 }

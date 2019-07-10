@@ -11,23 +11,6 @@ PWM
 Macros
 ======
 
-.. macro:: PWM_OFFSET
-
-    ::
-
-        0x20C000
-
-    This macro defines the offset at which the PWM registers are located from
-    the peripheral base.
-
-.. macro:: PWM_SIZE
-
-    ::
-
-        0x24
-
-    This macro holds the size of the I2C registers which needs to be mapped.
-
 .. macro:: RNG_CHANNEL0
 .. macro:: DAT_CHANNEL0
 .. macro:: RNG_CHANNEL1
@@ -44,29 +27,8 @@ Macros
     and the Raspberry Pi 0 and 1) the values of the registers which need to be
     used "on the fly" are :code;`defined` from 2 to 1 and from 1 to 0.
 
-Configuration Macros
---------------------
-================================ ====================================
-:macro:`PWM_CTL_MODE_PWM`        Use PWM mode
-:macro:`PWM_CTL_MODE_SERIALISER` Use serialiser mode
-:macro:`PWM_RPTL_STOP`           If serialiser mode: Transmission stops when fifo empty
-:macro:`PWM_RPTL_REPEAT`         If serialiser mode: Repeat last data when fifo empty
-:macro:`PWM_SBIT_LOW`            Output low when no transmission active
-:macro:`PWM_SBIT_HIGH`           Output high when no transmission active
-:macro:`PWM_POLA_DEFAULT`        Polarity is default
-:macro:`PWM_POLA_INVERTED`       Polarity is innverted
-:macro:`PWM_USEF_DATA`           Data register is transmitted
-:macro:`PWM_USEF_FIFO`           Data from fifo is transmitted
-:macro:`PWM_MSEN_PWMALGORITHM`   Use PWM algorithm
-:macro:`PWM_MSEN_MSRATIO`        Use MS ratio
-================================ ====================================
-
 Registers
 =========
-
-.. var:: volatile uint32_t *pwm_base_ptr
-
-    This pointer points, when mapped, to the base of the PWM registers.
 
 .. type:: struct pwm_register_map
 
@@ -87,25 +49,26 @@ Registers
             uint32_t DAT2;
         };
 
-.. macro:: PWM
+.. var:: extern volatile struct pwm_register_map *PWM
 
     ::
 
-        #define PWM ((volatile struct pwm_register_map *)pwm_base_ptr)
+        PWM = (volatile struct pwm_register_map *)pwm_base_ptr;
 
-    By using this macro, the registers of the PWM can be accessed like this
+    By using this variable, the registers of the PWM can be accessed like this
     :code:`PWM->RNG1`.
 
 Enums
 =====
 
-.. type:: pwm_channel_num
+PWM channel number
+------------------
 
     This enum holds the values distinguishing PWM channel 0 and 1::
 
-        typedef enum {
+        enum {
             PWM_CHANNEL0, PWM_CHANNEL1
-        } pwm_channel_num;
+        };
 
 Structs
 =======
@@ -160,18 +123,36 @@ Functions
 
     This function unmaps the PWM registers.
 
-.. function:: void pwm_configure(pwm_channel_num channel, pwm_channel_config *config)
+.. function:: void pwm_configure(int channel, pwm_channel_config *config)
 
-    This function configures :type:`pwm_channel_num` :code:`channel` with a
+    This function configures :code:`channel` with a
     :type:`pwm_channel_config` pointed to by :code:`config`.
 
-.. function:: void pwm_enable(pwm_channel_num channel)
+.. function:: void pwm_enable(int channel)
 
-    This function enables :type:`pwm_channel_num` :code:`channel`.
+    This function enables :code:`channel`.
 
-.. function:: void pwm_disable(pwm_channel_num channel)
+.. function:: void pwm_disable(int channel)
 
-    This function disables :type:`pwm_channel_num` :code:`channnel`.
+    This function disables :code:`channnel`.
+
+Configuration Values
+--------------------
+
+=============================== ====================================
+:data:`PWM_CTL_MODE_PWM`        Use PWM mode
+:data:`PWM_CTL_MODE_SERIALISER` Use serialiser mode
+:data:`PWM_RPTL_STOP`           If serialiser mode: Transmission stops when fifo empty
+:data:`PWM_RPTL_REPEAT`         If serialiser mode: Repeat last data when fifo empty
+:data:`PWM_SBIT_LOW`            Output low when no transmission active
+:data:`PWM_SBIT_HIGH`           Output high when no transmission active
+:data:`PWM_POLA_DEFAULT`        Polarity is default
+:data:`PWM_POLA_INVERTED`       Polarity is innverted
+:data:`PWM_USEF_DATA`           Data register is transmitted
+:data:`PWM_USEF_FIFO`           Data from fifo is transmitted
+:data:`PWM_MSEN_PWMALGORITHM`   Use PWM algorithm
+:data:`PWM_MSEN_MSRATIO`        Use MS ratio
+=============================== ====================================
 
 .. _Datasheet: https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf
 .. _this file: https://github.com/bootc/linux/blob/073993b3f3e23fb8d376f9e159eee410968e0c57/arch/arm/mach-bcm2708/bcm2708.c#L208

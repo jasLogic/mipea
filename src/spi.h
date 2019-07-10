@@ -25,11 +25,6 @@
 extern "C" {
 #endif//__cplusplus
 
-#define SPI_OFFSET  0x204000
-#define SPI_SIZE	0x14
-
-volatile uint32_t *spi_base_ptr;
-
 struct spi_register_map {
     uint32_t CS;
     uint32_t FIFO;
@@ -38,7 +33,6 @@ struct spi_register_map {
     uint32_t LTOH;
     uint32_t DC;
 };
-#define SPI     ((volatile struct spi_register_map *)spi_base_ptr)
 
 typedef struct {
     union {
@@ -46,9 +40,9 @@ typedef struct {
             uint32_t: 2;
             uint32_t cpha: 1;
             uint32_t cpol: 1;
-            uint32_t: 2;        // unimplemented / unused -> must be zero
+            uint32_t: 2;        // unimplemented / unused
             uint32_t cspol: 1;  // Not changing anything?
-            uint32_t: 14;       // unimplemented / unused -> must be zero
+            uint32_t: 14;       // unimplemented / unused
             uint32_t cspol0: 1;
             uint32_t cspol1: 1;
             uint32_t cspol2: 1;
@@ -58,6 +52,8 @@ typedef struct {
 
     uint16_t divisor;
 } spi_channel_config;
+
+extern volatile struct spi_register_map *SPI;
 
 int     spi_map(void);
 void    spi_unmap(void);
@@ -72,15 +68,23 @@ extern uint8_t  spi_transfer_byte(uint8_t data);
 extern uint8_t  spi_send2_recv1(uint8_t data0, uint8_t data1);
 
 /******** CS Register bit values ********/
-#define SPI_CS_CE0  0x0
-#define SPI_CS_CE1  0x1
-#define SPI_CS_CE2  0x2
-#define SPI_CPHA_CLK_BEGINNING  0x0
-#define SPI_CPHA_CLK_MIDDLE     0x1
-#define SPI_CPOL_RESET_LOW  0x0
-#define SPI_CPOL_RESET_HIGH 0x1
-#define SPI_CSPOL_ACTIVE_LOW    0x0 // can also be used for CSPOL0, 1 or 2
-#define SPI_CSPOL_ACTIVE_HIGH   0x1
+enum {
+    SPI_CS_CE0 = 0x0,
+    SPI_CS_CE1 = 0x1,
+    SPI_CS_CE2 = 0x2
+};
+enum {
+    SPI_CPHA_CLK_BEGINNING = 0x0,
+    SPI_CPHA_CLK_MIDDLE = 0x1
+};
+enum {
+    SPI_CPOL_RESET_LOW = 0x0,
+    SPI_CPOL_RESET_HIGH = 0x1
+};
+enum {
+    SPI_CSPOL_ACTIVE_LOW = 0x0, // can also be used for CSPOL0, 1 or 2
+    SPI_CSPOL_ACTIVE_HIGH = 0x1
+};
 
 #ifdef __cplusplus
 }

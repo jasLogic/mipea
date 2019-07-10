@@ -25,31 +25,25 @@
 extern "C" {
 #endif//__cplusplus
 
-#define PWM_OFFSET  0x20C000
-#define PWM_SIZE	0x24
-
-volatile uint32_t *pwm_base_ptr;
-
 struct pwm_register_map {
     uint32_t CTL;
     uint32_t STA;
     uint32_t DMAC;
-    uint32_t: 32;   // address not implemented
+    uint32_t: 32;
     uint32_t RNG1;
     uint32_t DAT1;
     uint32_t FIF1;
-    uint32_t: 32;   // address not implemented
+    uint32_t: 32;
     uint32_t RNG2;
     uint32_t DAT2;
 };
-#define PWM     ((volatile struct pwm_register_map *)pwm_base_ptr)
 
 #define RNG_CHANNEL0    PWM->RNG1
 #define DAT_CHANNEL0    PWM->DAT1
 #define RNG_CHANNEL1    PWM->RNG2
 #define DAT_CHANNEL1    PWM->DAT2
 
-enum pwm_channel_num {
+enum {
     PWM_CHANNEL0, PWM_CHANNEL1
 };
 
@@ -71,27 +65,41 @@ typedef struct {
     uint32_t range;
 } pwm_channel_config;
 
+extern volatile struct pwm_register_map *PWM;
+
 int     pwm_map(void);
 void    pwm_unmap(void);
 
-void pwm_configure(enum pwm_channel_num channel, pwm_channel_config *config);
+void pwm_configure(int channel, pwm_channel_config *config);
 
-void pwm_enable(enum pwm_channel_num channel);
-void pwm_disable(enum pwm_channel_num channel);
+void pwm_enable(int channel);
+void pwm_disable(int channel);
 
 /******* CTL Register bit values *******/
-#define PWM_CTL_MODE_PWM        0x0
-#define PWM_CTL_MODE_SERIALISER 0x1
-#define PWM_RPTL_STOP           0x0
-#define PWM_RPTL_REPEAT         0x1
-#define PWM_SBIT_LOW            0x0
-#define PWM_SBIT_HIGH           0x1
-#define PWM_POLA_DEFAULT        0x0
-#define PWM_POLA_INVERTED       0x1
-#define PWM_USEF_DATA           0x0
-#define PWM_USEF_FIFO           0x1
-#define PWM_MSEN_PWMALGORITHM   0x0
-#define PWM_MSEN_MSRATIO        0x1
+enum {
+    PWM_CTL_MODE_PWM = 0x0,
+    PWM_CTL_MODE_SERIALISER = 0x1
+};
+enum {
+    PWM_RPTL_STOP = 0x0,
+    PWM_RPTL_REPEAT = 0x1
+};
+enum {
+    PWM_SBIT_LOW = 0x0,
+    PWM_SBIT_HIGH = 0x1
+};
+enum {
+    PWM_POLA_DEFAULT = 0x0,
+    PWM_POLA_INVERTED = 0x1
+};
+enum {
+    PWM_USEF_DATA = 0x0,
+    PWM_USEF_FIFO = 0x1
+};
+enum {
+    PWM_MSEN_PWMALGORITHM = 0x0,
+    PWM_MSEN_MSRATIO = 0x1
+};
 
 #ifdef __cplusplus
 }
