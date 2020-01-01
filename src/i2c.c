@@ -1,27 +1,18 @@
 /*
  * i2c.c
- * Copyright (C) 2019  jasLogic
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright (C) 2019 Jaslo Ziska
+ * All rights reserved.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This source code is licensed under BSD 3-Clause License.
+ * A copy of this license can be found in the LICENSE.txt file.
  */
-
-#include "i2c.h"
 
 #include <stdint.h>
 
+#include "i2c.h"
 #include "peripherals.h"
-#include "../config.h" // for information on the i2c bus and inline
+#include "../config.h" // for information on the i2c
 
 #if defined(USE_I2C_BUS_0)
     static const size_t I2C_OFFSET = 0x205000;
@@ -31,7 +22,7 @@
 
 static const size_t I2C_SIZE = 0x18;
 
-volatile uint32_t *i2c_base_ptr = NULL;
+static volatile uint32_t *i2c_base_ptr = NULL;
 volatile struct i2c_register_map *I2C = NULL;
 
 int i2c_map(void)

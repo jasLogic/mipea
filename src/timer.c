@@ -1,8 +1,17 @@
-#include "timer.h"
+/*
+ * timer.c
+ *
+ * Copyright (C) 2018 Jaslo Ziska
+ * All rights reserved.
+ *
+ * This source code is licensed under BSD 3-Clause License.
+ * A copy of this license can be found in the LICENSE.txt file.
+ */
 
 #include <stdint.h>
 #include <stddef.h>
 
+#include "timer.h"
 #include "peripherals.h"
 #include "../config.h" // for inline
 

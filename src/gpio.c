@@ -1,28 +1,19 @@
 /*
  * gpio.c
- * Copyright (C) 2018  jasLogic
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright (C) 2018 Jaslo Ziska
+ * All rights reserved.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This source code is licensed under BSD 3-Clause License.
+ * A copy of this license can be found in the LICENSE.txt file.
  */
-
-#include "../config.h" // for inline and BCM235/6/7 or BCM2711
 
 #include <stdint.h>
 #include <stddef.h>
 
 #include "gpio.h"
 #include "peripherals.h"
+#include "../config.h" // for inline and BCM235/6/7 or BCM2711
 
 static const size_t GPIO_OFFSET = 0x200000;
 

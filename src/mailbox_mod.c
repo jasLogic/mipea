@@ -1,38 +1,16 @@
 /*
-Copyright (c) 2012, Broadcom Europe Ltd.
-All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the copyright holder nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
-
-/*******************************************************************************
-* I don't actually know if this copyright disclaimer is necessary anymore,     *
-* as I rewrote the whole source code and my functions are pretty different.    *
-* The original and my code surely do the same thing and have the same names    *
-* (for backward compatibility) but the way I do it is very different.          *
-* I would really like to get rid of this copyright disclaimer so if anyone     *
-* knows if I could leave it out that would be great!                           *
-* The original source code can be found here:                                  *
-* https://github.com/raspberrypi/userland/blob/master/host_applications/linux/apps/hello_pi/hello_fft/mailbox.c *
-********************************************************************************/
+ * mailbox_mod.c
+ *
+ * Copyright (C) 2018 Jaslo Ziska
+ * All rights reserved.
+ *
+ * This source code is licensed under BSD 3-Clause License.
+ * A copy of this license can be found in the LICENSE.txt file.
+ *
+ * Based on
+ *      mailbox.c (https://github.com/raspberrypi/userland/blob/master/host_applications/linux/apps/hello_pi/hello_fft/mailbox.c)
+ *      Copyright (c) 2012, Broadcom Europe Ltd.
+ */
 
 #include "mailbox_mod.h"
 
@@ -47,8 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
     __LINE__, __func__)
 
-int
-mbox_open(void)
+int mbox_open(void)
 {
     int fd;
     if ((fd = open(DEVICE_FILE_NAME, 0)) < 0) {
@@ -59,14 +36,13 @@ mbox_open(void)
     return fd;
 }
 
-void
-mbox_close(int fd)
+void mbox_close(int fd)
 {
     close(fd);
 }
 
-uint32_t
-mbox_alloc(int fd, unsigned int size, unsigned int align, unsigned int flags)
+uint32_t mbox_alloc(int fd, unsigned int size, unsigned int align,
+        unsigned int flags)
 {
     struct request_alloc {
         mbox_buffer_t buffer;
@@ -96,8 +72,7 @@ mbox_alloc(int fd, unsigned int size, unsigned int align, unsigned int flags)
     return request.handle;
 }
 
-uint32_t
-mbox_free(int fd, uint32_t handle)
+uint32_t mbox_free(int fd, uint32_t handle)
 {
     struct request_release {
         mbox_buffer_t buffer;
@@ -123,8 +98,7 @@ mbox_free(int fd, uint32_t handle)
     return request.status;
 }
 
-uint32_t
-mbox_lock(int fd, uint32_t handle)
+uint32_t mbox_lock(int fd, uint32_t handle)
 {
     struct request_lock {
         mbox_buffer_t buffer;
@@ -150,8 +124,7 @@ mbox_lock(int fd, uint32_t handle)
     return request.bus_addr;
 }
 
-uint32_t
-mbox_unlock(int fd, uint32_t handle)
+uint32_t mbox_unlock(int fd, uint32_t handle)
 {
     struct request_unlock {
         mbox_buffer_t buffer;
@@ -177,8 +150,7 @@ mbox_unlock(int fd, uint32_t handle)
     return request.status;
 }
 
-void *
-mbox_map(uint32_t addr, unsigned int size)
+void *mbox_map(uint32_t addr, unsigned int size)
 {
     unsigned int offset = addr % PAGE_SIZE; // maps must align to 4096
     addr -= offset;
@@ -203,8 +175,7 @@ mbox_map(uint32_t addr, unsigned int size)
     return (char *)map + offset;
 }
 
-void
-mbox_unmap(void *ptr, unsigned int size)
+void mbox_unmap(void *ptr, unsigned int size)
 {
     intptr_t offset = (intptr_t) ptr % PAGE_SIZE;
     ptr -= offset; // <- ?
@@ -216,8 +187,7 @@ mbox_unmap(void *ptr, unsigned int size)
 	}
 }
 
-uint32_t
-mbox_vc_execute(int fd, uint32_t func_ptr, uint32_t r0, uint32_t r1,
+uint32_t mbox_vc_execute(int fd, uint32_t func_ptr, uint32_t r0, uint32_t r1,
         uint32_t r2, uint32_t r3, uint32_t r4, uint32_t r5)
 {
     struct request_execute {
@@ -253,8 +223,7 @@ mbox_vc_execute(int fd, uint32_t func_ptr, uint32_t r0, uint32_t r1,
     return request.function; // request returns r0, but in the place of function
 }
 
-uint32_t
-mbox_qpu_enable(int fd, uint32_t state)
+uint32_t mbox_qpu_enable(int fd, uint32_t state)
 {
     struct request_qpu_enable {
         mbox_buffer_t buffer;
@@ -277,8 +246,7 @@ mbox_qpu_enable(int fd, uint32_t state)
     return request.state;
 }
 
-uint32_t
-mbox_qpu_execute(int fd, uint32_t num_qpus, uint32_t control,
+uint32_t mbox_qpu_execute(int fd, uint32_t num_qpus, uint32_t control,
     uint32_t noflush, uint32_t timeout)
 {
     struct request_qpu_execute {

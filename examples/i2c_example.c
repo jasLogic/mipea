@@ -29,8 +29,7 @@
 #include <mipea/gpio.h>
 #include <mipea/i2c.h>
 
-int
-main(void)
+int main(void)
 {
     if (gpio_map() < 0 || i2c_map() < 0) { // map peripherals
         return 1; // return if mapping fails

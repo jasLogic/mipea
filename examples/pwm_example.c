@@ -36,8 +36,7 @@
 #include <mipea/gpio.h>
 #include <mipea/pwm.h>
 
-int
-main(void)
+int main(void)
 {
     if (gpio_map() < 0 || pwm_map() < 0) { // Map peripherals
         return 1; // return if mapping fails

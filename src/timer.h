@@ -1,3 +1,13 @@
+/*
+ * timer.h
+ *
+ * Copyright (C) 2018 Jaslo Ziska
+ * All rights reserved.
+ *
+ * This source code is licensed under BSD 3-Clause License.
+ * A copy of this license can be found in the LICENSE.txt file.
+ */
+
 #ifndef _TIMER_H_
 #define _TIMER_H_
 
