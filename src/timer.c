@@ -13,7 +13,6 @@
 
 #include "timer.h"
 #include "peripherals.h"
-#include "../config.h" // for inline
 
 static const size_t TIMER_OFFSET = 0x003000;
 static const size_t TIMER_SIZE = 0x1C;

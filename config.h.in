@@ -1,0 +1,5 @@
+#mesondefine VERSION
+#mesondefine HAVE_BCM_HOST_HEADER
+#mesondefine PERIPHERAL_BASE
+#mesondefine RASPBERRYPI_MODEL
+#mesondefine BCM_PROCESSOR

@@ -13,15 +13,15 @@
 
 #include "gpio.h"
 #include "peripherals.h"
-#include "../config.h" // for inline and BCM235/6/7 or BCM2711
+#include "config.h" // for inline and BCM235/6/7 or BCM2711
 
 static const size_t GPIO_OFFSET = 0x200000;
 
-#if defined(BCM235) || defined(BCM2836_7)
-	static const size_t GPIO_SIZE = 0xA0;
+#if BCM_PROCESSOR == 3
+	static const size_t GPIO_SIZE = 0xF4; // BCM2711
 #else
-	static const size_t GPIO_SIZE = 0xF4;
-#endif//BCM2xxx
+	static const size_t GPIO_SIZE = 0xA0; // BCM2835/6/7
+#endif//BCM_PROCESSOR
 
 static volatile uint32_t *gpio_base_ptr = NULL;
 volatile struct gpio_register_map *GP = NULL;

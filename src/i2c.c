@@ -12,13 +12,13 @@
 
 #include "i2c.h"
 #include "peripherals.h"
-#include "../config.h" // for information on the i2c
+#include "config.h" // for information on i2c
 
-#if defined(USE_I2C_BUS_0)
-    static const size_t I2C_OFFSET = 0x205000;
+#if RASPBERRYPI_MODEL < 4
+        static const size_t I2C_OFFSET = 0x205000;
 #else
-    static const size_t I2C_OFFSET = 0x804000;
-#endif//USE_I2C_BUS_0
+        static const size_t I2C_OFFSET = 0x804000;
+#endif//RASPBERRYPI_MODEL
 
 static const size_t I2C_SIZE = 0x18;
 

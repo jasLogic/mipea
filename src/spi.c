@@ -13,7 +13,6 @@
 
 #include "spi.h"
 #include "peripherals.h"
-#include "../config.h" // for inline
 
 static const size_t SPI_OFFSET = 0x204000;
 static const size_t SPI_SIZE = 0x14;

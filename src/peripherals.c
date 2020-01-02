@@ -17,17 +17,7 @@
 #include <unistd.h>
 
 #include "peripherals.h"
-#include "../config.h"
-
-#if defined(BCM2835)
-	static const size_t PERIPHERAL_BASE = 0x20000000;
-#elif defined(BCM2836_7)
-	static const size_t PERIPHERAL_BASE = 0x3F000000;
-#elif defined(BCM2711)
-	static const size_t PERIPHERAL_BASE = 0xFE000000;
-#else
-	#error "No SoC specified"
-#endif//BCM2xxx
+#include "config.h"
 
 #define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
 	__LINE__, __func__)
