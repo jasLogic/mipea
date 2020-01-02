@@ -20,8 +20,8 @@ mipea - minimalistic peripheral access library for the Raspberry Pi
    timer.rst
    mipea.rst
 
-   gpl.rst
-   fdl.rst
+   license.rst
+   doc-license.rst
 
 
 Indices and tables
