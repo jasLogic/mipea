@@ -16,8 +16,9 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+#include "mipeaconfig.h"
+
 #include "peripherals.h"
-#include "config.h"
 
 #define perror_inf()	fprintf(stderr, "%s:%d: In function %s:\n", __FILE__,  \
 	__LINE__, __func__)
@@ -36,7 +37,7 @@ int peripheral_map(volatile uint32_t **map, uint32_t offset, uint32_t size)
 	}
 
 	*map = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
-		PERIPHERAL_BASE + offset);
+		MIPEA_PERIPHERAL_BASE + offset);
 
 	close(fd);
 

@@ -10,15 +10,16 @@
 
 #include <stdint.h>
 
+#include "mipeaconfig.h"
+
 #include "i2c.h"
 #include "peripherals.h"
-#include "config.h" // for information on i2c
 
-#if RASPBERRYPI_MODEL < 4
+#if MIPEA_RASPBERRYPI_MODEL <= BCM_HOST_BOARD_TYPE_MODELBPLUS
         static const size_t I2C_OFFSET = 0x205000;
 #else
         static const size_t I2C_OFFSET = 0x804000;
-#endif//RASPBERRYPI_MODEL
+#endif//MIPEA_RASPBERRYPI_MODEL
 
 static const size_t I2C_SIZE = 0x18;
 

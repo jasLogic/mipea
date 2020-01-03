@@ -11,17 +11,18 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "mipeaconfig.h"
+
 #include "gpio.h"
 #include "peripherals.h"
-#include "config.h" // for inline and BCM235/6/7 or BCM2711
 
 static const size_t GPIO_OFFSET = 0x200000;
 
-#if BCM_PROCESSOR == 3
+#if MIPEA_BCM_HOST_PROCESSOR == BCM_HOST_PROCESSOR_BCM2838
 	static const size_t GPIO_SIZE = 0xF4; // BCM2711
 #else
 	static const size_t GPIO_SIZE = 0xA0; // BCM2835/6/7
-#endif//BCM_PROCESSOR
+#endif//MIPEA_BCM_HOST_PROCESSOR
 
 static volatile uint32_t *gpio_base_ptr = NULL;
 volatile struct gpio_register_map *GP = NULL;
@@ -95,14 +96,7 @@ inline uint32_t gpio_tst(uint32_t pin)
 
 void gpio_pud(uint32_t pin, int pud)
 {
-#if defined(BCM235) || defined(BCM2836_7)
-	GP->PUD = pud;
-	delay_cycles(150);
-	GP->PUDCLK[pin >> 5] = (1 << (pin & 0x1f));
-	delay_cycles(150);
-	GP->PUD = 0;
-	GP->PUDCLK[pin >> 5] = 0;
-#else
+#if MIPEA_BCM_HOST_PROCESSOR == BCM_HOST_PROCESSOR_BCM2838
 	// BCM2711 has PUD_UP = 1 and PUD_DOWN = 2 (other way around)
 	if (pud == PUD_UP)
 		pud = 1;
@@ -111,7 +105,14 @@ void gpio_pud(uint32_t pin, int pud)
 
 	GP->PUPPDN[pin >> 4] &= ~(7 << ((pin & 0xf) << 1));
 	GP->PUPPDN[pin >> 4] |= pud << ((pin & 0xf) << 1);
-#endif//BCM2xxx
+#else
+	GP->PUD = pud;
+	delay_cycles(150);
+	GP->PUDCLK[pin >> 5] = (1 << (pin & 0x1f));
+	delay_cycles(150);
+	GP->PUD = 0;
+	GP->PUDCLK[pin >> 5] = 0;
+#endif//MIPEA_BCM_HOST_PROCESSOR
 }
 
 

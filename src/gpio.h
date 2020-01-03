@@ -13,6 +13,8 @@
 
 #include <stdint.h>
 
+#include "mipeaconfig.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif//__cplusplus
@@ -43,6 +45,7 @@ struct gpio_register_map {
 	uint32_t PUD;
 	uint32_t PUDCLK[2];
 // BCM2711 only
+#if MIPEA_BCM_HOST_PROCESSOR == BCM_HOST_PROCESSOR_BCM2838
 	uint32_t: 32; // 0xa0
 	uint32_t: 32;
 	uint32_t: 32;
@@ -61,6 +64,7 @@ struct gpio_register_map {
 	uint32_t: 32;
 	uint32_t: 32; // 0xe0
 	uint32_t PUPPDN[4];
+#endif//MIPEA_BCM_HOST_PROCESSOR
 };
 
 enum {

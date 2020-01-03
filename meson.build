@@ -8,11 +8,15 @@ cc = meson.get_compiler('c')
 
 # check for needed headers
 headers = [
+        'errno.h',
         'fcntl.h',
         'stddef.h',
         'stdint.h',
+        'stdio.h',
         'stdlib.h',
         'sys/ioctl.h',
+        'sys/mman.h',
+        'sys/stat.h',
         'unistd.h',
 ]
 foreach header: headers
@@ -55,13 +59,11 @@ mipea_conf = configuration_data()
 # check which board we are on
 message('trying to get info from bcm_host library')
 
-bcm_host_header_dir = include_directories('/opt/vc/include')
 bcm_host_header = cc.has_header(
         'bcm_host.h',
-        include_directories: bcm_host_header_dir,
+        args: '-I/opt/vc/include123',
         required: false
 )
-mipea_conf.set10('HAVE_BCM_HOST_HEADER', bcm_host_header)
 
 bcm_host_dep = cc.find_library(
         'bcm_host',
@@ -75,39 +77,54 @@ if bcm_host_header and bcm_host_dep.found()
         result = cc.run(
                 files('bcm_info.c'),
                 dependencies: bcm_host_dep,
-                include_directories: bcm_host_header_dir
+                args: '-I/opt/vc/include'
         )
         if result.compiled() and result.returncode() == 0
                 vals = result.stdout().strip().split('\n')
-                mipea_conf.set('PERIPHERAL_BASE', vals[0])
-                mipea_conf.set('RASPBERRYPI_MODEL', vals[1])
-                mipea_conf.set('BCM_PROCESSOR', vals[2])
+                mipea_conf.set('MIPEA_PERIPHERAL_BASE', vals[0])
+                mipea_conf.set('MIPEA_RASPBERRYPI_MODEL', vals[1])
+                mipea_conf.set('MIPEA_BCM_HOST_PROCESSOR', vals[2])
         else
-                warning('error reading info from bcm_host with bcm_info.c, info is manually gathered from /proc/cpuinfo')
+                warning('error reading info from bcm_host with bcm_info.c, info is manually gathered from /proc/cpuinfo and hard coded')
                 info_manually = true
         endif
 else
-        warning('bcm_host library not found, info is manually gathered /proc/cpuinfo')
+        warning('bcm_host library not found, info is manually gathered from /proc/cpuinfo and hard coded')
         info_manually = true
 endif
 
 if info_manually
         message('running bcm_info.sh')
-        result = run_command('bcm_info.sh')
+        result = run_command('./bcm_info.sh')
         if result.returncode() == 0
                 vals = result.stdout().strip().split('\n')
-                mipea_conf.set('PERIPHERAL_BASE', vals[0])
-                mipea_conf.set('RASPBERRYPI_MODEL', vals[1])
-                mipea_conf.set('BCM_PROCESSOR', vals[2])
+                mipea_conf.set('MIPEA_PERIPHERAL_BASE', -1)
+                mipea_conf.set('MIPEA_RASPBERRYPI_MODEL', vals[0])
+                mipea_conf.set('MIPEA_BCM_HOST_PROCESSOR', vals[1])
         else
-                # TODO: long error text and explanation
-                error('could not gather info from /proc/cpuinfo with bcm_info.sh')
+                warning('''could not gather info from /proc/cpuinfo with bcm_info.sh
+IMPORTANT: For the program to compile correctly go into the generated config.h
+and define RASPBERRYPI_MODEL and BCM_PROCESSOR.
+The correct values for these are defined here
+(https://github.com/raspberrypi/firmware/blob/master/opt/vc/include/bcm_host.h)
+and here
+(https://www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/README.md)
+''')
+                mipea_conf.set('MIPEA_PERIPHERAL_BASE', -1)
+                mipea_conf.set('MIPEA_RASPBERRYPI_MODEL', -1)
+                mipea_conf.set('MIPEA_BCM_HOST_PROCESSOR', -1)
         endif
 endif
 
-configure_file(input: 'config.h.in', output: 'config.h', configuration: mipea_conf)
+configure_file(
+        configuration: mipea_conf,
+        input: 'config.h.in',
+        output: 'mipeaconfig.h',
+        format: 'cmake@',
+        install: true,
+        install_dir: 'include/mipea'
+)
 config_inc = include_directories('.')
-# TODO: config.h in build ordner :(
 
 srcs = [
         'src/clock_manager.c',
@@ -135,7 +152,7 @@ headers = [
 ]
 
 shared_library('mipea', srcs,
-        #include_directories: config_inc,
+        include_directories: config_inc,
         version: meson.project_version(),
         install: true
 )

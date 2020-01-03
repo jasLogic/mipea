@@ -1,5 +1,88 @@
-#mesondefine VERSION
-#mesondefine HAVE_BCM_HOST_HEADER
-#mesondefine PERIPHERAL_BASE
-#mesondefine RASPBERRYPI_MODEL
-#mesondefine BCM_PROCESSOR
+/*
+ * config.h.in / mipeaconfig.h
+ *
+ * Copyright (C) 2020 Jaslo Ziska
+ * All rights reserved.
+ *
+ * This source code is licensed under BSD 3-Clause License.
+ * A copy of this license can be found in the LICENSE.txt file.
+ */
+
+#ifndef MIPEACONFIG_H
+#define MIPEACONFIG_H
+
+/*
+ * These two macros must be set manually if the configure script fails,
+ * please see the mipea documentation on "troubleshooting" and these links:
+ * https://github.com/raspberrypi/firmware/blob/master/opt/vc/include/bcm_host.h
+ * and
+ * https://www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/README.md
+ */
+// (NEEDED) raspberry pi model number
+#define MIPEA_RASPBERRYPI_MODEL @MIPEA_RASPBERRYPI_MODEL@
+// (NEEDED) processor number
+#define MIPEA_BCM_HOST_PROCESSOR @MIPEA_BCM_HOST_PROCESSOR@
+
+// (optional) base address of the peripherals
+// hard coded if not set, comment out/undef or -1 to unset
+#define MIPEA_PERIPHERAL_BASE @MIPEA_PERIPHERAL_BASE@
+
+// static
+
+// from:
+// https://github.com/raspberrypi/firmware/blob/master/opt/vc/include/bcm_host.h
+#define BCM_HOST_BOARD_TYPE_MODELA 0
+#define BCM_HOST_BOARD_TYPE_MODELB 1
+#define BCM_HOST_BOARD_TYPE_MODELAPLUS 2
+#define BCM_HOST_BOARD_TYPE_MODELBPLUS 3
+#define BCM_HOST_BOARD_TYPE_PI2MODELB 4
+#define BCM_HOST_BOARD_TYPE_ALPHA 5
+#define BCM_HOST_BOARD_TYPE_CM 6
+#define BCM_HOST_BOARD_TYPE_CM2 7
+#define BCM_HOST_BOARD_TYPE_PI3MODELB 8
+#define BCM_HOST_BOARD_TYPE_PI0 9
+#define BCM_HOST_BOARD_TYPE_CM3 0xa
+#define BCM_HOST_BOARD_TYPE_CUSTOM 0xb
+#define BCM_HOST_BOARD_TYPE_PI0W 0xc
+#define BCM_HOST_BOARD_TYPE_PI3MODELBPLUS 0xd
+#define BCM_HOST_BOARD_TYPE_PI3MODELAPLUS 0xe
+#define BCM_HOST_BOARD_TYPE_FPGA 0xf
+#define BCM_HOST_BOARD_TYPE_CM3PLUS 0x10
+#define BCM_HOST_BOARD_TYPE_PI4MODELB 0x11
+
+#define BCM_HOST_PROCESSOR_BCM2835 0
+#define BCM_HOST_PROCESSOR_BCM2836 1
+#define BCM_HOST_PROCESSOR_BCM2837 2
+#define BCM_HOST_PROCESSOR_BCM2838 3 // BCM2711
+
+#if MIPEA_RASPBERRYPI_MODEL < BCM_HOST_BOARD_TYPE_MODELA || \
+                MIPEA_RASPBERRYPI_MODEL > BCM_HOST_BOARD_TYPE_PI4MODELB
+        #error Invalid value for MIPEA_RASPBERRYPI_MODEL
+#endif//MIPEA_RASPBERRYPI_MODEL
+
+#if MIPEA_BCM_HOST_PROCESSOR < BCM_HOST_PROCESSOR_BCM2835 || \
+                MIPEA_BCM_HOST_PROCESSOR > BCM_HOST_PROCESSOR_BCM2838
+        #error Invalid value for MIPEA_BCM_HOST_PROCESSOR
+#endif//MIPEA_BCM_HOST_PROCESSOR
+
+
+#if (defined(MIPEA_PERIPHERAL_BASE) && MIPEA_PERIPHERAL_BASE == -1) || \
+		!defined(MIPEA_PERIPHERAL_BASE)
+        #ifdef MIPEA_PERIPHERAL_BASE
+                #undef MIPEA_PERIPHERAL_BASE
+        #endif//MIPEA_PERIPHERAL_BASE
+
+	#if MIPEA_BCM_HOST_PROCESSOR == BCM_HOST_PROCESSOR_BCM2835
+		#define MIPEA_PERIPHERAL_BASE 0x20000000
+	#elif MIPEA_BCM_HOST_PROCESSOR == BCM_HOST_PROCESSOR_BCM2836 || \
+			MIPEA_BCM_HOST_PROCESSOR == BCM_HOST_PROCESSOR_BCM2837
+		#define MIPEA_PERIPHERAL_BASE 0x3F000000
+	#elif MIPEA_BCM_HOST_PROCESSOR == BCM_HOST_PROCESSOR_BCM2838
+		#define MIPEA_PERIPHERAL_BASE 0xFE000000
+	#else
+                // should never happen
+		#error Invalid value for MIPEA_BCM_HOST_PROCESSOR
+	#endif//MIPEA_BCM_HOST_PROCESSOR
+#endif//MIPEA_PERIPHERAL_BASE
+
+#endif//MIPEACONFIG_H
