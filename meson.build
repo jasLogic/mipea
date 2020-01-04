@@ -61,7 +61,7 @@ message('trying to get info from bcm_host library')
 
 bcm_host_header = cc.has_header(
         'bcm_host.h',
-        args: '-I/opt/vc/include123',
+        args: '-I/opt/vc/include',
         required: false
 )
 

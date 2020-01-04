@@ -46,16 +46,16 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'mipea'
-copyright = '2019, jasLogic'
+copyright = '2018, jasLogic'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '2.0'
+version = '2.1'
 # The full version, including alpha/beta/rc tags.
-release = '2.0.0'
+release = '2.1.4'
 
 primary_domain = 'c'
 numfig = True

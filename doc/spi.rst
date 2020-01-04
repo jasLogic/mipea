@@ -63,7 +63,7 @@ Structs
         This member can be directly edited by the anonymous struct inside
         this union. This register maps directly to the :code:`CS` register.
         The settings of this register are described
-        in the `Macros`_.
+        in the `CS Register Bit Values`_.
 
     .. member:: uint16_t divisor
 

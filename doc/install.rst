@@ -1,40 +1,76 @@
 .. index::
     single: Installation
 
-************
+============
 Installation
-************
+============
 
-The source code is hosted on GitHub_. mipea uses autotools (autoconf,
-automake, libtool) to build and install the library. The git repository
-does *not* include the :code:`configure` script and :code:`Makefile.in` which
-means that you have two options for installing the library.
+The source code is hosted on GitHub_. mipea uses meson_ for configuration and
+ninja_ to build and install the library.
 
-Download the configure script
-=============================
+Downloading
+===========
 
-On GitHub_, when you look under the tab releases_
-you will find some release with a name like for example "v2.0.0".
-Then you can download the corresponding file named "mipea_x.x.x"
-which *includes the configure script and Makefile.in*.
-After downloading just run these commands from inside the downloaded directory::
+You can either download a source distribution on GitHub_ under the releases_
+tab or clone the repository.
 
-    $ ./configure
-    $ make
-    $ sudo make install
+Source Distribution
+-------------------
 
-Building the configure script
-=============================
+Download the source distribution from the releases_ tab and extract the files::
 
-When you have the GNU autotools installed you can simply clone this repository
-and build the :code:`configure` script and :code:`Makefile.in` yourself::
+        $ wget https://github.com/jasLogic/mipea/releases/download/vx.x.x/mipea_x.x.x.tar.gz
+        or
+        $ curl -O https://github.com/jasLogic/mipea/releases/download/vx.x.x/mipea_x.x.x.tar.gz
 
-    $ git clone https://github.com/jasLogic/mipea.git
-    $ cd mipea
-    $ autoreconf --install
-    $ ./configure
-    $ make
-    $ sudo make install
+        $ tar -xzf mipea_x.x.x.tar.gz
+
+Cloning the Repository
+----------------------
+
+::
+
+        $ git clone https://github.com/jasLogic/mipea.git
+
+Install the Build System
+------------------------
+
+For a detailed guide to install meson_ see
+`here <https://mesonbuild.com/Getting-meson.html>`_. These examples assume
+that you are using Raspbian (although it should work on other distributions too
+with some modifications)::
+
+        $ apt-get install python3 python3-pip python3-setuptools python3-wheel ninja-build
+        $ pip3 install meson
+
+Configuration
+-------------
+
+Go into the mipea directory and run following commands::
+
+        $ meson _build
+
+Building
+--------
+
+To build the project run ninja from inside the :code:`_build` directory::
+
+        $ cd _build
+        $ ninja
+
+Installing
+----------
+
+::
+
+        $ ninja install
+
+Linking
+-------
+
+I noticed that sometimes the library can be linked, but when running a program
+an error message appears saying: :code:`File or directory not found`.
+If you havethis problem just run :code:`ldconfig`
 
 .. index::
     single: Troubleshooting
@@ -47,46 +83,31 @@ Configure script can not find /proc/cpuinfo
 
 If the :code:`configure` script prints this warning::
 
-    configure: WARNING: cannot find file /proc/cpuinfo
+    WARNING: could not gather info from /proc/cpuinfo with bcm_info.sh
 
-than the script was unable to find the :code:`cpuinfo` file which is needed
-to determine the SoC (BCM2835 or BCM2836/7) and the revision. Pis with a
-revision number where the last four digits are less than :code:`0004`
-use I2C bus 0 instead of 1, like the new ones.
+than the script was unable to get the board info from the :code:`bcm_host`
+library it tries to read them from the :code:`/proc/cpuinfo` file.
+When this is the case you need to specify these information manually.
 
-This error can be fixed by editing the :code:`config.h` file ensuring that it
-contains these lines (depending on your Pi)::
+This error can be fixed by editing the :code:`mipeaconfig.h`.
+You need to set :code:`MIPEA_RASPBERRYPI_MODEL` and
+:code:`MIPEA_BCM_HOST_PROCESSOR` to the right values. These values can
+be found `here <https://github.com/raspberrypi/firmware/blob/master/opt/vc/include/bcm_host.h>`_
+and `here <https://www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/README.md>`_.
 
-    #define BCM2835         1
-    #define BCM2836_7       1
-    #define USE_I2C_BUS_0   1
+After that the important port of :code:`mipeaconfig.h` should look like this::
+
+        // (NEEDED) raspberry pi model number
+        #define MIPEA_RASPBERRYPI_MODEL 0x11
+        // (NEEDED) processor number
+        #define MIPEA_BCM_HOST_PROCESSOR 0x3
 
 When running a program, the shared library file is not found
 ------------------------------------------------------------
 
 I noticed that sometimes the library can be linked, but when running a program
 an error message appears saying: :code:`File or directory not found`.
-If you havethis problem just run :code:`ldconfig`
-or follow the output from :code:`sudo make install`::
-
-    ----------------------------------------------------------------------
-    Libraries have been installed in:
-       /usr/local/lib
-
-    If you ever happen to want to link against installed libraries
-    in a given directory, LIBDIR, you must either use libtool, and
-    specify the full pathname of the library, or use the `-LLIBDIR'
-    flag during linking and do at least one of the following:
-       - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
-         during execution
-       - add LIBDIR to the `LD_RUN_PATH' environment variable
-         during linking
-       - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
-       - have your system administrator add LIBDIR to `/etc/ld.so.conf'
-
-    See any operating system documentation about shared libraries for
-    more information, such as the ld(1) and ld.so(8) manual pages.
-    ----------------------------------------------------------------------
+If you have this problem just run :code:`ldconfig`
 
 Wifi stops working when using the library
 -----------------------------------------
@@ -96,4 +117,6 @@ pullup / -downs on all pins. This could lead to the wifi not working until a
 reboot. This issue should be fixed with version 2.1.1.
 
 .. _GitHub: https://github.com/jasLogic/mipea
+.. _meson: https://mesonbuild.com/
+.. _ninja: https://ninja-build.org/
 .. _releases: https://github.com/jasLogic/mipea/releases

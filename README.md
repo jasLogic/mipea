@@ -10,7 +10,8 @@ This library grants easy and fast access to peripherals.
 
 Contributions are welcome, please fork and open a pull request.
 
-If you have successfully used mipea on a Raspberry Pi which is not tested yet, please inform me and I can add it to the list.
+If you have successfully used mipea on a Raspberry Pi which is not tested yet,
+please inform me and I can add it to the list.
 
 ### Goal of this library
 The library is very useful for **high-speed and lighweight applications**,
@@ -42,62 +43,64 @@ If you searched for a efficient and highly customizable library which
 | Zero v1.2     | ✔︎         |        |
 | Zero          | ✔︎         | ✔︎      |
 | Zero W        | ✔︎         |        |
-| 4 Model B     | experimental | ✔︎      |
+| 4 Model B    |experimental| ✔︎      |
 
 ### Installation
 
-The `configure` script and `Makefile.in` are not included in this repository so
-you have two options to install the library
+mipea uses [meson](https://mesonbuild.com/) for configuration and
+[ninja](https://ninja-build.org/) to build and install the library.
 
-#### Download the configure script
-On GitHub, when you look under the tab [releases](https://github.com/jasLogic/mipea/releases)
-you will find some release with a name like for example "v2.0.0".
-Then you can download the corresponding file named "mipea_x.x.x"
-which *includes the configure script and Makefile.in*.
-After downloading just run these commands from inside the downloaded directory.
+#### Downloading
+You can either download a source distribution or clone the repository.
+
+##### Source Distribution
+Download the source distribution from the
+[releases tab](https://github.com/jasLogic/mipea/releases) and extract the files
 ```
-$ ./configure
-$ make
-$ sudo make install
+$ wget https://github.com/jasLogic/mipea/releases/download/vx.x.x/mipea_x.x.x.tar.gz
+or
+$ curl -O https://github.com/jasLogic/mipea/releases/download/vx.x.x/mipea_x.x.x.tar.gz
+
+$ tar -xzf mipea_x.x.x.tar.gz
 ```
 
-#### Building the configure script
-When you have the GNU autotools and libtool installed you can simply clone the
-repository and build the `configure` script and `Makefile.in` yourself.
+#### Cloning the Repository
 ```
 $ git clone https://github.com/jasLogic/mipea.git
-$ cd mipea
-$ autoreconf --install
-$ ./configure
-$ make
-$ sudo make install
+```
+
+#### Install the Build System
+For a detailed guide to install meson see
+[here](https://mesonbuild.com/Getting-meson.html). These examples assume
+that you are using Raspbian (although it should work on other distributions too
+with some modifications)
+```
+$ apt-get install python3 python3-pip python3-setuptools python3-wheel ninja-build
+$ pip3 install meson
+```
+
+#### Configuration
+Go into the mipea directory and run following commands
+```
+$ meson _build
+```
+
+#### Building
+To build the project run ninja from inside the `_build` directory
+```
+$ cd _build
+$ ninja
+```
+
+#### Installing
+```
+$ ninja install
 ```
 
 #### Linking
 I noticed that sometimes the library can be linked, but when running a program
 an error message appears saying: `File or directory not found`. If you have
-this problem just run `ldconfig` or follow the output from `sudo make install`:
-
-```
-----------------------------------------------------------------------
-Libraries have been installed in:
-   /usr/local/lib
-
-If you ever happen to want to link against installed libraries
-in a given directory, LIBDIR, you must either use libtool, and
-specify the full pathname of the library, or use the `-LLIBDIR'
-flag during linking and do at least one of the following:
-   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
-     during execution
-   - add LIBDIR to the `LD_RUN_PATH' environment variable
-     during linking
-   - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
-   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
-
-See any operating system documentation about shared libraries for
-more information, such as the ld(1) and ld.so(8) manual pages.
-----------------------------------------------------------------------
-```
+this problem just run `ldconfig`.
 
 ### Documentation
 
@@ -123,7 +126,7 @@ not recommended, as it is not very accurate. Instead you could use my
 which makes use of DMA and PWM to archieve a **very** accurate pulse
 without CPU usage.
 
-## Sources and useful documentation
+## Sources and useful Documentation
 
 * bcm2835_peripherals.h and bcm2835_peripherals.c are highly inspired by [Pieter Jan](http://pieter-jan.com/)'s ["Low Level Programming of the Raspberry Pi in C"](http://pieter-jan.com/node/15).
 * [BCM2835 ARM Peripherals Datasheet](https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf)
