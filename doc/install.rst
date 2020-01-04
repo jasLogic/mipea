@@ -5,8 +5,10 @@
 Installation
 ============
 
-The source code is hosted on GitHub_. mipea uses meson_ for configuration and
-ninja_ to build and install the library.
+The source code is hosted on GitHub_. mipea uses meson_ and
+ninja_ or cmake_ to build the library (see `Why two build systems?`_).
+But I would suggest to use meson_ because it automatically detects
+the peripheral base and is imho altogether the better build system.
 
 Downloading
 ===========
@@ -35,13 +37,19 @@ Cloning the Repository
 Install the Build System
 ------------------------
 
-For a detailed guide to install meson_ see
-`here <https://mesonbuild.com/Getting-meson.html>`_. These examples assume
-that you are using Raspbian (although it should work on other distributions too
-with some modifications)::
+For a detailed guide on how to install meson_ see
+`here <https://mesonbuild.com/Getting-meson.html>`_.
+For a detailed guide on how to install cmake_ see
+`here <https://cmake.org/install/>`_.
+These examples assume that you are using Raspbian
+(although it should work on other distributions too with some modifications)::
 
         $ apt-get install python3 python3-pip python3-setuptools python3-wheel ninja-build
         $ pip3 install meson
+
+        or
+
+        $ apt-get install cmake
 
 Configuration
 -------------
@@ -49,6 +57,8 @@ Configuration
 Go into the mipea directory and run following commands::
 
         $ meson _build
+        or
+        $ cmake . -B _build
 
 Building
 --------
@@ -56,7 +66,10 @@ Building
 To build the project run ninja from inside the :code:`_build` directory::
 
         $ cd _build
+
         $ ninja
+        or
+        $ make
 
 Installing
 ----------
@@ -64,16 +77,34 @@ Installing
 ::
 
         $ ninja install
+        or
+        $ make install
 
 Linking
 -------
 
 I noticed that sometimes the library can be linked, but when running a program
-an error message appears saying: :code:`File or directory not found`.
-If you havethis problem just run :code:`ldconfig`
+an error message appears saying::
+
+         error while loading shared libraries: libmipea.so: cannot open shared object file: No such file or directory
+
+If you havethis problem simply run :code:`ldconfig`
 
 .. index::
     single: Troubleshooting
+
+Why two build systems?
+----------------------
+
+I like meson_ more than cmake_ but I hate the fact that you need to install
+Python plus meson_ and than also install ninja_. But the better syntax
+is just so much better that it is worth it.
+
+I decided to also include cmake_ because most people also have it installed
+and you don't need to install three things. Although I would **highly**
+suggest using meson_ because it can automatically detect the peripheral base
+and it runs some more checks. Also I didn't spend so much time on the cmake_
+script and I propably won't maintain it very well.
 
 Troubleshooting
 ===============
@@ -106,8 +137,11 @@ When running a program, the shared library file is not found
 ------------------------------------------------------------
 
 I noticed that sometimes the library can be linked, but when running a program
-an error message appears saying: :code:`File or directory not found`.
-If you have this problem just run :code:`ldconfig`
+an error message appears saying::
+
+         error while loading shared libraries: libmipea.so: cannot open shared object file: No such file or directory
+
+If you havethis problem simply run :code:`ldconfig`
 
 Wifi stops working when using the library
 -----------------------------------------
@@ -119,4 +153,5 @@ reboot. This issue should be fixed with version 2.1.1.
 .. _GitHub: https://github.com/jasLogic/mipea
 .. _meson: https://mesonbuild.com/
 .. _ninja: https://ninja-build.org/
+.. _cmake: https://cmake.org/
 .. _releases: https://github.com/jasLogic/mipea/releases

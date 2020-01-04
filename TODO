@@ -1,3 +1,5 @@
+- get cmake symbol checks to work
+- run bcm_info.c also with cmake
 - dma example
 - more and better dma functions
 - PCM

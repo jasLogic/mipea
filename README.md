@@ -47,8 +47,12 @@ If you searched for a efficient and highly customizable library which
 
 ### Installation
 
-mipea uses [meson](https://mesonbuild.com/) for configuration and
-[ninja](https://ninja-build.org/) to build and install the library.
+mipea uses [meson](https://mesonbuild.com/) and
+[ninja](https://ninja-build.org/) or [cmake](https://cmake.org/) to build
+the library (see "Why two build systems" in the docs).
+But I would suggest to use meson because it automatically detects
+the peripheral base and is imho altogether the better build system.
+For installation guide using cmake see the docs.
 
 #### Downloading
 You can either download a source distribution or clone the repository.
@@ -99,8 +103,11 @@ $ ninja install
 
 #### Linking
 I noticed that sometimes the library can be linked, but when running a program
-an error message appears saying: `File or directory not found`. If you have
-this problem just run `ldconfig`.
+an error message appears saying:
+```
+error while loading shared libraries: libmipea.so: cannot open shared object file: No such file or directory
+```
+If you have this problem simply run `ldconfig`.
 
 ### Documentation
 

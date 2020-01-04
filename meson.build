@@ -102,7 +102,8 @@ if info_manually
                 mipea_conf.set('MIPEA_RASPBERRYPI_MODEL', vals[0])
                 mipea_conf.set('MIPEA_BCM_HOST_PROCESSOR', vals[1])
         else
-                warning('''could not gather info from /proc/cpuinfo with bcm_info.sh
+                warning('''
+could not gather info from /proc/cpuinfo with bcm_info.sh
 IMPORTANT: For the program to compile correctly go into the generated config.h
 and define RASPBERRYPI_MODEL and BCM_PROCESSOR.
 The correct values for these are defined here
@@ -120,7 +121,6 @@ configure_file(
         configuration: mipea_conf,
         input: 'config.h.in',
         output: 'mipeaconfig.h',
-        format: 'cmake@',
         install: true,
         install_dir: 'include/mipea'
 )
